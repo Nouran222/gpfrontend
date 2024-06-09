@@ -4,6 +4,7 @@ import { Alert, Button, ScrollView, StyleSheet, Text, View } from "react-native"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../../components/formInput";
+import PrimaryBtn from "..//../components/PrimaryBtn";
 
 
 const formSchema = z.object({
@@ -81,12 +82,19 @@ const ConsumerRegisterationScreen = () => {
         placeholder="Year"
         style={styles.input}
       />
+      
       <View style={styles.buttonContainer}>
-        <Button
+        {/* <Button
           title="Submit"
           onPress={handleSubmit(onSubmit)}
           color="#6200ee"
-        />
+        /> */}
+        <PrimaryBtn
+          text={"Submit"}
+          onPressHandler={handleSubmit(onSubmit)}
+        >
+          
+        </PrimaryBtn>
       </View>
       <View style={styles.registerTxtContainer}>
         <Text style={styles.registerTxt}>Don't have an account?  <Text style={{color: 'blue', marginHorizontal: 3}}>Register Now</Text></Text>

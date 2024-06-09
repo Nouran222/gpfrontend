@@ -9,7 +9,7 @@ const MyButton = ({ text, onPressHandler }) => {
         onPress={onPressHandler}
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? 'grey' : 'black',
+            backgroundColor: pressed ? 'rgb(237,137,75)' : 'rgb(73, 71, 108)',
             borderRadius: 5,
           },
           styles.Btn,
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   },
   BtnText: {
     textAlign: 'center',
-    color: 'white',
+    color: 'rgb(251, 245, 247)',
+    fontWeight: 'bold'
   },
 });
 

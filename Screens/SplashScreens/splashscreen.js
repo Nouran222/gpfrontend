@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Image, StyleSheet, View } from "react-native";
 import PrimaryBtn from "..//../components/PrimaryBtn";
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image
@@ -12,18 +12,18 @@ const SplashScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.btn}>
           <PrimaryBtn
-            text={"Get Started as a provider"}
+            text={"Get Started as a Consumer"}
             onPressHandler={() => {
-              console.log("pressed");
+              navigation.navigate('ConsumerRegScreen');
             }}
           ></PrimaryBtn>
         </View>
         <View style={styles.btn}>
           {/* <Button  title="Get Started as a provider"></Button> */}
           <PrimaryBtn
-            text={"Get Started as a provider"}
+            text={"Get Started as a Provider"}
             onPressHandler={() => {
-              console.log("pressed");
+              navigation.navigate('ProviderRegScreen');
             }}
           ></PrimaryBtn>
         </View>
@@ -35,12 +35,12 @@ const SplashScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "rgb(251, 245, 247)",
   },
   image: {
-    width: "100%",
+    width: "90%",
     height: "70%",
     resizeMode: "contain",
   },
