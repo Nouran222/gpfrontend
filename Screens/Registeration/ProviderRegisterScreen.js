@@ -15,6 +15,7 @@ import { z } from "zod";
 import { Picker } from "@react-native-picker/picker";
 import FormInput from "../../components/formInput";
 import * as ImagePicker from 'expo-image-picker';
+import CustomButton from "@/components/CustomButton";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -91,6 +92,9 @@ const ProviderRegisterScreen = () => {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.heading}>Register</Text>
+        <View style={styles.imageContainer}>
+          <Image source={require('../../assets/images/23.jpg')} style={styles.image}></Image>
+        </View>
         <FormInput
           control={control}
           name="name"
@@ -183,11 +187,17 @@ const ProviderRegisterScreen = () => {
           />
         ))}
         <View style={styles.buttonContainer}>
-          <Button
+          {/* <Button
             title="Submit"
             onPress={handleSubmit(onSubmit)}
             color="#6200ee"
-          />
+          /> */}
+          <CustomButton
+            title={'Submit'}
+            onPressHandler={handleSubmit(onSubmit)}
+          >
+
+          </CustomButton>
         </View>
         <View style={styles.registerTxtContainer}>
           <Text style={styles.registerTxt}>
@@ -208,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "white",
   },
   heading: {
     fontSize: 24,
@@ -248,16 +258,17 @@ const styles = StyleSheet.create({
   imagePickerText: {
     color: "#fff",
   },
-  image: {
-    width: 200,
-    height: 200,
-    marginTop: 10,
+  image:{
+    width:300,
+    height:170,
+    resizeMode:'contain',
   },
   buttonContainer: {
     marginTop: 16,
     width: "100%",
     borderRadius: 8,
     overflow: "hidden",
+    alignItems: 'center'
   },
   registerTxtContainer: {
     marginVertical: 15,

@@ -1,10 +1,11 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../../components/formInput";
 import PrimaryBtn from "..//../components/PrimaryBtn";
+import CustomButton from "@/components/CustomButton";
 
 
 const formSchema = z.object({
@@ -38,7 +39,11 @@ const ConsumerRegisterationScreen = () => {
   return (
     <ScrollView>
     <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+      <Text style={styles.heading}>Register</Text>
+      <View style={styles.imageContainer}>
+      <Image source={require('../../assets/images/15.jpg')} style={styles.image}></Image>
+      </View>
+      
       <FormInput
         control={control}
         name="name"
@@ -89,12 +94,18 @@ const ConsumerRegisterationScreen = () => {
           onPress={handleSubmit(onSubmit)}
           color="#6200ee"
         /> */}
-        <PrimaryBtn
+        {/* <PrimaryBtn
           text={"Submit"}
           onPressHandler={handleSubmit(onSubmit)}
         >
           
-        </PrimaryBtn>
+        </PrimaryBtn> */}
+        <CustomButton
+          title={'Submit'}
+          onPressHandler={handleSubmit(onSubmit)}
+        >
+
+        </CustomButton>
       </View>
       <View style={styles.registerTxtContainer}>
         <Text style={styles.registerTxt}>Don't have an account?  <Text style={{color: 'blue', marginHorizontal: 3}}>Register Now</Text></Text>
@@ -110,7 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'white',
       },
       heading: {
         fontSize: 24,
@@ -132,13 +143,19 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 8,
         overflow: 'hidden',
+        alignItems:'center',
       },
       registerTxtContainer: {
         marginVertical: 15
       },
       registerTxt: {
         fontSize: 17,
-      }
+      },
+      image:{
+        width:300,
+        height:120,
+        resizeMode:'contain',
+      },
 });
 
 export default ConsumerRegisterationScreen;
