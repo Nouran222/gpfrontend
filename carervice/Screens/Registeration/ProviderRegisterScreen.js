@@ -1,38 +1,46 @@
-import React from "react";
+import React from 'react';
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import {Picker} from '@react-native-picker/picker'
 import FormInput from "../../components/formInput";
-import { ScrollView } from "react-native-gesture-handler";
-
 
 const formSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
-  full_name: z.string().min(3, "Full name must be at least 3 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+    email: z.string().email("Please enter a valid email"),
+    name: z.string().min(3, " Name must be at least 3 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    contact_number: z.string().regex(/^(011|012|015|010)\d{8}$/, " Invalid Phone Number "),
+    car_make:z.string(),
+    model:z.string(),
+    year:z.number(),
+    location:z.string(),
+    service_type:z.string()
+  
+ 
 });
+  
+const ProviderRegisterScreen = () => {
 
-const ConsumerLoginScreen = () => {
-  const { control, handleSubmit } =
+const { control, handleSubmit } =
     useForm (
     {
       defaultValues: {
         email: "",
-        full_name: "",
+        name: "",
         password: "",
       },
       resolver: zodResolver(formSchema),
     });
 
-  const onSubmit = (data) => {
-    Alert.alert("Successful", JSON.stringify(data));
-  };
+    const onSubmit = (data) => {
+        Alert.alert("Successful", JSON.stringify(data));
+      };
 
-  return (
-    <ScrollView>
+    return (
+       <ScrollView>
     <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+      <Text style={styles.heading}>Register</Text>
       <FormInput
         control={control}
         name="name"
@@ -54,22 +62,64 @@ const ConsumerLoginScreen = () => {
       />
       <FormInput
         control={control}
-        name="Location"
+        name="contact_number"
+        placeholder="Contact Number"
+        style={styles.input}
+      />
+      <FormInput
+        control={control}
+        name="car_make"
+        placeholder="Car Make"
+        style={styles.input}
+      />
+      <FormInput
+        control={control}
+        name="model"
+        placeholder="Model"
+        style={styles.input}
+      />
+      <FormInput
+        control={control}
+        name="year"
+        keyboardType='number-pad'
+        placeholder="Year"
+        style={styles.input}
+      />
+      <FormInput
+        control={control}
+        name="location"
+        // keyboardType='number-pad'
         placeholder="Location"
         style={styles.input}
       />
-      <FormInput
+      {/* <FormInput
         control={control}
-        name="Service Type"
+        name="service_type"
+        // keyboardType='number-pad'
         placeholder="Service Type"
         style={styles.input}
-      />
-      <FormInput
+      /> */}
+      
+      <Controller
         control={control}
-        name="Contact"
-        placeholder="Contact"
-        style={styles.input}
+        name="service_type"
+        render={({ field: { value, onChange } }) => (
+          <View style={styles.inputList}>
+            <Picker
+              selectedValue={value}
+            //   placeholder='Select Service Type'
+              onValueChange={(itemValue) => onChange(itemValue)}
+            >
+              <Picker.Item label="Select Service Type" style={{color:'gray'}}  value="" />
+              <Picker.Item label="Pick Up" value="pick_up" />
+              <Picker.Item label="Repaire" value="repaire" />
+              <Picker.Item label="Consultation" value="consult" />
+              {/* Add more Picker.Item elements as needed */}
+            </Picker>
+          </View>
+        )}
       />
+
 
       <View style={styles.buttonContainer}>
         <Button
@@ -83,8 +133,8 @@ const ConsumerLoginScreen = () => {
       </View>
     </View>
     </ScrollView>
-  );
-};
+    );
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -109,6 +159,15 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#fff',
       },
+      inputList:{
+        width: '100%',
+        height: 60,
+        marginBottom: 16,
+        borderRadius: 8,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        backgroundColor: '#fff',
+      },
       buttonContainer: {
         marginTop: 16,
         width: '100%',
@@ -122,6 +181,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
 
       }
-});
+})
 
-export default ConsumerLoginScreen;
+export default ProviderRegisterScreen;

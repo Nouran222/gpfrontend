@@ -28,7 +28,7 @@ const FormInput = ({control, name, ...otherProps}) => {
 
 const styles = StyleSheet.create({
     errorMessage:{
-        
+        color:"red"
     }
 })
 
