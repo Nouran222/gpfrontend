@@ -1,15 +1,15 @@
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
-import ConsumerLogin from '../../Screens/ConsumerLoginScreen.js'
-import ConsumerRegister from '../../Screens/Registeration/ConsumerRegisterScreen.js'
-import ProviderRegister from '../../Screens/Registeration/ProviderRegisterScreen.js'
+import React from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
+import ConsumerLogin from "../../Screens/ConsumerLoginScreen.js";
+import ConsumerRegister from "../../Screens/Registeration/ConsumerRegisterScreen.js";
+import ProviderRegister from "../../Screens/Registeration/ProviderRegisterScreen.js";
 
 export default function HomeScreen() {
-  
   return (
-    <ProviderRegister/>
+    <>
+      <ProviderRegister />
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  
-});
+const styles = StyleSheet.create({});
