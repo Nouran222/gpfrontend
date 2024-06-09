@@ -8,7 +8,7 @@ import FormInput from "../../components/formInput";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
-  full_name: z.string().min(3, "Full name must be at least 3 characters"),
+  full_name: z.string().min(3, "Full name must be at least 3 characters").regex(/^ah/i, "Full name must start with 'ah'"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
