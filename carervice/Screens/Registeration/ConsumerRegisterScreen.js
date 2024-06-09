@@ -8,9 +8,15 @@ import FormInput from "../../components/formInput";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
-  full_name: z.string().min(3, "Full name must be at least 3 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+    name: z.string().min(3, " Name must be at least 3 characters"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    contact_number: z.string().regex(/^(011|012|015|010)\d{8}$/, " Invalid Phone Number "),
+    car_make:z.string(),
+    model:z.string(),
+    year:z.number(),
+    location:z.string(),
+  
+  });
 
 const ConsumerLoginScreen = () => {
   const { control, handleSubmit } =
@@ -18,7 +24,7 @@ const ConsumerLoginScreen = () => {
     {
       defaultValues: {
         email: "",
-        full_name: "",
+        name: "",
         password: "",
       },
       resolver: zodResolver(formSchema),
@@ -53,25 +59,25 @@ const ConsumerLoginScreen = () => {
       />
       <FormInput
         control={control}
-        name="Contact Number"
+        name="contact_number"
         placeholder="Contact Number"
         style={styles.input}
       />
       <FormInput
         control={control}
-        name="Car Make"
+        name="car_make"
         placeholder="Car Make"
         style={styles.input}
       />
       <FormInput
         control={control}
-        name="Model"
+        name="model"
         placeholder="Model"
         style={styles.input}
       />
       <FormInput
         control={control}
-        name="Year"
+        name="year"
         placeholder="Year"
         style={styles.input}
       />
