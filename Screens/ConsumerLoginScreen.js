@@ -4,6 +4,8 @@ import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/formInput.js";
+import { useTranslation } from 'react-i18next';
+import CustomButton from "@/components/CustomButton";
 
 
 const formSchema = z.object({
@@ -13,6 +15,8 @@ const formSchema = z.object({
 });
 
 const ConsumerLoginScreen = () => {
+
+  const { t, i18n } = useTranslation();
   const { control, handleSubmit } =
     useForm (
     {
@@ -34,21 +38,21 @@ const ConsumerLoginScreen = () => {
       <FormInput
         control={control}
         name="email"
-        placeholder="Email"
+        placeholder={t("email")}
         style={styles.input}
       />
       <FormInput
         control={control}
         name="password"
-        placeholder="Password"
+        placeholder={t("password")}
         secureTextEntry
         style={styles.input}
       />
       <View style={styles.buttonContainer}>
-        <Button
-          title="Submit"
+        <CustomButton
+          title={t("Login")}
           onPress={handleSubmit(onSubmit)}
-          color="#6200ee"
+          
         />
       </View>
       <View style={styles.registerTxtContainer}>

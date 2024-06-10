@@ -1,10 +1,7 @@
+
 import React from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
-import ConsumerLogin from "../../Screens/ConsumerLoginScreen.js";
-import ConsumerRegister from "../../Screens/Registeration/ConsumerRegisterScreen.js";
-import ProviderRegister from "../../Screens/Registeration/ProviderRegisterScreen.js";
-import UserTypeScreen from "../../Screens/SplashScreens/userTypeScreen.js";
-import PrimaryBtn from "@/components/PrimaryBtn.js";
+// import '@formatjs/intl-pluralrules/polyfill';
+import {  StyleSheet} from "react-native";
 import  {MyStack} from '../../Navigations/StackNavigation.js'
 
 export default function HomeScreen() {

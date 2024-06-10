@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(251, 245, 247)',
     },
     animationContainer: {
-        width: '100%',
+        width: '80%',
         alignItems: 'center',
     },
     animation: {

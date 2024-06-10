@@ -3,7 +3,7 @@ import ConsumerRegisterScreen from '../Screens/Registeration/ConsumerRegisterScr
 import ProviderRegisterScreen from '../Screens/Registeration/ProviderRegisterScreen'
 import LoginScreen from '../Screens/ConsumerLoginScreen'
 import userTypeScreen from '@/Screens/SplashScreens/userTypeScreen';
-import SplashScreen from '@/Screens/SplashScreens/splashScreen';
+import SplashScreen from '@/Screens/SplashScreens/splashscreen';
 
 
 const Stack = createStackNavigator();

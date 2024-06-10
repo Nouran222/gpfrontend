@@ -16,6 +16,7 @@ import { Picker } from "@react-native-picker/picker";
 import FormInput from "../../components/formInput";
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "@/components/CustomButton";
+import { useTranslation } from 'react-i18next';
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -36,6 +37,9 @@ const formSchema = z.object({
 });
 
 const ProviderRegisterScreen = () => {
+ 
+  const { t, i18n } = useTranslation();
+ 
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       email: "",
@@ -98,53 +102,53 @@ const ProviderRegisterScreen = () => {
         <FormInput
           control={control}
           name="name"
-          placeholder="Name"
+          placeholder={t("name")}
           style={styles.input}
         />
         <FormInput
           control={control}
           name="email"
-          placeholder="Email"
+          placeholder={t("email")}          
           style={styles.input}
         />
         <FormInput
           control={control}
           name="password"
-          placeholder="Password"
+          placeholder={t("password")}
           secureTextEntry
           style={styles.input}
         />
         <FormInput
           control={control}
           name="contact_number"
-          placeholder="Contact Number"
+          placeholder={t("phone number")}
           style={styles.input}
         />
         <FormInput
           control={control}
           name="car_make"
-          placeholder="Car Make"
+          placeholder={t("car make")}
           style={styles.input}
         />
         <FormInput
           control={control}
           name="model"
-          placeholder="Model"
+          placeholder={t("model")}
           style={styles.input}
         />
         <FormInput
           control={control}
           name="year"
           keyboardType="number-pad"
-          placeholder="Year"
+          placeholder={t("year")}
           style={styles.input}
         />
-        <FormInput
+        {/* <FormInput
           control={control}
           name="location"
-          placeholder="Location"
+          placeholder={t("location")}
           style={styles.input}
-        />
+        /> */}
         <Controller
           control={control}
           name="service_type"
@@ -155,13 +159,13 @@ const ProviderRegisterScreen = () => {
                 onValueChange={(itemValue) => onChange(itemValue)}
               >
                 <Picker.Item
-                  label="Select Service Type"
+                  label={t("Select Service Type")}
                   style={{ color: "gray" }}
                   value=""
                 />
-                <Picker.Item label="Pick Up" value="pick_up" />
-                <Picker.Item label="Repair" value="repair" />
-                <Picker.Item label="Consultation" value="consult" />
+                <Picker.Item label={t("Pick Up")} value="pick_up" />
+                <Picker.Item label={t("Repair")} value="repair" />
+                <Picker.Item label={t("Consultation")} value="consult" />
               </Picker>
             </View>
           )}
@@ -178,22 +182,17 @@ const ProviderRegisterScreen = () => {
                   style={styles.imagePicker}
                 >
                   <Text style={styles.imagePickerText}>
-                    Select {field.replace(/_/g, " ")}
+                    Select {t(field.replace(/_/g, " "))}
                   </Text>
                 </TouchableOpacity>
-                {/* {value && <Image source={{uri: value}} style={styles.image} />} */}
               </View>
             )}
           />
         ))}
         <View style={styles.buttonContainer}>
-          {/* <Button
-            title="Submit"
-            onPress={handleSubmit(onSubmit)}
-            color="#6200ee"
-          /> */}
+        
           <CustomButton
-            title={'Submit'}
+            title={t('Submit')}
             onPressHandler={handleSubmit(onSubmit)}
           >
 
@@ -203,7 +202,7 @@ const ProviderRegisterScreen = () => {
           <Text style={styles.registerTxt}>
             Don't have an account?{" "}
             <Text style={{ color: "blue", marginHorizontal: 3 }}>
-              Register Now
+              {t("Register Now")}
             </Text>
           </Text>
         </View>
