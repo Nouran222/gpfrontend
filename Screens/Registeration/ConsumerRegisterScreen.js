@@ -22,7 +22,7 @@ const ConsumerRegistrationScreen = () => {
     model: z.string(),
     year: z.number(),
   });
- 
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -105,7 +105,12 @@ const ConsumerRegistrationScreen = () => {
           />
         </View>
         <View style={styles.registerTxtContainer}>
-          <Text style={styles.registerTxt}>{t("no_account")} <Text style={{ color: 'blue', marginHorizontal: 3 }}>{t("register_now")}</Text></Text>
+          <Text style={styles.registerTxt}>
+            {t("no_account")}
+            <Text style={{ color: 'blue', marginHorizontal: 3 }}>
+              {t("register_now")}
+            </Text>
+          </Text>
         </View>
       </View>
     </ScrollView>

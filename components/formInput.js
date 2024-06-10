@@ -10,7 +10,7 @@ const FormInput = ({control, name, ...otherProps}) => {
       render={({ field: { value, onChange, onBlur }, fieldState: { error }})=>(
       <>
         <TextInput
-        style={styles.input}
+        style={[styles.input, otherProps.style]}
         value={value}
         onChangeText={onChange}
         onBlur={onBlur}

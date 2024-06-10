@@ -16,7 +16,7 @@ export function MyStack() {
       <Stack.Screen name='userTypeScreen' component={userTypeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="ConsumerRegScreen" component={ConsumerRegisterScreen} options={{headerShown:false}} />
       <Stack.Screen name="ProviderRegScreen" component={ProviderRegisterScreen} options={{headerShown:false}} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
 }

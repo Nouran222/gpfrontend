@@ -17,28 +17,34 @@ import FormInput from "../../components/formInput";
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from 'react-i18next';
+import i18n from '../../app/(tabs)/i18n';
 
-const formSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
-  name: z.string().min(3, "Name must be at least 3 characters"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  contact_number: z
-    .string()
-    .regex(/^(011|012|015|010)\d{8}$/, "Invalid Phone Number"),
-  car_make: z.string(),
-  model: z.string(),
-  year: z.number(),
-  location: z.string(),
-  service_type: z.string(),
-  car_licence_pic: z.string().optional(),
-  driver_licence_pic: z.string().optional(),
-  national_id_pic: z.string().optional(),
-  profile_pic: z.string().optional()
-});
+
+
 
 const ProviderRegisterScreen = () => {
  
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+
+
+  const formSchema = z.object({
+    email: z.string().email(t("emailValidation")),
+    name: z.string().min(3, t("nameValidation")),
+    password: z.string().min(8, t("passwordValidation")),
+    contact_number: z
+      .string()
+      .regex(/^(011|012|015|010)\d{8}$/, t("phoneValidation")),
+    car_make: z.string(),
+    model: z.string(),
+    year: z.number(),
+    location: z.string(),
+    service_type: z.string(),
+    car_licence_pic: z.string().optional(),
+    driver_licence_pic: z.string().optional(),
+    national_id_pic: z.string().optional(),
+    profile_pic: z.string().optional()
+  });
+
  
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -200,7 +206,7 @@ const ProviderRegisterScreen = () => {
         </View>
         <View style={styles.registerTxtContainer}>
           <Text style={styles.registerTxt}>
-            Don't have an account?{" "}
+            {t("no_account")}?{" "}
             <Text style={{ color: "blue", marginHorizontal: 3 }}>
               {t("Register Now")}
             </Text>

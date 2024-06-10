@@ -7,7 +7,7 @@ const { height } = Dimensions.get('window');
 const Splashscreen = ({navigation}) => {
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigation.navigate('userTypeScreen');
+            navigation.navigate('LoginScreen');
         }, 5000);
 
         return () => clearTimeout(timer);
