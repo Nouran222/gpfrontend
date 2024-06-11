@@ -3,10 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 import { Alert, Button, I18nManager, StyleSheet, Text, View } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import FormInput from "../components/formInput.js";
+import FormInput from "../../components/formInput.js";
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from 'react-i18next';
-import i18n from '../app/(tabs)/i18n.js';
+// import i18n from '../app/(tabs)/i18n.js';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 
@@ -55,7 +55,7 @@ const ConsumerLoginScreen = ({navigation}) => {
       <View style={styles.buttonContainer}>
         <CustomButton
           title={t("Login")}
-          onPress={handleSubmit(onSubmit)}
+          onPressHandler={handleSubmit(onSubmit)}
 
         />
       </View>

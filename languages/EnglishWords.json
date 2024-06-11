@@ -29,5 +29,8 @@
   "submit": "Submit",
   "no_account": "Don't have an account",
   "register_now": "Register now",
-  "successful": "Registration successful"
+  "successful": "Registration successful",
+  "Register as Consumer":"Register as Consumer",
+  "Register as  Provider":"Register as Provider"
+
 }

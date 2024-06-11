@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: 55,
+    // marginHorizontal:4,
     borderRadius: 8,
   },
   gradient: {
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 16,
+    textAlign:"center"
   },
   borderTop: {
     position: 'absolute',
