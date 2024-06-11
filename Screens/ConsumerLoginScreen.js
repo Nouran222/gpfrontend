@@ -6,7 +6,6 @@ import { z } from "zod";
 import FormInput from "../components/formInput.js";
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from 'react-i18next';
-import i18n from '../app/(tabs)/i18n.js';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 
@@ -55,7 +54,7 @@ const ConsumerLoginScreen = ({navigation}) => {
       <View style={styles.buttonContainer}>
         <CustomButton
           title={t("Login")}
-          onPress={handleSubmit(onSubmit)}
+          onPressHandler={handleSubmit(onSubmit)}
 
         />
       </View>
@@ -80,10 +79,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    // fontSize: 24,
+    // fontWeight: 'bold',
     marginBottom: 24,
-    color: '#333',
+    // color: '#333',
+    fontSize: 25,
+    fontFamily: 'Oswald',
   },
   input: {
     width: '100%',

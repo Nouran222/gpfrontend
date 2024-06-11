@@ -126,10 +126,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    // fontSize: 24,
+    // fontWeight: 'bold',
+    // marginBottom: 24,
+    // color: '#333',
     marginBottom: 24,
-    color: '#333',
+    fontSize: 25,
+    fontFamily: 'Oswald',
   },
   input: {
     width: '100%',
