@@ -29,5 +29,7 @@
   "submit": "تأكيد",
   "no_account": "لا يوجد بريد الكتروني",
   "register_now": "سجل الان ",
-  "successful": "تم التسجيل بنجاح"
+  "successful": "تم التسجيل بنجاح",
+  "Register as Consumer":"التسجيل كمستخدم",
+  "Register  as  Provider":"التسجيل كسائق"
 }

@@ -14,18 +14,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Picker } from "@react-native-picker/picker";
 import FormInput from "../../components/formInput";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import CustomButton from "@/components/CustomButton";
-import { useTranslation } from 'react-i18next';
-import i18n from '../../app/(tabs)/i18n';
-
-
-
+import { useTranslation } from "react-i18next";
+import i18n from "../../app/(tabs)/i18n";
 
 const ProviderRegisterScreen = () => {
- 
   const { t } = useTranslation();
-
 
   const formSchema = z.object({
     email: z.string().email(t("emailValidation")),
@@ -42,10 +37,9 @@ const ProviderRegisterScreen = () => {
     car_licence_pic: z.string().optional(),
     driver_licence_pic: z.string().optional(),
     national_id_pic: z.string().optional(),
-    profile_pic: z.string().optional()
+    profile_pic: z.string().optional(),
   });
 
- 
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       email: "",
@@ -60,7 +54,7 @@ const ProviderRegisterScreen = () => {
       car_licence_pic: "",
       driver_licence_pic: "",
       national_id_pic: "",
-      profile_pic: ""
+      profile_pic: "",
     },
     resolver: zodResolver(formSchema),
   });
@@ -73,8 +67,9 @@ const ProviderRegisterScreen = () => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setHasGalleryPermission(status === 'granted');
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(status === "granted");
     })();
   }, []);
 
@@ -88,7 +83,7 @@ const ProviderRegisterScreen = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
     });
 
     if (!result.canceled) {
@@ -103,7 +98,10 @@ const ProviderRegisterScreen = () => {
       <View style={styles.container}>
         <Text style={styles.heading}>Register</Text>
         <View style={styles.imageContainer}>
-          <Image source={require('../../assets/images/23.jpg')} style={styles.image}></Image>
+          <Image
+            source={require("../../assets/images/23.jpg")}
+            style={styles.image}
+          ></Image>
         </View>
         <FormInput
           control={control}
@@ -114,7 +112,7 @@ const ProviderRegisterScreen = () => {
         <FormInput
           control={control}
           name="email"
-          placeholder={t("email")}          
+          placeholder={t("email")}
           style={styles.input}
         />
         <FormInput
@@ -149,12 +147,6 @@ const ProviderRegisterScreen = () => {
           placeholder={t("year")}
           style={styles.input}
         />
-        {/* <FormInput
-          control={control}
-          name="location"
-          placeholder={t("location")}
-          style={styles.input}
-        /> */}
         <Controller
           control={control}
           name="service_type"
@@ -176,7 +168,12 @@ const ProviderRegisterScreen = () => {
             </View>
           )}
         />
-        {["car_licence_pic", "driver_licence_pic", "national_id_pic", "profile_pic"].map((field) => (
+        {[
+          "car_licence_pic",
+          "driver_licence_pic",
+          "national_id_pic",
+          "profile_pic",
+        ].map((field) => (
           <Controller
             key={field}
             control={control}
@@ -196,13 +193,10 @@ const ProviderRegisterScreen = () => {
           />
         ))}
         <View style={styles.buttonContainer}>
-        
           <CustomButton
-            title={t('Submit')}
+            title={t("Submit")}
             onPressHandler={handleSubmit(onSubmit)}
-          >
-
-          </CustomButton>
+          ></CustomButton>
         </View>
         <View style={styles.registerTxtContainer}>
           <Text style={styles.registerTxt}>
@@ -266,17 +260,17 @@ const styles = StyleSheet.create({
   imagePickerText: {
     color: "#fff",
   },
-  image:{
-    width:300,
-    height:170,
-    resizeMode:'contain',
+  image: {
+    width: 300,
+    height: 170,
+    resizeMode: "contain",
   },
   buttonContainer: {
     marginTop: 16,
     width: "100%",
     borderRadius: 8,
     overflow: "hidden",
-    alignItems: 'center'
+    alignItems: "center",
   },
   registerTxtContainer: {
     marginVertical: 15,
