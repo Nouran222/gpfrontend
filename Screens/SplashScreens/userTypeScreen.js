@@ -24,7 +24,7 @@ const UserTypeScreen = ({ navigation }) => {
         </View>
         <View style={styles.btn}>
           <CustomButton
-            title={t("Register as  Provider")}
+            title={t("Register  as  Provider")}
             onPressHandler={() => {
               navigation.navigate("ProviderRegScreen");
             }}
