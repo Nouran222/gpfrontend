@@ -5,14 +5,14 @@ import LoginScreen from '../Screens/Login/ConsumerLoginScreen'
 import userTypeScreen from '@/Screens/SplashScreens/userTypeScreen';
 import SplashScreen from '@/Screens/SplashScreens/splashscreen';
 import RoadServiceScreen from '@/Screens/roadServiceScreen';
-
+import Home from "../Screens/Home/Home"
 const Stack = createStackNavigator();
 
 export function MyStack() {
   return (
     
     <Stack.Navigator>
-
+      <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
       <Stack.Screen name='userTypeScreen' component={userTypeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="ConsumerRegScreen" component={ConsumerRegisterScreen} options={{headerShown:false}} />

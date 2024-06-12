@@ -96,7 +96,7 @@ const ProviderRegisterScreen = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.heading}>Register</Text>
+        <Text style={styles.heading}>{t("Register")}</Text>
         <View style={styles.imageContainer}>
           <Image
             source={require("../../assets/images/23.jpg")}

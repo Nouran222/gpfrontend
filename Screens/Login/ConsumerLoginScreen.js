@@ -38,7 +38,7 @@ const ConsumerLoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+      <Text style={styles.heading}>{t("Login")}</Text>
       <FormInput
         control={control}
         name="email"
