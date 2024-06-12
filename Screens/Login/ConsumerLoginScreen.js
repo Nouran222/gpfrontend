@@ -6,7 +6,6 @@ import { z } from "zod";
 import FormInput from "../../components/formInput.js";
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from 'react-i18next';
-// import i18n from '../app/(tabs)/i18n.js';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 
