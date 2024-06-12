@@ -33,6 +33,7 @@ const ConsumerLoginScreen = ({navigation}) => {
 
   const onSubmit = (data) => {
     Alert.alert("Successful", JSON.stringify(data));
+    navigation.navigate('Road Services');
   };
 
   return (

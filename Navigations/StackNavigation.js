@@ -4,6 +4,7 @@ import ProviderRegisterScreen from '../Screens/Registeration/ProviderRegisterScr
 import LoginScreen from '../Screens/Login/ConsumerLoginScreen'
 import userTypeScreen from '@/Screens/SplashScreens/userTypeScreen';
 import SplashScreen from '@/Screens/SplashScreens/splashscreen';
+import RoadServiceScreen from '@/Screens/roadServiceScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export function MyStack() {
       <Stack.Screen name="ConsumerRegScreen" component={ConsumerRegisterScreen} options={{headerShown:false}} />
       <Stack.Screen name="ProviderRegScreen" component={ProviderRegisterScreen} options={{headerShown:false}} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
+      <Stack.Screen name='Road Services' component={RoadServiceScreen} />
     </Stack.Navigator>
   );
 }
