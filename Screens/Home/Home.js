@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const Card = ({ title, color }) => {
     return (
-      <TouchableOpacity style={[styles.card, { backgroundColor: color }]}>
+      <TouchableOpacity style={[styles.card, { backgroundColor: color }]}
+        onPress={()=>navigation.navigate('Road Services')}>
         <Text style={styles.cardText}>{title}</Text>
       </TouchableOpacity>
     );

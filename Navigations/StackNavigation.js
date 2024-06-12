@@ -12,12 +12,12 @@ export function MyStack() {
   return (
     
     <Stack.Navigator>
-      <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
       <Stack.Screen name='userTypeScreen' component={userTypeScreen} options={{headerShown: false}}/>
       <Stack.Screen name="ConsumerRegScreen" component={ConsumerRegisterScreen} options={{headerShown:false}} />
       <Stack.Screen name="ProviderRegScreen" component={ProviderRegisterScreen} options={{headerShown:false}} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
+      <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
       <Stack.Screen name='Road Services' component={RoadServiceScreen} />
     </Stack.Navigator>
   );

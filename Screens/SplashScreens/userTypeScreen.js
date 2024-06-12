@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: "row",
+    justifyContent:'space-evenly',
   },
   btn: {
     // flex: 1,
