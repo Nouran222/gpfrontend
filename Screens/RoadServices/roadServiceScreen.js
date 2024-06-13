@@ -32,7 +32,7 @@ const RoadServiceScreen = () => {
             <View style={[styles.row,{backgroundColor:'lightgray'}]}>
                 <View style={styles.imageContainer}> 
                 <Image
-                    source={require('../assets/images/winch.jpg')}
+                    source={require('../../assets/images/winch.jpg')}
                     style={styles.image}
                 />
                 </View>
@@ -47,7 +47,7 @@ const RoadServiceScreen = () => {
             <View style={styles.row}>
                 <View style = {styles.imageContainer}>
                 <Image
-                    source={require('../assets/images/fuel.jpg')}
+                    source={require('../../assets/images/fuel.jpg')}
                     style={styles.image}
                 />
                 </View>
@@ -62,7 +62,7 @@ const RoadServiceScreen = () => {
             <View style={[styles.row,{backgroundColor:'lightgray'}]}>
                 <View style={styles.imageContainer}>
                 <Image
-                    source={require('../assets/images/tire.jpg')}
+                    source={require('../../assets/images/tire.jpg')}
                     style={styles.image}
                 />
                 </View>
@@ -77,7 +77,7 @@ const RoadServiceScreen = () => {
             <View style={styles.row}>
                 <View style={styles.imageContainer}>
                 <Image
-                    source={require('../assets/images/battery.jpg')}
+                    source={require('../../assets/images/battery.jpg')}
                     style={styles.image}
                 />
                 </View>

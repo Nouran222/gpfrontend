@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Button, I18nManager, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, I18nManager, Image, StyleSheet, Text, View } from "react-native";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../../components/formInput.js";
@@ -39,6 +39,7 @@ const ConsumerLoginScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>{t("Login")}</Text>
+      <Image style={styles.LoginImage} source={require("../../assets/images/loginimg.jpeg")}></Image>
       <FormInput
         control={control}
         name="email"
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: "white",
   },
   heading: {
     // fontSize: 24,
@@ -86,6 +87,12 @@ const styles = StyleSheet.create({
     // color: '#333',
     fontSize: 25,
     fontFamily: 'Oswald',
+  },
+  LoginImage:{
+    width:250,
+    height:200,
+    resizeMode:"contain",
+    marginBottom:2
   },
   input: {
     width: '100%',
