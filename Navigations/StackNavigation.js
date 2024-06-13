@@ -4,7 +4,7 @@ import ProviderRegisterScreen from '../Screens/Registeration/ProviderRegisterScr
 import LoginScreen from '../Screens/Login/ConsumerLoginScreen'
 import userTypeScreen from '@/Screens/SplashScreens/userTypeScreen';
 import SplashScreen from '@/Screens/SplashScreens/splashscreen';
-import RoadServiceScreen from '@/Screens/roadServiceScreen';
+import RoadServiceScreen from '@/Screens/RoadServices/roadServiceScreen';
 import Home from "../Screens/Home/Home"
 const Stack = createStackNavigator();
 
