@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const CustomButton = ({ title ,onPressHandler}) => {
+const CustomButton = ({ title ,onPressHandler , fontSize=16}) => {
   const animationValue = useRef(new Animated.Value(0)).current;
 
 
@@ -46,8 +46,8 @@ const CustomButton = ({ title ,onPressHandler}) => {
           end={{ x: 1, y: 0.5 }}
           style={styles.gradient}
         >
-          <Text style={styles.text}>{title}</Text>
-        </LinearGradient>
+         <Text style={[styles.text, { fontSize }]}>{title}</Text>
+          </LinearGradient>
         <Animated.View style={[styles.borderTop, { height: heightInterpolation }]} />
         <Animated.View style={[styles.borderRight, { width: widthInterpolation }]} />
         <Animated.View style={[styles.borderBottom, { height: heightInterpolation }]} />
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontSize: 16,
+    // fontSize: fontSize?fontSize:16 ,
     textAlign:"center"
   },
   borderTop: {
