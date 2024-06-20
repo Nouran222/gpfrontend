@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import CustomButton from "../../components/CustomButton"
-
-const Vehicles = () => {
+import ProviderHomeScreen from '../ProviderScreens/ProviderHomeScreen';
+const Vehicles = ({navigation}) => {
     return (
         <View style={styles.mainContainer}>
             <Text style={styles.HeaderText}>Vehicles</Text>
@@ -16,7 +16,7 @@ const Vehicles = () => {
                 <View style={styles.VehicleRow}> 
                     <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
                     <View style={styles.buttonContainer}>
-                        <CustomButton title={"Select"} onPressHandler={() => {}} />
+                        <CustomButton title={"Select"} onPressHandler={() => {navigation.navigate("ProviderHomeScreen") }} />
                     </View>
                 </View>
             </View>

@@ -4,7 +4,7 @@ import Checkbox from 'expo-checkbox';
 import CustomButton from '@/components/CustomButton';
 import { useTranslation } from "react-i18next";
 
-const RoadServiceScreen = () => {
+const RoadServiceScreen = ({navigation}) => {
 
     const { t } = useTranslation();
     const [checkedItems, setCheckedItems] = useState(
@@ -22,10 +22,12 @@ const RoadServiceScreen = () => {
             [item]: !prevState[item]
         }));
     };
-
+const winshChecked=checkedItems.winch
     const handleRequest=()=>{
         const selectedItems = Object.keys(checkedItems).filter(item => checkedItems[item]);
-        console.warn('Selected Items:', selectedItems);
+        // console.warn('Selected Items:', selectedItems);
+        navigation.navigate("Vehichles")
+        
     }
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -42,6 +44,7 @@ const RoadServiceScreen = () => {
                     color={checkedItems.winch ? "#059212" : undefined}
                     value={checkedItems.winch}
                     onValueChange={() => handleCheckboxChange('winch')}
+                    // disabled={!winshChecked}
                 />
             </View>
             <View style={styles.row}>
@@ -57,6 +60,8 @@ const RoadServiceScreen = () => {
                     color={checkedItems.fuel ? "#059212" : undefined}
                     value={checkedItems.fuel}
                     onValueChange={() => handleCheckboxChange('fuel')}
+                    disabled={winshChecked}
+
                 />
             </View>
             <View style={[styles.row,{backgroundColor:'lightgray'}]}>
@@ -72,6 +77,8 @@ const RoadServiceScreen = () => {
                     color={checkedItems.tire ? "#059212" : undefined}
                     value={checkedItems.tire}
                     onValueChange={() => handleCheckboxChange('tire')}
+                    disabled={winshChecked}
+
                 />
             </View>
             <View style={styles.row}>
@@ -87,6 +94,8 @@ const RoadServiceScreen = () => {
                     color={checkedItems.battery ? "#059212" : undefined}
                     value={checkedItems.battery}
                     onValueChange={() => handleCheckboxChange('battery')}
+                    disabled={winshChecked}
+
                 />
             </View>
             <View style={styles.buttonContainer}>

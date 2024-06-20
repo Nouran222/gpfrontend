@@ -5,7 +5,8 @@ import { Avatar, Button, Card, Text } from "react-native-paper";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 const ConsumerCard = ({ name, distance, carType }) => (
-  <Card style={styles.card}>
+ <View style={styles.cardContainer}> 
+ <Card style={styles.card}>
     <Card.Content>
       <View style={styles.row}>
         <Avatar.Icon icon="account" size={48} style={styles.avatar} />
@@ -26,34 +27,31 @@ const ConsumerCard = ({ name, distance, carType }) => (
       <Button
         style={styles.button}
         onPress={() => {
-          console.log("Skipped");
-        }}
-      >
-        Skip
-      </Button>
-      <Button
-        style={styles.button}
-        onPress={() => {
           console.log("Accepted");
         }}
       >
-        Accept
+        Select
       </Button>
     </Card.Actions>
   </Card>
+  </View>
 );
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    flex: 1,
+    width: '100%',
+    padding: 8,
+  },
   card: {
-    margin: 20,
     borderRadius: 8,
-    width: 380,
     elevation: 4,
+    // height:150
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 10,
   },
   avatar: {
     marginRight: 16,
@@ -62,13 +60,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    marginBottom: 4,
+    marginBottom: 2,
   },
   subtitle: {
     color: "#6e6e6e",
   },
   carType: {
-    marginTop: 8,
+    marginTop: 4,
     fontWeight: "bold",
   },
   actions: {
