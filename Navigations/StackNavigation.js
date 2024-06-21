@@ -16,12 +16,9 @@ export function MyStack() {
   return (
     
     <Stack.Navigator>
-      
-      <Stack.Screen name='ProviderHomeScreen2' component={ProviderHomeScreen2} options={{headerShown: false}}/>
-      
-      <Stack.Screen name='Profile' component={Profile} options={{headerShown: false}}/>
-      
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
+      <Stack.Screen name='Profile' component={Profile} options={{headerShown: false}}/>
+      <Stack.Screen name='ProviderHomeScreen2' component={ProviderHomeScreen2} options={{headerShown: false}}/>
       <Stack.Screen name='ProviderHomeScreen' component={ProviderHomeScreen} options={{headerShown: false}}/>
       <Stack.Screen name='Vehichles' component={Vehichles} options={{headerShown: false}}/>
       <Stack.Screen name='userTypeScreen' component={userTypeScreen} options={{headerShown: false}}/>

@@ -16,7 +16,7 @@ const Vehicles = ({navigation}) => {
                 <View style={styles.VehicleRow}> 
                     <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
                     <View style={styles.buttonContainer}>
-                        <CustomButton title={"Select"} onPressHandler={() => {navigation.navigate("ProviderHomeScreen") }} />
+                        <CustomButton title={"Select"} onPressHandler={() => {navigation.navigate("ProviderHomeScreen2") }} />
                     </View>
                 </View>
             </View>

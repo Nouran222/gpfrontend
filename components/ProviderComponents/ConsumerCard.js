@@ -55,19 +55,24 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginRight: 16,
+    // backgroundColor:'lightskyblue',
+    // backgroundColor:'lightblue',
+    backgroundColor:'dodgerblue',
   },
   textContainer: {
     flex: 1,
   },
   title: {
     marginBottom: 2,
+    fontFamily:'Oswald',
+    fontSize:18,
   },
   subtitle: {
     color: "#6e6e6e",
   },
   carType: {
     marginTop: 4,
-    fontWeight: "bold",
+    fontFamily:'Oswald',
   },
   actions: {
     justifyContent: "flex-end",
