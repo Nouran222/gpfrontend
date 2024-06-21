@@ -9,7 +9,7 @@ const Profile = () => {
       <View style={styles.imageContainer}>
         <Image
           style={styles.img}
-          source={require("../../assets/images/person (2).jpg")}
+          source={require("../../assets/images/avatar.png")}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     top: 130,
     width: "100%",
     alignItems: "center",
+    
   },
   img: {
     width: 120,
@@ -77,6 +78,8 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     borderWidth: 2,
     borderColor: "white",
+    backgroundColor:'white',
+    
   },
   inputContainer: {
     flex: 1,
