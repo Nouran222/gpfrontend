@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import CustomButton from "../../components/CustomButton"
 import ProviderHomeScreen from '../ProviderScreens/ProviderHomeScreen';
-const Vehicles = ({navigation}) => {
+import ProviderHomeScreen2 from "../ProviderScreens/searchLocation"
+
+const Vehicles = ({navigation,route}) => {
     return (
         <View style={styles.mainContainer}>
             <Text style={styles.HeaderText}>Vehicles</Text>
@@ -16,7 +18,14 @@ const Vehicles = ({navigation}) => {
                 <View style={styles.VehicleRow}> 
                     <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
                     <View style={styles.buttonContainer}>
-                        <CustomButton title={"Select"} onPressHandler={() => {navigation.navigate("ProviderHomeScreen2") }} />
+                        <CustomButton title={"Select"} onPressHandler={() => {
+                            if(route.params.service[0]==='winch')
+                                navigation.navigate("ProviderHomeScreen2")
+                            else
+                                navigation.navigate("ProviderHomeScreen")
+                            // console.log(route.params.service[0])
+                            
+                            }} />
                     </View>
                 </View>
             </View>

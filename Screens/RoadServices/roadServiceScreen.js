@@ -26,11 +26,15 @@ const winshChecked=checkedItems.winch
     const handleRequest=()=>{
         const selectedItems = Object.keys(checkedItems).filter(item => checkedItems[item]);
         // console.warn('Selected Items:', selectedItems);
-        navigation.navigate("Vehichles")
+        navigation.navigate("Vehichles",{service:selectedItems})
         
     }
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+     <View style={styles.mainContainer}>
+        <View style={styles.homeHeader}>
+        <Text style={styles.textHeader}>Road Services</Text>
+      </View>
+       <ScrollView contentContainerStyle={styles.container}>
             <View style={[styles.row,{backgroundColor:'lightgray'}]}>
                 <View style={styles.imageContainer}> 
                 <Image
@@ -105,10 +109,34 @@ const winshChecked=checkedItems.winch
                 />
             </View>
         </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    mainContainer:{
+        flex:1,
+        padding:2,
+        justifyContent:"center"
+
+    },
+    homeHeader: {
+        height: 90,
+        width: '100%',
+        flexDirection: "row",
+        backgroundColor: "#9AB3CA",
+        borderBottomRightRadius: 45,
+        justifyContent: "space-between",
+        alignItems: 'center',
+        overflow: 'hidden',
+      },
+      textHeader:{
+        flex: 1,
+        marginLeft: 10,
+        fontSize: 18,
+        fontFamily: 'Oswald',
+        color:"white"
+      },
     container: {
         flexGrow: 1,
         padding: 10,

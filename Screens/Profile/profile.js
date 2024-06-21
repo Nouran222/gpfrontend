@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: "#96D6E4",
+    backgroundColor: "#9AB3CA",
     height: 200,
     borderBottomLeftRadius: 90,
     borderBottomRightRadius: 90,

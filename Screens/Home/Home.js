@@ -32,9 +32,9 @@ const Home = ({ navigation }) => {
         <Card title="Road Services" color="white" img="9.jpg" />
         <Card title="Consultation" color='white' img="5.jpg" />
       </ScrollView>
-      
+
       <Text style={styles.requestsText}>Current Requests</Text>
-      
+
       <View style={styles.requestsContainer}>
         <Image source={images["NoSearchResult.jpg"]} style={styles.image} />
       </View>
@@ -44,30 +44,31 @@ const Home = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    flex: 1,
     margin: 2,
     backgroundColor: "rgb(251, 245, 247)",
   },
   homeHeader: {
-    margin: 2,
-    padding: 15,
-    height: 70,
+    height: 120,
     width: '100%',
     flexDirection: "row",
-    backgroundColor: "white",
-    borderRadius: 30,
+    backgroundColor: "#9AB3CA",
+    borderBottomRightRadius: 50,
     justifyContent: "space-between",
     alignItems: 'center',
+    overflow: 'hidden',
   },
   text: {
-    margin: 3,
-    color: '#000',
+    margin: 8,
+    color: 'white',
     fontSize: 18,
-    fontWeight: "bold"
+    fontFamily: 'Oswald',
   },
   profilePicture: {
     width: 50,
     height: 50,
     borderRadius: 25,
+    margin: 15
   },
   scrollViewContainer: {
     backgroundColor: 'rgb(251, 245, 247)',
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     marginVertical: 0,
   },
   card: {
-    width: 250,
+    width: 200,
     height: 200,
     borderRadius: 15,
     justifyContent: 'center',
@@ -84,26 +85,32 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cardImage: {
-    width: 250,
+    width: 200,
     height: 180,
     resizeMode: "contain"
   },
   cardText: {
     color: 'black',
     fontSize: 16,
+    fontWeight: "bold",
     textAlign: 'center',
-    marginBottom:3
+    marginBottom: 3
   },
   requestsContainer: {
-    flex: 1,
+    // flex: 1,
+    backgroundColor: 'white',
     paddingHorizontal: 10,
-    paddingTop: 0,
+    borderTopRightRadius: 60,
+    borderTopLeftRadius: 60,
+    marginTop: 10,
+    paddingTop: 20,
+    overflow:"hidden"
   },
   requestsText: {
     margin: 5,
-    color: '#000',
-    fontSize: 20,
-    fontWeight: "bold",
+    color: '#3D3B3B',
+    fontSize: 18,
+    fontFamily: 'Oswald',
   },
   image: {
     width: "100%",

@@ -41,7 +41,10 @@ const CustomButton = ({ title ,onPressHandler , fontSize=16}) => {
         onPress={onPressHandler}
       >
         <LinearGradient
-          colors={['#4D99CC', '#96D6E4']}
+          // colors={['#4D99CC', '#96D6E4']}
+          // colors={['#014871', '#D7EDE2']}
+          colors={["#587FA7","#9AB3CA"]}
+          
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
           style={styles.gradient}
