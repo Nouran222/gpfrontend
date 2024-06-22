@@ -15,12 +15,18 @@ import { z } from "zod";
 import { Picker } from "@react-native-picker/picker";
 import FormInput from "../../components/formInput";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from 'expo-file-system';
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from "react-i18next";
 import i18n from "../../app/(tabs)/i18n";
+import axios from "axios";
+import { firebase } from '../../firebaseConfig';
 
 const ProviderRegisterScreen = () => {
   const { t } = useTranslation();
+
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [photos, setPhotos] = useState([]);
 
   const formSchema = z.object({
     email: z.string().email(t("emailValidation")),
@@ -29,15 +35,12 @@ const ProviderRegisterScreen = () => {
     contact_number: z
       .string()
       .regex(/^(011|012|015|010)\d{8}$/, t("phoneValidation")),
-    car_make: z.string(),
+    make: z.string(),
     model: z.string(),
     year: z.string(),
     location: z.string(),
-    service_type: z.string(),
-    car_licence_pic: z.string().optional(),
-    driver_licence_pic: z.string().optional(),
-    national_id_pic: z.string().optional(),
-    profile_pic: z.string().optional(),
+    service_type: z.string().toLowerCase(),
+    profile_pic: z.string()
   });
 
   const { control, handleSubmit, setValue, watch } = useForm({
@@ -46,24 +49,75 @@ const ProviderRegisterScreen = () => {
       name: "",
       password: "",
       contact_number: "",
-      car_make: "",
+      make: "",
       model: "",
       year: "",
       location: "",
       service_type: "",
-      car_licence_pic: "",
-      driver_licence_pic: "",
-      national_id_pic: "",
-      profile_pic: "",
+      profile_pic: ""
+
     },
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data) => {
-    Alert.alert("Successful", JSON.stringify(data));
+  const onSubmit = async (data) => {
+    // Alert.alert("Successful", JSON.stringify(data));
+
+    if (photos.length < 4)
+      return;
+    
+    await axios.post('https://gp-backend-8p08.onrender.com/api/serviceProvider/', data)
+      .then(res => {
+        if (res.status === 200) {
+          try {
+
+            photos.forEach(async (photo) => {
+              let imageUri = Object.values(photo)[0];
+              let photoId = Object.keys(photo)[0];
+
+              const { uri } = await FileSystem.getInfoAsync(imageUri);
+              const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                  resolve(xhr.response);
+                }
+
+                xhr.onerror = (e) => {
+                  reject(new TypeError("network request failed"));
+                }
+
+                xhr.responseType = 'blob';
+                xhr.open('GET', uri, true);
+                xhr.send(null);
+              });
+
+              const lastIndexOfDot = imageUri.lastIndexOf('.');
+              const ext = imageUri.substring(lastIndexOfDot);
+
+              const fileName = data.email.split('.')[0] + "_" + photoId + ext;
+              const ref = firebase.storage().ref('/uploads').child(fileName);
+
+              await ref.put(blob);
+
+            })
+
+
+          } catch (e) {
+            console.log(e);
+          }
+        }
+
+        return res.data();
+      }).catch(error => {
+        // Handle errors
+        console.error('Request failed', error);
+      });
+
+
+
+
   };
 
-  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -87,10 +141,9 @@ const ProviderRegisterScreen = () => {
     });
 
     if (!result.canceled) {
-      setValue(field, result.assets[0].uri);
+      setPhotos((photos) => [...photos, { [field]: result.assets[0].uri }])
     }
 
-    console.log(result.assets[0].uri);
   };
 
   return (
@@ -130,7 +183,7 @@ const ProviderRegisterScreen = () => {
         />
         <FormInput
           control={control}
-          name="car_make"
+          name="make"
           placeholder={t("car make")}
           style={styles.input}
         />
