@@ -7,7 +7,7 @@ import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ProviderHomeScreen2 = () => {
+const ProviderHomeScreen2 = ({navigation}) => {
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -94,6 +94,7 @@ const ProviderHomeScreen2 = () => {
               name={item.name}
               distance={item.distance}
               carType={item.carType}
+              navigation={navigation}
             />
           )}
           keyExtractor={(item) => item.id}

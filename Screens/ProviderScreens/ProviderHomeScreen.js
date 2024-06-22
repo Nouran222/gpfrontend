@@ -4,7 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 
-const ProviderHomeScreen = ({service}) => {
+const ProviderHomeScreen = ({service, navigation}) => {
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -69,6 +69,8 @@ const ProviderHomeScreen = ({service}) => {
               name={item.name}
               distance={item.distance}
               carType={item.carType}
+              navigation={navigation}
+              
             />
           )}
           keyExtractor={(item) => item.id}
