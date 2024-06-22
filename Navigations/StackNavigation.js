@@ -10,12 +10,15 @@ import Vehichles from "../Screens/RoadServices/Vehicles"
 import ProviderHomeScreen from "../Screens/ProviderScreens/ProviderHomeScreen"
 import Profile from "../Screens/Profile/profile"
 import ProviderHomeScreen2 from "../Screens/ProviderScreens/searchLocation"
+import Payment from "../Screens/Payment/payment"
 
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
     
     <Stack.Navigator>
+      <Stack.Screen name='payment' component={Payment} options={{headerShown: false}}/>
+      
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
       <Stack.Screen name='Home' component={Home} options={{headerShown: false}}/>
       <Stack.Screen name='ProviderHomeScreen2' component={ProviderHomeScreen2} options={{headerShown: false}}/>

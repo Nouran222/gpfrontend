@@ -4,6 +4,8 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ProviderHomeScreen2 = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -67,19 +69,23 @@ const ProviderHomeScreen2 = () => {
 
   return (
     <View style={styles.container}>
-         <View style={styles.searchContainer}>
+      <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
           placeholder="Search location..."
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />
-        <Button title="Search" onPress={handleSearch} />
+
+        <TouchableOpacity onPress={handleSearch} style={styles.searchIcon}>
+          <Ionicons name="search" size={24} color="#587FA7" />
+        </TouchableOpacity>
+        {/* <Button title="Search" onPress={handleSearch} /> */}
       </View>
       <MapView style={styles.map} region={mapRegion}>
         <Marker coordinate={mapRegion} title="Selected Location" />
       </MapView>
-     
+
       <View style={styles.consumersList}>
         <FlatList
           data={consumers}
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding:15
+    padding: 15
   },
   map: {
     width: "100%",
@@ -130,6 +136,11 @@ const styles = StyleSheet.create({
   },
   listContentContainer: {
     paddingVertical: 16,
+  },
+
+  searchIcon: {
+    padding: 10,
+    
   },
 });
 
