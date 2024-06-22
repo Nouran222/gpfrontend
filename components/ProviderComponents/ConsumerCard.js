@@ -5,7 +5,7 @@ import CustomButton from "../CustomButton";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
-const ConsumerCard = ({ name, distance, carType }) => (
+const ConsumerCard = ({ name, distance, carType, navigation }) => (
   <View style={styles.cardContainer}>
     <Card style={styles.card}>
       <Card.Content>
@@ -36,7 +36,7 @@ const ConsumerCard = ({ name, distance, carType }) => (
         <View  style={styles.button}>
           <CustomButton
             title={'Select'}
-            onPressHandler={() => { }}
+            onPressHandler={() => navigation.navigate("Payment")}
           >
           </CustomButton>
         </View>

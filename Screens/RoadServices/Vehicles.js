@@ -5,7 +5,7 @@ import ProviderHomeScreen from '../ProviderScreens/ProviderHomeScreen';
 import ProviderHomeScreen2 from "../ProviderScreens/searchLocation"
 import { ScrollView } from 'react-native-gesture-handler';
 
-const Vehicles = ({ navigation, route }) => {
+const Vehicles = ({ navigation, route  }) => {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.homeHeader}>
@@ -116,7 +116,7 @@ const Vehicles = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        margin: 2,
+        // margin: 2,
         backgroundColor: "rgb(251, 245, 247)"
     },
     homeHeader: {
