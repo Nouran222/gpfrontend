@@ -13,19 +13,33 @@ import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import SwitchStatus from "./../../components/ProviderComponents/SwitchStatus";
 import RequestScreen from "./RequestScreen";
 
-const ProviderHomeScreen = () => {
+const ProviderHomeScreen = ({ service, navigation }) => {
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [mapRegion2, setMapRegion2] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+  const origin = { latitude: 37.78825, longitude: -122.4324 };
+  const destination = { latitude: 37.79855, longitude: -122.4324 };
+  const region = {
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
 
   const [consumers, setConsumers] = useState([
-    { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
-    { id: "2", name: "Consumer 2", distance: "5 km", carType: "SUV" },
-    { id: "3", name: "Consumer 2", distance: "5 km", carType: "Sedan" },
-    { id: "4", name: "Consumer 2", distance: "5 km", carType: "SUV" },
+    { id: "1", name: "Provider 1", distance: "2 km", carType: "Sedan" },
+    { id: "2", name: "Provider 2", distance: "5 km", carType: "SUV" },
+    { id: "3", name: "Provider 3", distance: "3 km", carType: "Sedan" },
+    { id: "4", name: "Provider 4", distance: "7 km", carType: "SUV" },
   ]);
 
   // useEffect(() => {
@@ -81,12 +95,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   map: {
-    width: 400,
-    height: 500,
-    flex: 1,
+    width: "100%",
+    height: "50%",
   },
   consumersList: {
     flex: 1,
+    width: "100%",
+    marginTop: 10,
+  },
+  listContentContainer: {
+    paddingBottom: 16,
   },
 });
 

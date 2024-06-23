@@ -7,10 +7,12 @@ import FormInput from "../../components/formInput";
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from 'react-i18next';
 import i18n from '../../app/(tabs)/i18n';
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 
-const ConsumerRegistrationScreen = () => {
+const ConsumerRegistrationScreen = ({navigation}) => {
   const { t } = useTranslation();
 
   const formSchema = z.object({
@@ -20,7 +22,7 @@ const ConsumerRegistrationScreen = () => {
     contact_number: z.string().regex(/^(011|012|015|010)\d{8}$/, t("phoneValidation")),
     car_make: z.string(),
     model: z.string(),
-    year: z.number(),
+    year: z.string(),
   });
 
   const { control, handleSubmit } = useForm({
@@ -33,7 +35,25 @@ const ConsumerRegistrationScreen = () => {
   });
 
   const onSubmit = (data) => {
-    Alert.alert(t("successful"), JSON.stringify(data));
+    axios.post("http://192.168.1.8:8000/api/user",data).then(async (res)=>{
+      if(res.status == 200)
+      {
+        navigation.navigate("Home")
+        let newUserId = res.data.newUser._id
+      
+      /// Storing The Registered user's id in Async Storage
+      try{
+          AsyncStorage.setItem("userId",newUserId);
+          AsyncStorage.setItem("userRole","consumer");
+      }
+      catch(err){
+        console.log(err);
+      }
+      }
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   };
 
   return (

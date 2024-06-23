@@ -4,8 +4,9 @@ import { MyStack } from "../../Navigations/StackNavigation.js";
 import { useFonts } from "expo-font";
 import LoadingScreen from "../../Screens/SplashScreens/loadingScreen.js";
 import Splashscreen from "@/Screens/SplashScreens/splashscreen.js";
-import { MyTabs } from "../../Navigations/ProviderTopTabsNavigator/BottomTabsNavigation.js";
-// import {MyTabs} from "../../Navigations/ProviderTopTabsNavigator/TopTabsNavigation.js"
+// import {MyTabs} from "../../Navigations/ProviderTopTabsNavigator/BottomTabsNavigation.js"
+import { MyTabs } from "../../Navigations/ProviderTopTabsNavigator/TopTabsNavigation.js";
+import ProviderRegisterScreen from "@/Screens/Registeration/ProviderRegisterScreen.js";
 
 const fonts = {
   Oswald: require("../../assets/fonts/static/Oswald-Bold.ttf"),
@@ -14,19 +15,21 @@ const fonts = {
 export default function HomeScreen() {
   const [fontsLoaded, loadFonts] = useFonts(fonts);
 
-  // if (fontsLoaded) {
-  //   return (
-  //     <>
-  //       <MyStack></MyStack>
-  //     </>
-  //   );
-  // }
+  if (fontsLoaded) {
+    return (
+      <>
+        <MyStack></MyStack>
+      </>
+    );
+  }
 
   return (
     <>
-      <MyTabs />
-      {/* <LoadingScreen /> */}
-      {/* <Splashscreen navigation={undefined} /> */}
+      {/* <MyTabs /> */}
+      <LoadingScreen />
+      <Splashscreen />
+      <MyStack></MyStack>
+      {/* <ProviderRegisterScreen></ProviderRegisterScreen> */}
     </>
   );
 }
