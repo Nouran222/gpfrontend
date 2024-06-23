@@ -1,14 +1,14 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { MyStack } from '../../Navigations/StackNavigation.js';
-import { useFonts } from 'expo-font';
-import LoadingScreen from '../../Screens/SplashScreens/loadingScreen.js'
+import { StatusBar, StyleSheet } from "react-native";
+import { MyStack } from "../../Navigations/StackNavigation.js";
+import { useFonts } from "expo-font";
+import LoadingScreen from "../../Screens/SplashScreens/loadingScreen.js";
 import Splashscreen from "@/Screens/SplashScreens/splashscreen.js";
-// import {MyTabs} from "../../Navigations/ProviderTopTabsNavigator/BottomTabsNavigation.js"
-import {MyTabs} from "../../Navigations/ProviderTopTabsNavigator/TopTabsNavigation.js"
+import { MyTabs } from "../../Navigations/ProviderTopTabsNavigator/BottomTabsNavigation.js";
+// import {MyTabs} from "../../Navigations/ProviderTopTabsNavigator/TopTabsNavigation.js"
 
 const fonts = {
-  'Oswald': require('../../assets/fonts/static/Oswald-Bold.ttf'),
+  Oswald: require("../../assets/fonts/static/Oswald-Bold.ttf"),
 };
 
 export default function HomeScreen() {
@@ -24,18 +24,15 @@ export default function HomeScreen() {
 
   return (
     <>
-    <MyTabs />
-      {/* <LoadingScreen/> */}
-      {/* <Splashscreen/> */}
+      <MyTabs />
+      {/* <LoadingScreen /> */}
+      {/* <Splashscreen navigation={undefined} /> */}
     </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    fontFamily: 'Oswald',
+    fontFamily: "Oswald",
   },
 });
-
-
-  
