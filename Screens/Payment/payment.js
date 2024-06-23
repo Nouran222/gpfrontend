@@ -2,32 +2,23 @@ import React from "react";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const Payment = () => {
+const Payment = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      {/* <View style={styles.headerWrapper}>
-        <ImageBackground
-          source={require("../../assets/images/paymentimage.jpg")}
-          style={styles.header}
-        >
-          <Text style={styles.textHeader}>Payment</Text>
-        </ImageBackground>
-      </View> */}
-<View style={styles.homeHeader}>
-                <Text style={styles.textHeader}>Payment</Text>
-            </View>
+      <View style={styles.homeHeader}>
+        <Text style={styles.textHeader}>Payment</Text>
+      </View>
       <View style={styles.imageHeaderContainer}>
         <Image
           style={styles.imageHeader}
           source={require("../../assets/images/R.png")}
         />
       </View>
-     
       <View style={styles.selectionsContainer}>
         <TouchableOpacity
           style={[
             styles.paymentContainer,
-            { backgroundColor: "mistyrose", elevation: 5 ,marginTop: 70,},
+            { backgroundColor: "mistyrose", elevation: 5, marginTop: 70 },
           ]}
           onPress={() => {}}
         >
@@ -45,7 +36,15 @@ const Payment = () => {
             styles.paymentContainer,
             { backgroundColor: "silver", elevation: 5 },
           ]}
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate("PayPal", {
+              product: {
+                name: "Pick Up Service",
+                price: "50.00",
+                description: "Pick up service for your order",
+              },
+            });
+          }}
         >
           <View style={styles.row}>
             <Image
@@ -65,45 +64,28 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
   },
-//   headerWrapper: {
-//     width: "100%",
-//     height: 100,
-//     overflow: "hidden",
-//     borderBottomRightRadius: 60,
-//   },
-  header: {
-    flex: 1,
-  },
-//   textHeader: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     color: "white",
-//     paddingHorizontal: 20,
-//     paddingVertical: 10,
-//   },
-homeHeader: {
+  homeHeader: {
     height: 90,
-    width: '100%',
+    width: "100%",
     flexDirection: "row",
     backgroundColor: "#9AB3CA",
     borderBottomRightRadius: 45,
     justifyContent: "space-between",
-    alignItems: 'center',
-    overflow: 'hidden',
-},
-textHeader: {
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  textHeader: {
     flex: 1,
     marginLeft: 10,
     fontSize: 18,
-    fontFamily: 'Oswald',
-    color: "white"
-},
+    color: "white",
+  },
   imageHeaderContainer: {
     width: "100%",
     alignItems: "center",
     zIndex: 1,
     position: "relative",
-    top: 0, // Adjust as needed to position the image correctly
+    top: 0,
   },
   imageHeader: {
     width: 300,
@@ -115,9 +97,9 @@ textHeader: {
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 15,
-    elevation:4,
+    elevation: 4,
     backgroundColor: "rgb(251, 245, 247)",
-    marginTop: -60, // Adjust to overlap with the image
+    marginTop: -60,
     zIndex: 0,
   },
   paymentContainer: {
@@ -125,7 +107,6 @@ textHeader: {
     width: "95%",
     padding: 15,
     margin: 15,
-    
     marginHorizontal: "auto",
     borderRadius: 30,
     justifyContent: "center",

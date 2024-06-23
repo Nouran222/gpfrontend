@@ -28,8 +28,8 @@ export default function HomeScreen() {
     {/* <MyTabs /> */}
       {/* <LoadingScreen/> */}
       {/* <Splashscreen/> */}
-      {/* <MyStack></MyStack> */}
-      <ProviderRegisterScreen></ProviderRegisterScreen>
+      <MyStack></MyStack>
+      {/* <ProviderRegisterScreen></ProviderRegisterScreen> */}
     </>
   );
 }

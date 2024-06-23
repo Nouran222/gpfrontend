@@ -12,15 +12,15 @@ import ProviderHomeScreen from "../Screens/ProviderScreens/ProviderHomeScreen"
 import ProviderHomeScreen2 from "../Screens/ProviderScreens/searchLocation"
 import Payment from "../Screens/Payment/payment"
 import BottomTabNavigator from "./BottomTabNavigator"
-
+import PayPal from "../Screens/Payment/PayPal"
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
     
     <Stack.Navigator>
-      
-      <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
       <Stack.Screen name='Payment' component={Payment} options={{headerShown: false}}/>
+      <Stack.Screen name='PayPal' component={PayPal} options={{headerShown: false}}/>
+      <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
       <Stack.Screen name='Home' component={BottomTabNavigator} options={{headerShown: false}}/>
       <Stack.Screen name='ProviderHomeScreen2' component={ProviderHomeScreen2} options={{headerShown: false}}/>
       <Stack.Screen name='Profile' component={BottomTabNavigator} options={{headerShown: false}}/>
