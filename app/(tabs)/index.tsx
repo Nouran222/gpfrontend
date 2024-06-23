@@ -15,19 +15,20 @@ const fonts = {
 export default function HomeScreen() {
   const [fontsLoaded, loadFonts] = useFonts(fonts);
 
-  // if (fontsLoaded) {
-  //   return (
-  //     <>
-  //       <MyStack></MyStack>
-  //     </>
-  //   );
-  // }
+  if (fontsLoaded) {
+    
+    return (
+      <>
+        <MyStack></MyStack>
+      </>
+    );
+  }
 
   return (
     <>
     {/* <MyTabs /> */}
-      {/* <LoadingScreen/> */}
-      {/* <Splashscreen/> */}
+      <LoadingScreen/>
+      <Splashscreen/>
       <MyStack></MyStack>
       {/* <ProviderRegisterScreen></ProviderRegisterScreen> */}
     </>

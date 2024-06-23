@@ -21,8 +21,8 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../app/(tabs)/i18n";
 import axios from "axios";
 import { firebase } from '../../firebaseConfig';
-
-const ProviderRegisterScreen = () => {
+import AsyncStorage from '@react-native-async-storage/async-storage'
+const ProviderRegisterScreen = ({navigation}) => {
   const { t } = useTranslation();
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -67,10 +67,12 @@ const ProviderRegisterScreen = () => {
       return;
     
     await axios.post('https://gp-backend-8p08.onrender.com/api/serviceProvider/', data)
-      .then(res => {
+      .then(async res => {
         if (res.status === 200) {
+            AsyncStorage.setItem("userId",res.data._id)
+            AsyncStorage.setItem("userRole","provider")
+          navigation.navigate('ProviderHomeScreen2')
           try {
-
             photos.forEach(async (photo) => {
               let imageUri = Object.values(photo)[0];
               let photoId = Object.keys(photo)[0];
@@ -98,6 +100,7 @@ const ProviderRegisterScreen = () => {
               const ref = firebase.storage().ref('/uploads').child(fileName);
 
               await ref.put(blob);
+              
 
             })
 
@@ -106,8 +109,6 @@ const ProviderRegisterScreen = () => {
             console.log(e);
           }
         }
-
-        return res.data();
       }).catch(error => {
         // Handle errors
         console.error('Request failed', error);
