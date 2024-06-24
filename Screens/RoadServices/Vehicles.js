@@ -81,7 +81,7 @@ const Vehicles = ({ navigation, route  }) => {
                 </View>
 
 
-                <View style={styles.VehicleContainer}>
+                {/* <View style={styles.VehicleContainer}>
                     <View style={styles.VehicleRow}>
                         <Text style={styles.Text}>1234-ABC purple</Text>
                         <Text style={styles.Text}>Toyota</Text>
@@ -100,7 +100,7 @@ const Vehicles = ({ navigation, route  }) => {
                             }} />
                         </View>
                     </View>
-                </View>
+                </View> */}
 
             </ScrollView>
 

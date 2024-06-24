@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
+import SwitchStatus from "./../../components/ProviderComponents/SwitchStatus";
+import RequestScreen from "./RequestScreen";
 
-const ProviderHomeScreen = ({service, navigation}) => {
+const ProviderHomeScreen = ({ service, navigation }) => {
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -33,58 +42,56 @@ const ProviderHomeScreen = ({service, navigation}) => {
     { id: "4", name: "Provider 4", distance: "7 km", carType: "SUV" },
   ]);
 
-  useEffect(() => {
-    userLocation();
-  }, []);
+  // useEffect(() => {
+  //   userLocation();
+  // }, []);
 
-  const userLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
+  // const userLocation = async () => {
+  //   let { status } = await Location.requestForegroundPermissionsAsync();
 
-    if (status === "granted") {
-      let location = await Location.getCurrentPositionAsync({
-        enableHighAccuracy: true,
-      });
+  //   if (status === "granted") {
+  //     let location = await Location.getCurrentPositionAsync({
+  //       enableHighAccuracy: true,
+  //     });
 
-      setMapRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    }
+  //     //   console.log("loc is" + location.coords.latitude);
+
+  //     setMapRegion({
+  //       latitude: location.coords.latitude,
+  //       longitude: location.coords.longitude,
+  //       latitudeDelta: 0.0922,
+  //       longitudeDelta: 0.0421,
+  //     });
+  //   }
+  // };
+  const [isOpened, setIsOpened] = useState(false);
+  const [isRequest, setIsRequest] = useState(true);
+  const handleSwitchChange = (enabled) => {
+    console.log(enabled);
+    setIsOpened(enabled);
   };
-
   return (
-    <View style={styles.mapContainer}>
-      <MapView style={styles.map} initialRegion={region}>
-        <Marker coordinate={origin} title="Hassan's Home" />
-        <Marker coordinate={destination} title="yasmeen's Home" />
-
-      </MapView>
-      <View style={styles.consumersList}>
-        <FlatList
-          data={consumers}
-          renderItem={({ item }) => (
-            <ConsumerCard
-              name={item.name}
-              distance={item.distance}
-              carType={item.carType}
-              navigation={navigation}
-              
-            />
+    <>
+      {isRequest ? (
+        <RequestScreen></RequestScreen>
+      ) : (
+        <View style={styles.mapContainer}>
+          <SwitchStatus handleSwitchChange={handleSwitchChange} />
+          {isOpened ? (
+            <Text>Waiting For Requests...</Text>
+          ) : (
+            <Text>Not Available For Request</Text>
           )}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContentContainer}
-        />
-      </View>
-    </View>
+        </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
   },
   map: {
@@ -94,7 +101,7 @@ const styles = StyleSheet.create({
   consumersList: {
     flex: 1,
     width: "100%",
-    marginTop:10,
+    marginTop: 10,
   },
   listContentContainer: {
     paddingBottom: 16,
