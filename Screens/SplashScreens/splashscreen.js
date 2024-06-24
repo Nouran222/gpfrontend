@@ -9,7 +9,7 @@ const Splashscreen = ({navigation}) => {
 
     useEffect(() => {
         const getCurrentUser = async()=>{
-            
+            AsyncStorage.clear();
             const userId = await AsyncStorage.getItem('userId');
             const userType = await AsyncStorage.getItem('userRole');
             console.log(userId)
@@ -33,6 +33,7 @@ const Splashscreen = ({navigation}) => {
     }, [navigation]); 
     return (
         <View style={styles.container}>
+            
             <View style={styles.animationContainer}>
                 <LottieView 
                     source={require('../../assets/animations/welcomeColors.json')} 
@@ -50,6 +51,7 @@ const Splashscreen = ({navigation}) => {
                     style={styles.animation}
                 />
             </View>
+            
         </View>
     );
 }
