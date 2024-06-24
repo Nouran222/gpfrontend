@@ -24,8 +24,8 @@ const BottomTabNavigator = () => {
               display: 'flex',
               position: 'absolute',
               bottom: 0,
-              left: 10,
-              right: 10,
+              left: 0,
+              right: 0,
               elevation: 5,
               backgroundColor: "#9AB3CA",
               borderRadius: 15,
@@ -68,7 +68,7 @@ const BottomTabNavigator = () => {
                 <Icon
                   name="message1"
                   size={30}
-                  color={focused ? 'white' : "black"}
+                  color={focused ? 'white' : "lightgray"}
                 />
               </View>
             ),
@@ -87,7 +87,7 @@ const BottomTabNavigator = () => {
                 <Icon
                   name="message1"
                   size={30}
-                  color={focused ? 'white' : "black"}
+                  color={focused ? 'white' : "lightgray"}
                 />
               </View>
             ),

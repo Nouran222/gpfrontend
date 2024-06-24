@@ -12,7 +12,7 @@ import * as Location from "expo-location";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import { ProgressBar } from "react-native-paper";
 
-const RequestScreen = () => {
+const RequestScreen = ({navigation}) => {
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -76,10 +76,25 @@ const RequestScreen = () => {
             strokeWidth={3}
           /> */}
         </MapView>
-        <View style={styles.consumersList}>
+        {/* <View style={styles.consumersList}>
           <ProgressBar progress={0.5} />
-          <ConsumerCard name="Consumer 1" distance={"2 Km"} carType={"Sedan"} />
-        </View>
+          <ConsumerCard name="Consumer 1" distance={"2 Km"} carType={"Sedan"} navigation={navigation} />
+        </View> */}
+         <View style={styles.consumersList}>
+        <FlatList
+          data={consumers}
+          renderItem={({ item }) => (
+            <ConsumerCard
+              name={item.name}
+              distance={item.distance}
+              carType={item.carType}
+              navigation={navigation}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContentContainer}
+        />
+      </View>
         {/* <Button title="Get Location" onPress={userLocation}/> */}
       </View>
     </>
@@ -99,7 +114,12 @@ const styles = StyleSheet.create({
   },
   consumersList: {
     flex: 1,
+    width: "100%",
   },
+  listContentContainer: {
+    paddingVertical: 16,
+  },
+
 });
 
 export default RequestScreen;

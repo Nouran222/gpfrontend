@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 60,
     borderTopLeftRadius: 60,
     marginTop: 10,
+    marginBottom: 10,
     paddingTop: 20,
     overflow:"hidden"
   },
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Oswald',
   },
   image: {
-    width: "100%",
+    width: "90%",
     height: 370,
     resizeMode: 'cover',
   },

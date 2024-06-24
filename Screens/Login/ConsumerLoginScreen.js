@@ -40,12 +40,12 @@ const ConsumerLoginScreen = ({navigation}) => {
     // Alert.alert("Successful", JSON.stringify(data));
     if(data)
       {
-        axios.post("http://192.168.1.8:8000/api/user/login",data)
+        axios.post("http://192.168.1.13:8000/api/user/login",data)
         .then(async (res)=>{
         let foundUser = res.data
           await AsyncStorage.setItem('userId',foundUser._id)
           await AsyncStorage.setItem('userRole','consumer')
-          // navigation.navigate('ProviderHomeScreen');
+          navigation.navigate('Home');
         })
         .catch((err)=>{
           console.log(err);

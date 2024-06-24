@@ -73,7 +73,7 @@ const ProviderHomeScreen = ({ service, navigation }) => {
   return (
     <>
       {isRequest ? (
-        <RequestScreen></RequestScreen>
+        <RequestScreen navigation={navigation}></RequestScreen>
       ) : (
         <View style={styles.mapContainer}>
           <SwitchStatus handleSwitchChange={handleSwitchChange} />
