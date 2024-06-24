@@ -13,6 +13,10 @@ import ProviderHomeScreen2 from "../Screens/ProviderScreens/searchLocation"
 import Payment from "../Screens/Payment/payment"
 import BottomTabNavigator from "./BottomTabNavigator"
 import PayPal from "../Screens/Payment/PayPal"
+import AddRate from "../components/AddRate"
+
+
+
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
