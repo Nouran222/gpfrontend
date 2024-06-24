@@ -35,7 +35,7 @@ const ConsumerRegistrationScreen = ({navigation}) => {
   });
 
   const onSubmit = (data) => {
-    axios.post("http://192.168.1.2:8000/api/user",data).then(async (res)=>{
+    axios.post("http://192.168.1.13:8000/api/user",data).then(async (res)=>{
       if(res.status == 200)
       {
         navigation.navigate("Home")
