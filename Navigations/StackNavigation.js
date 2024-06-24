@@ -20,6 +20,7 @@ export function MyStack() {
     
     <Stack.Navigator>
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
+      <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
       <Stack.Screen name='Vehichles' component={Vehichles} options={{headerShown: false}}/>
       <Stack.Screen name='Payment' component={Payment} options={{headerShown: false}}/>
       <Stack.Screen name='PayPal' component={PayPal} options={{headerShown: false}}/>
