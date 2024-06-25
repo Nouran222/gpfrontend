@@ -1,8 +1,23 @@
-import React from "react";
+import React,{useState} from "react";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import RatingBottomModal from "../../components/modal"
+
+
+
 
 const Payment = ({ navigation }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [rating, setRating] = useState(0);
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.homeHeader}>
@@ -20,7 +35,7 @@ const Payment = ({ navigation }) => {
             styles.paymentContainer,
             { backgroundColor: "mistyrose", elevation: 5, marginTop: 70 },
           ]}
-          onPress={() => {}}
+          onPress={() => setIsModalVisible(true)}
         >
           <View style={styles.row}>
             <Image
@@ -55,6 +70,15 @@ const Payment = ({ navigation }) => {
           </View>
         </TouchableOpacity>
       </View>
+
+      <RatingBottomModal
+        visible={isModalVisible}
+        onClose={handleModalClose}
+        onRatingChanged={handleRatingChange}
+        starSize={40} // Adjust the star size as needed
+        maxStars={5} // Adjust the maximum number of stars as needed
+        starRating={rating} // Initial rating value
+      />
     </View>
   );
 };
@@ -129,3 +153,4 @@ const styles = StyleSheet.create({
 });
 
 export default Payment;
+

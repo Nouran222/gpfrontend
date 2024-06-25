@@ -26,8 +26,8 @@ export default function HomeScreen() {
 
   return (
     <>
-      <MyTabs />
-      {/* <LoadingScreen /> */}
+      {/* <MyTabs /> */}
+      <LoadingScreen />
       {/* <Splashscreen /> */}
       {/* <MyStack></MyStack> */}
       {/* <ProviderRegisterScreen></ProviderRegisterScreen> */}

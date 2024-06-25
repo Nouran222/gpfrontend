@@ -13,7 +13,8 @@ import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import SwitchStatus from "./../../components/ProviderComponents/SwitchStatus";
 import RequestScreen from "./RequestScreen";
 
-const ProviderHomeScreen = ({ service, navigation }) => {
+const ProviderHomeScreen = ({ service, navigation, route }) => {
+  
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -73,7 +74,7 @@ const ProviderHomeScreen = ({ service, navigation }) => {
   return (
     <>
       {isRequest ? (
-        <RequestScreen></RequestScreen>
+        <RequestScreen navigation={navigation}></RequestScreen>
       ) : (
         <View style={styles.mapContainer}>
           <SwitchStatus handleSwitchChange={handleSwitchChange} />
