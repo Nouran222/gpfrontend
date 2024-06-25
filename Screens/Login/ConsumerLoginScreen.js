@@ -118,7 +118,7 @@ const ConsumerLoginScreen = ({ navigation }) => {
           <Text style={styles.registerTxt}>
             {t("no_account")}?
             <TouchableOpacity
-              onPress={() => navigation.navigate("userTypeScreen")}
+              onPress={() => navigation.navigate("ConsumerRegScreen")}
             >
               <Text style={{ color: "blue", marginHorizontal: 3 }}>
                 {t("register_now")}
