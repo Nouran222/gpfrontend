@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Image, StyleSheet, Text, View, ScrollView, Alert } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import CustomButton from '@/components/CustomButton';
 import { useTranslation } from "react-i18next";
+import { ConsumersContext } from '@/Context/Consumer';
 
 const RoadServiceScreen = ({ navigation }) => {
-
+    const { serviceType, setServiceType } = useContext(ConsumersContext);
     const { t } = useTranslation();
-    const [checkedItems, setCheckedItems] = useState(
-        {
-            winch: false,
-            fuel: false,
-            tire: false,
-            battery: false,
-        }
-    );
+    const [checkedItems, setCheckedItems] = useState({
+        winch: false,
+        fuel: false,
+        tire: false,
+        battery: false,
+    });
 
     const handleCheckboxChange = (item) => {
         setCheckedItems(prevState => ({
@@ -23,7 +22,7 @@ const RoadServiceScreen = ({ navigation }) => {
         }));
     };
 
-    const winshChecked = checkedItems.winch;
+    const winchChecked = checkedItems.winch;
 
     const handleRequest = () => {
         const selectedItems = Object.keys(checkedItems).filter(item => checkedItems[item]);
@@ -32,8 +31,13 @@ const RoadServiceScreen = ({ navigation }) => {
             return;
         }
 
-        navigation.navigate("Vehichles", { service: selectedItems });
+        setServiceType(selectedItems);
+        navigation.navigate("Vehicles");
     };
+
+    useEffect(() => {
+        console.log(serviceType);
+    }, [serviceType]);
 
     return (
         <View style={styles.mainContainer}>
@@ -67,7 +71,7 @@ const RoadServiceScreen = ({ navigation }) => {
                         color={checkedItems.fuel ? "#059212" : undefined}
                         value={checkedItems.fuel}
                         onValueChange={() => handleCheckboxChange('fuel')}
-                        disabled={winshChecked}
+                        disabled={winchChecked}
                     />
                 </View>
                 <View style={[styles.row, { backgroundColor: "mistyrose" }]}>
@@ -82,7 +86,7 @@ const RoadServiceScreen = ({ navigation }) => {
                         color={checkedItems.tire ? "#059212" : undefined}
                         value={checkedItems.tire}
                         onValueChange={() => handleCheckboxChange('tire')}
-                        disabled={winshChecked}
+                        disabled={winchChecked}
                     />
                 </View>
                 <View style={styles.row}>
@@ -97,7 +101,7 @@ const RoadServiceScreen = ({ navigation }) => {
                         color={checkedItems.battery ? "#059212" : undefined}
                         value={checkedItems.battery}
                         onValueChange={() => handleCheckboxChange('battery')}
-                        disabled={winshChecked}
+                        disabled={winchChecked}
                     />
                 </View>
                 <View style={styles.buttonContainer}>
@@ -109,7 +113,7 @@ const RoadServiceScreen = ({ navigation }) => {
             </ScrollView>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     mainContainer: {

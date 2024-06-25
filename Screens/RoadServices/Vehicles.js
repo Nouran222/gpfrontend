@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState  , useContext} from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import CustomButton from "../../components/CustomButton";
 import ProviderHomeScreen from "../ProviderScreens/ProviderHomeScreen";
@@ -6,11 +6,14 @@ import ProviderHomeScreen2 from "../ProviderScreens/searchLocation";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { ConsumersContext } from "@/Context/Consumer";
 
-const Vehicles = ({ navigation, route }) => {
+
+const Vehicles = ({ navigation }) => {
   let [userCars, setUserCars] = useState(null);
   let [id, setId] = useState(null);
-
+const  { serviceType, setServiceType } = useContext(ConsumersContext);
+const {currentVehicle, setCurrentVehicle}=useContext(ConsumersContext);
   useEffect(() => {
     AsyncStorage.getItem("userId").then((data) => {
       setId(data);
@@ -25,7 +28,7 @@ const Vehicles = ({ navigation, route }) => {
       
       // console.log(id);
       axios
-        .get(`http://192.168.1.4:8000/api/user/${id}`)
+        .get(`http://192.168.1.13:8000/api/user/${id}`)
         .then((data) => {
           setUserCars(data.data["user"]["owned_cars"]);
         })
@@ -62,19 +65,13 @@ const Vehicles = ({ navigation, route }) => {
                   <CustomButton
                     title={"Select"}
                     onPressHandler={() => {
-                      if (route.params.service[0] === "winch")
-                        navigation.navigate("ProviderHomeScreen2", {
-                          make: u["make"],
-                          model: u["model"],
-                          year: u["year"],
-                        });
+                        // console.log(u);
+                         setCurrentVehicle(u);
+                        // console.log(currentVehicle);
+                      if (serviceType === "winch")
+                        navigation.navigate("ProviderHomeScreen2");
                       else
-                        navigation.navigate("RequestScreen", {
-                          make: u["make"],
-                          model: u["model"],
-                          year: u["year"],
-                        });
-                      // console.log(route.params.service[0])
+                        navigation.navigate("RequestScreen");
                     }}
                   />
                 </View>

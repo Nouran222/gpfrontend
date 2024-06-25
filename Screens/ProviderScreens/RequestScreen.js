@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
   Button,
   FlatList,
@@ -15,8 +15,11 @@ import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import { ConsumersContext } from "@/Context/Consumer";
 
 const RequestScreen = ({ navigation, servicePrice }) => {
+
+  const {currentVehicle, setCurrentVehicle}= useContext(ConsumersContext)
   // let car = route.params;
   // console.log(route.params);
   // car.servicePrice = 50;
@@ -74,7 +77,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
       setId(data);
     });
 
-    let newsocket = io("http://192.168.1.10:8000/");
+    let newsocket = io("http://192.168.1.13:8000/");
     setSocket(newsocket);
 
     userLocation();
@@ -174,7 +177,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
       });
 
       axios
-        .post("http://192.168.1.10:8000/api/serviceProvider/providers", ids)
+        .post("http://192.168.1.13:8000/api/serviceProvider/providers", ids)
         .then((data) => {
           setProvidersData(data.data);
         })

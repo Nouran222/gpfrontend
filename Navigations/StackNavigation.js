@@ -16,10 +16,11 @@ import PayPal from "../Screens/Payment/PayPal";
 import AddVehicle from "../Screens/RoadServices/AddVehicle";
 import RequestScreen from "@/Screens/ProviderScreens/RequestScreen";
 import ChatbotScreen from "./../Screens/ChatbotScreen/ChatbotScreeen";
-
+import Consumer from "../Context/Consumer"
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
+<Consumer>
     <Stack.Navigator>
       <Stack.Screen
         name="SplashScreen"
@@ -32,7 +33,7 @@ export function MyStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Vehichles"
+        name="Vehicles"
         component={Vehichles}
         options={{ headerShown: false }}
       />
@@ -103,6 +104,7 @@ export function MyStack() {
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
+    </Consumer>  
   );
 }
 export default MyStack;
