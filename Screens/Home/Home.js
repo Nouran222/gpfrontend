@@ -33,13 +33,13 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.mainContainer}>
-      {/* <View style={styles.homeHeader}>
+      <View style={styles.homeHeader}>
         <Text style={styles.text}>Hello, Yasmeen</Text>
         <Image
           style={styles.profilePicture}
           source={require("../../assets/images/person.jpg")}
         />
-      </View> */}
+      </View>
 
       <ScrollView horizontal style={styles.scrollViewContainer}>
         <Card
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(251, 245, 247)",
   },
   homeHeader: {
-    height:60,
+    height: 60,
     width: "100%",
     flexDirection: "row",
     backgroundColor: "#9AB3CA",
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(251, 245, 247)",
     paddingHorizontal: 10,
     marginVertical: 0,
-    
   },
   card: {
     width: 200,

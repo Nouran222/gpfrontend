@@ -133,7 +133,8 @@ const RequestScreen = ({ navigation, servicePrice }) => {
 
         socket.on("ServiceEnded", (date) => {
           console.log("payment process");
-          navigation.navigate("Payment", { servicePrice: 50 });
+          navigation.navigate("Payment");
+          // navigation.navigate("LoginScreen");
         });
 
         socket.on("disconnect", () => {
