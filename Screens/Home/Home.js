@@ -7,8 +7,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from "react-i18next";
 
 const Home = ({ navigation }) => {
+  const {t}=useTranslation()
   // Map image names to their require paths
   const images = {
     "5.jpg": require("../../assets/images/5.jpg"),
@@ -40,20 +43,20 @@ const Home = ({ navigation }) => {
 
       <ScrollView horizontal style={styles.scrollViewContainer}>
         <Card
-          title="Road Services"
+          title={t("Road Services")}
           color="white"
           img="9.jpg"
           navigate="Road Services"
         />
         <Card
-          title="Consultation"
+          title={t("Consultation")}
           color="white"
           img="5.jpg"
           navigate="ChatbotScreen"
         />
       </ScrollView>
 
-      <Text style={styles.requestsText}>Current Requests</Text>
+      <Text style={styles.requestsText}>{t("Current Requests")}</Text>
 
       <View style={styles.requestsContainer}>
         <Image source={images["NoSearchResult.jpg"]} style={styles.image} />

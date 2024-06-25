@@ -2,12 +2,15 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome"; 
 import CustomButton from '@/components/CustomButton';
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from 'react-i18next';
 
 const AddVehicle = () => {
+    const {t}=useTranslation()
     return (
         <View style={styles.container}>
             <View style={styles.homeHeader}>
-                <Text style={styles.textHeader}>Add Vehicle</Text>
+                <Text style={styles.textHeader}>{t("Add Vehicle")}</Text>
             </View>
             <View style={styles.imageHeaderContainer}>
                 <Image
@@ -20,7 +23,7 @@ const AddVehicle = () => {
                     <Icon name="car" size={20} color="#666" style={styles.icon} />
                     <TextInput
                         style={styles.input}
-                        placeholder="car make"
+                        placeholder={t("car make")}
                         placeholderTextColor="#666"
                     />
                 </View>
@@ -28,7 +31,7 @@ const AddVehicle = () => {
                     <Icon name="info" size={20} color="#666" style={styles.icon} />
                     <TextInput
                         style={styles.input}
-                        placeholder="car model"
+                        placeholder={t("car model")}
                         placeholderTextColor="#666"
                     />
                 </View>
@@ -36,12 +39,12 @@ const AddVehicle = () => {
                     <Icon name="calendar" size={20} color="#666" style={styles.icon} />
                     <TextInput
                         style={styles.input}
-                        placeholder="year"
+                        placeholder={t("year")}
                         placeholderTextColor="#666"
                     />
                 </View>
                 <View style={styles.buttonContainer}>
-                    <CustomButton title={"Add"} onPressHandler={() => {}}></CustomButton>
+                    <CustomButton title={t("Add")} onPressHandler={() => {}}></CustomButton>
                 </View>
             </View>
         </View>

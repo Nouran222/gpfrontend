@@ -26,10 +26,20 @@ export function MyStack() {
   return (
 <Consumer>
     <Stack.Navigator>
+   
                 <Stack.Screen
                     name="SplashScreen"
                     component={SplashScreen}
                     options={{ headerShown: false }}
+                />
+                 <Stack.Screen
+                    name="Payment"
+                    component={Payment}
+                    options={{
+                        header: ({ route, navigation }) => (
+                            <MyAppBar title="Payment" navigation={navigation}/>
+                        ),
+                    }}
                 />
                 <Stack.Screen
                     name="AddVehicle"
@@ -49,15 +59,7 @@ export function MyStack() {
                         ),
                     }}
                 />
-                <Stack.Screen
-                    name="Payment"
-                    component={Payment}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Payment" navigation={navigation}/>
-                        ),
-                    }}
-                />
+               
                 <Stack.Screen
                     name="PayPal"
                     component={PayPal}

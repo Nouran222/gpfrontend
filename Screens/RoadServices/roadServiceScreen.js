@@ -4,6 +4,7 @@ import Checkbox from 'expo-checkbox';
 import CustomButton from '@/components/CustomButton';
 import { useTranslation } from "react-i18next";
 import { ConsumersContext } from '@/Context/Consumer';
+import i18n from "../../app/(tabs)/i18n";
 
 const RoadServiceScreen = ({ navigation }) => {
     const { serviceType, setServiceType } = useContext(ConsumersContext);
@@ -27,7 +28,7 @@ const RoadServiceScreen = ({ navigation }) => {
     const handleRequest = () => {
         const selectedItems = Object.keys(checkedItems).filter(item => checkedItems[item]);
         if (selectedItems.length === 0) {
-            Alert.alert("Please select at least one service.");
+            Alert.alert(t("Please select at least one service."));
             return;
         }
 
@@ -42,7 +43,7 @@ const RoadServiceScreen = ({ navigation }) => {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.homeHeader}>
-                <Text style={styles.textHeader}>Road Services</Text>
+                <Text style={styles.textHeader}>{t("Road Services")}</Text>
             </View>
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={[styles.row, { backgroundColor: "mistyrose" }]}>
@@ -52,7 +53,7 @@ const RoadServiceScreen = ({ navigation }) => {
                             style={styles.image}
                         />
                     </View>
-                    <Text style={styles.text}>Winch</Text>
+                    <Text style={styles.text}>{t("Winch")}</Text>
                     <Checkbox
                         color={checkedItems.winch ? "#059212" : undefined}
                         value={checkedItems.winch}
@@ -66,7 +67,7 @@ const RoadServiceScreen = ({ navigation }) => {
                             style={styles.image}
                         />
                     </View>
-                    <Text style={styles.text}>Fuel</Text>
+                    <Text style={styles.text}>{t("Fuel")}</Text>
                     <Checkbox
                         color={checkedItems.fuel ? "#059212" : undefined}
                         value={checkedItems.fuel}
@@ -81,7 +82,7 @@ const RoadServiceScreen = ({ navigation }) => {
                             style={styles.image}
                         />
                     </View>
-                    <Text style={styles.text}>Tire</Text>
+                    <Text style={styles.text}>{t("Tire")}</Text>
                     <Checkbox
                         color={checkedItems.tire ? "#059212" : undefined}
                         value={checkedItems.tire}
@@ -96,7 +97,7 @@ const RoadServiceScreen = ({ navigation }) => {
                             style={styles.image}
                         />
                     </View>
-                    <Text style={styles.text}>Battery</Text>
+                    <Text style={styles.text}>{t("Battery")}</Text>
                     <Checkbox
                         color={checkedItems.battery ? "#059212" : undefined}
                         value={checkedItems.battery}

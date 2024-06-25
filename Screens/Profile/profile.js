@@ -2,7 +2,10 @@ import React from "react";
 import { StyleSheet, View, Image, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Example icon library
 import CustomButton from "@/components/CustomButton";
+import { useTranslation } from "react-i18next";
+
 const Profile = () => {
+  const {t}=useTranslation()
   return (
     <View style={styles.profile}>
       <View style={styles.header}>{/* Header content */}</View>
@@ -41,7 +44,7 @@ const Profile = () => {
           />
         </View>
         <View style={styles.buttonContainer}>
-        <CustomButton title={"Save"} onPressHandler={() => {}}></CustomButton>
+        <CustomButton title={t("Save")} onPressHandler={() => {}}></CustomButton>
       </View>
       </View>
 

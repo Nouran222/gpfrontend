@@ -34,5 +34,26 @@
   "successful": "تم التسجيل بنجاح",
   "Register as Consumer":"التسجيل كمستخدم",
   "Register as  Provider":"التسجيل كسائق",
-  "Register":"التسجيل"
+  "Register":"التسجيل",
+  "Road Services":"خدمات الطريق",
+  "Current Requests":"الطلبات الحالية",
+  "Payment":"الدفع",
+  "Cash on delivery":"الدفع عند الوصول",
+  "Pay with PayPal":"الدفع عن طريق باي بال",
+  "Waiting For Requests...":"انتظار الطلبات ...",
+  "Not Available For Request":"غير متاح للطلبات",
+  "Search location...":"البحث عن موقع",
+  "Add Vehicle":"اضافة سيارة",
+  "Please select at least one service.":".اختر واحدة علي الاقل ",
+  "Fuel":"وقود",
+  "Winch":"ونش",
+  "Tire":"إطارالسيارة",
+  "Battery":"بطارية",
+  "Vehicles":"سياراتك",
+  "Save":"حفظ",
+  "Add":"إضافة",
+  "Request":"طلب",
+  "Select":"اختر"
+
+  
 }
