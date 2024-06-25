@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import { url } from "./../../constants/urls";
+import { date } from "zod";
 
 const RequestScreen = ({ navigation, servicePrice }) => {
   // let car = route.params;
@@ -37,6 +38,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   let [acceptedProviderId, setAcceptedProviderId] = useState();
   let [isRequestAccepted, setIsRequestAccepted] = useState(false);
   let [providersLiveLocation, setProvidersLiveLocation] = useState(null);
+  let [hasArrived, setHasArrived] = useState(false);
   let mapRef = useRef(null);
 
   console.log("provData", providersData);
@@ -93,6 +95,9 @@ const RequestScreen = ({ navigation, servicePrice }) => {
 
         socket.on("notification", (data) => {
           console.log(data);
+          if (data.arrivalMessage) {
+            setHasArrived(true);
+          }
         });
 
         socket.on("RequestAccepted", ({ providerId }) => {
@@ -117,6 +122,11 @@ const RequestScreen = ({ navigation, servicePrice }) => {
 
         socket.on("Tracking", (data) => {
           setProvidersLiveLocation(data);
+        });
+
+        socket.on("ServiceEnded", (date) => {
+          console.log("payment process");
+          navigation.navigate("Payment", { servicePrice: 50 });
         });
 
         socket.on("disconnect", () => {
@@ -267,7 +277,17 @@ const RequestScreen = ({ navigation, servicePrice }) => {
               contentContainerStyle={styles.listContentContainer}
             />
           ) : (
-            <Text>Driver Is On The Way!!</Text>
+            providersData["providersArray"].map((m) => {
+              if (providers[0]) {
+                if (m["_id"] === providers[0]["providerId"]) {
+                  return !hasArrived ? (
+                    <Text>{m["name"]} Is On The Way!!</Text>
+                  ) : (
+                    <Text>{m["name"]} has Arrived!!</Text>
+                  );
+                }
+              }
+            })
           )}
         </View>
       </View>

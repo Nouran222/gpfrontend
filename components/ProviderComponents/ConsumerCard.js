@@ -46,23 +46,23 @@ const ConsumerCard = ({
         Select
       </Button> */}
           <View style={styles.button}>
-          <CustomButton
+            <CustomButton
               title={"Send Request"}
               onPressHandler={() => {
-                !isClicked ?
-                  (sendRequest(consumerId, consumerLocation, providerId), setIsClicked(true)) : null;
-              navigation.navigate('Payment', {servicePrice} );
-              // console.log(servicePrice);
-              // navigation.navigate('Payment');
-
+                !isClicked
+                  ? (sendRequest(consumerId, consumerLocation, providerId),
+                    setIsClicked(true))
+                  : null;
+                // navigation.navigate('Payment', {servicePrice} );
+                // console.log(servicePrice);
+                // navigation.navigate('Payment');
               }}
             ></CustomButton>
-  
-        </View>
+          </View>
         </Card.Actions>
       </Card>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
