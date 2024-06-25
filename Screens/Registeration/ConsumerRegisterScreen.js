@@ -5,21 +5,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../../components/formInput";
 import CustomButton from "@/components/CustomButton";
-import { useTranslation } from 'react-i18next';
-import i18n from '../../app/(tabs)/i18n';
+import { useTranslation } from "react-i18next";
+import i18n from "../../app/(tabs)/i18n";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "@/constants/urls";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-
-
-const ConsumerRegistrationScreen = ({navigation}) => {
+const ConsumerRegistrationScreen = ({ navigation }) => {
   const { t } = useTranslation();
 
   const formSchema = z.object({
     email: z.string().email(t("emailValidation")),
     name: z.string().min(3, t("nameValidation")),
     password: z.string().min(8, t("passwordValidation")),
-    contact_number: z.string().regex(/^(011|012|015|010)\d{8}$/, t("phoneValidation")),
+    contact_number: z
+      .string()
+      .regex(/^(011|012|015|010)\d{8}$/, t("phoneValidation")),
     car_make: z.string(),
     model: z.string(),
     year: z.string(),
@@ -35,25 +37,25 @@ const ConsumerRegistrationScreen = ({navigation}) => {
   });
 
   const onSubmit = (data) => {
-    axios.post("http://192.168.1.2:8000/api/user",data).then(async (res)=>{
-      if(res.status == 200)
-      {
-        navigation.navigate("Home")
-        let newUserId = res.data.newUser._id
-      
-      /// Storing The Registered user's id in Async Storage
-      try{
-          AsyncStorage.setItem("userId",newUserId);
-          AsyncStorage.setItem("userRole","consumer");
-      }
-      catch(err){
+    axios
+      .post(url + "/api/user", data)
+      .then(async (res) => {
+        if (res.status == 200) {
+          navigation.navigate("Home");
+          let newUserId = res.data.newUser._id;
+
+          /// Storing The Registered user's id in Async Storage
+          try {
+            AsyncStorage.setItem("userId", newUserId);
+            AsyncStorage.setItem("userRole", "consumer");
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      })
+      .catch((err) => {
         console.log(err);
-      }
-      }
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
+      });
   };
 
   return (
@@ -61,18 +63,21 @@ const ConsumerRegistrationScreen = ({navigation}) => {
       <View style={styles.container}>
         <Text style={styles.heading}>{t("register")}</Text>
         <View style={styles.imageContainer}>
-          <Image source={require('../../assets/images/15.jpg')} style={styles.image} />
+          <Image
+            source={require("../../assets/images/15.jpg")}
+            style={styles.image}
+          />
         </View>
-        {i18n.language === 'en' && (
+        {i18n.language === "en" && (
           <CustomButton
             title="ar"
-            onPressHandler={() => i18n.changeLanguage('ar')}
+            onPressHandler={() => i18n.changeLanguage("ar")}
           />
         )}
-        {i18n.language === 'ar' && (
+        {i18n.language === "ar" && (
           <CustomButton
             title="en"
-            onPressHandler={() => i18n.changeLanguage('en')}
+            onPressHandler={() => i18n.changeLanguage("en")}
           />
         )}
         <FormInput
@@ -120,16 +125,25 @@ const ConsumerRegistrationScreen = ({navigation}) => {
         />
         <View style={styles.buttonContainer}>
           <CustomButton
-            title={t('submit')}
+            title={t("submit")}
             onPressHandler={handleSubmit(onSubmit)}
           />
         </View>
         <View style={styles.registerTxtContainer}>
           <Text style={styles.registerTxt}>
-            {t("no_account")}
+            {t("Already have an account")}?
+            <TouchableOpacity
+            onPress={()=>{
+                    
+              navigation.navigate("LoginScreen")
+            }}
+            >
+
             <Text style={{ color: 'blue', marginHorizontal: 3 }}>
-              {t("register_now")}
+              {t("Login Now")}
             </Text>
+
+            </TouchableOpacity>
           </Text>
         </View>
       </View>
@@ -140,10 +154,10 @@ const ConsumerRegistrationScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   heading: {
     // fontSize: 24,
@@ -152,23 +166,23 @@ const styles = StyleSheet.create({
     // color: '#333',
     marginBottom: 24,
     fontSize: 25,
-    fontFamily: 'Oswald',
+    fontFamily: "Oswald",
   },
   input: {
-    width: '100%',
+    width: "100%",
     padding: 12,
     marginBottom: 16,
     borderRadius: 8,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   buttonContainer: {
     marginTop: 16,
-    width: '100%',
+    width: "100%",
     borderRadius: 8,
-    overflow: 'hidden',
-    alignItems: 'center',
+    overflow: "hidden",
+    alignItems: "center",
   },
   registerTxtContainer: {
     marginVertical: 15,
@@ -179,7 +193,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 120,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
 });
 

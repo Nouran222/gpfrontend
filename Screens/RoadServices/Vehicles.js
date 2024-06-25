@@ -6,6 +6,7 @@ import ProviderHomeScreen2 from "../ProviderScreens/searchLocation";
 import { ScrollView } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { url } from "@/constants/urls";
 import { ConsumersContext } from "@/Context/Consumer";
 
 
@@ -22,13 +23,9 @@ const {currentVehicle, setCurrentVehicle}=useContext(ConsumersContext);
 
   useEffect(() => {
     if (id) {
-
-
-
-      
       // console.log(id);
       axios
-        .get(`http://192.168.1.13:8000/api/user/${id}`)
+        .get(`${url}/api/user/${id}`)
         .then((data) => {
           setUserCars(data.data["user"]["owned_cars"]);
         })
