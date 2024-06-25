@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const RequestScreen = ({ navigation, route }) => {
-  let car = route.params
+  let car = route.params;
   // console.log(route.params);
 
   const [mapRegion, setMapRegion] = useState({
@@ -40,31 +40,39 @@ const RequestScreen = ({ navigation, route }) => {
     { id: "4", name: "Consumer 2", distance: "5 km", carType: "SUV" },
   ]);
 
+  const sendRequest = (conId, conLoc, proId) => {
+    socket.emit("SentRequest", {
+      userId: conId,
+      targetId: proId,
+      location: conLoc,
+      distance: 5.151,
+    });
+  };
+
   let getProviders = () => {
     if (id) {
       console.log("click");
-      socket.emit("GetNearBy", { userId: id })
-      socket.emit("GetNearBy", { userId: id })
-      socket.emit("GetNearBy", { userId: id })
-      socket.emit("GetNearBy", { userId: id })
+      socket.emit("GetNearBy", { userId: id });
+      socket.emit("GetNearBy", { userId: id });
+      socket.emit("GetNearBy", { userId: id });
+      socket.emit("GetNearBy", { userId: id });
     }
-  }
+  };
 
   useEffect(() => {
     AsyncStorage.getItem("userId").then((data) => {
-      setId(data)
-    })
+      setId(data);
+    });
 
     AsyncStorage.getItem("userRole").then((data) => {
-      setType(data)
-    })
-
-
-  }, [])
+      setType(data);
+    });
+  }, []);
 
   useEffect(() => {
     if (id && type) {
-      let newsocket = io("https://gp-backend-8p08.onrender.com");
+      // let newsocket = io("https://gp-backend-8p08.onrender.com");
+      let newsocket = io("http://192.168.1.5:8000/");
 
       newsocket.on("connect", () => {
         console.log("Connected to server");
@@ -74,11 +82,11 @@ const RequestScreen = ({ navigation, route }) => {
       newsocket.on("SentAvailable", (data) => {
         console.log("Sent");
         setProviders(data);
-      })
+      });
 
       newsocket.on("disconnect", () => {
-        console.log('socket disconnected');
-      })
+        console.log("socket disconnected");
+      });
 
       setSocket(newsocket);
       userLocation();
@@ -90,18 +98,20 @@ const RequestScreen = ({ navigation, route }) => {
       let ids = [];
       providers.forEach((p) => {
         ids.push(p["providerId"]);
-      })
+      });
 
-      axios.post("http://192.168.1.10:8000/api/serviceProvider/providers", ids)
+      axios
+        .post("http://192.168.1.5:8000/api/serviceProvider/providers", ids)
         .then((data) => {
           setProvidersData(data.data);
         })
         .catch((e) => {
           console.log(e);
-        })
+        });
     }
-  }, [providers])
+  }, [providers]);
 
+  console.log("pro:", providersData);
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
 
@@ -120,7 +130,6 @@ const RequestScreen = ({ navigation, route }) => {
       });
     }
   };
-
 
   const origin = { latitude: 37.78825, longitude: -122.4324 };
   const destination = { latitude: 37.79855, longitude: -122.4324 };
@@ -142,25 +151,25 @@ const RequestScreen = ({ navigation, route }) => {
         <MapView
           style={styles.map}
           region={mapRegion}
-        // initialRegion={region}
+          // initialRegion={region}
         >
           <Marker coordinate={mapRegion} title="Hassan's Home"></Marker>
 
-          {
-            providers.map((p) => {
-              let location = p["location"];
-              let latitude = location["latitude"];
-              let longitude = location["longitude"];
-              let coordinate = { latitude, longitude }
-              return (
-                <Marker key={p["providerId"]} coordinate={coordinate} title="Origin" >
-                  <View style={[styles.customMarker, styles.originMarker]}>
-
-                  </View>
-                </Marker>
-              )
-            })
-          }
+          {providers.map((p) => {
+            let location = p["location"];
+            let latitude = location["latitude"];
+            let longitude = location["longitude"];
+            let coordinate = { latitude, longitude };
+            return (
+              <Marker
+                key={p["providerId"]}
+                coordinate={coordinate}
+                title="Origin"
+              >
+                <View style={[styles.customMarker, styles.originMarker]}></View>
+              </Marker>
+            );
+          })}
 
           {/* Show marker for destination */}
           {/* <Marker coordinate={destination} title="Destination"></Marker> */}
@@ -176,18 +185,24 @@ const RequestScreen = ({ navigation, route }) => {
           <ConsumerCard name="Consumer 1" distance={"2 Km"} carType={"Sedan"} navigation={navigation} />
         </View> */}
         <View style={styles.consumersList}>
-
           <FlatList
             data={providersData["providersArray"]}
             renderItem={({ item }) => {
+              console.log(item);
               return (
                 <ConsumerCard
+                  sendRequest={sendRequest}
+                  consumerId={id}
+                  consumerLocation={mapRegion}
                   name={item["name"]}
+                  providerId={item["_id"]}
                   // distance={item.distance}
-                  carType={item["owned_car"]["make"] + " " + item["owned_car"]["model"]}
+                  carType={
+                    item["owned_car"]["make"] + " " + item["owned_car"]["model"]
+                  }
                   navigation={navigation}
                 />
-              )
+              );
             }}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContentContainer}
@@ -221,13 +236,12 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
   },
   originMarker: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
   },
-
 });
 
 export default RequestScreen;
