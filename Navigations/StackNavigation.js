@@ -16,87 +16,86 @@ import PayPal from "../Screens/Payment/PayPal";
 import AddVehicle from "../Screens/RoadServices/AddVehicle";
 import RequestScreen from "@/Screens/ProviderScreens/RequestScreen";
 import ChatbotScreen from "./../Screens/ChatbotScreen/ChatbotScreeen";
-import MyAppBar from '../components/AppBar';
+import MyAppBar from "../components/AppBar";
 import Consumer from "../Context/Consumer";
+import Vehicles from "../Screens/RoadServices/Vehicles";
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
-<Consumer>
-    <Stack.Navigator>
-                <Stack.Screen
-                    name="SplashScreen"
-                    component={SplashScreen}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name="AddVehicle"
-                    component={AddVehicle}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Add Vehicle" navigation={navigation}/>
-                        ),
-                    }}
-                />
-                {/* <Stack.Screen
-                    name="Vehicles"
-                    component={Vehicles}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Vehicles" />
-                        ),
-                    }}
-                /> */}
-                <Stack.Screen
-                    name="Payment"
-                    component={Payment}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Payment" navigation={navigation}/>
-                        ),
-                    }}
-                />
-                <Stack.Screen
-                    name="PayPal"
-                    component={PayPal}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="PayPal" navigation={navigation}/>
-                        ),
-                    }}
-                />
-                <Stack.Screen
-                    name="Home"
-                    component={BottomTabNavigator}
-                    options={{
-                      header: ({ route, navigation }) => (
-                          <MyAppBar title="PayPal" navigation={navigation}/>
-                      ),
-                  }}
-                />
-                <Stack.Screen
-                    name="ProviderHomeScreen2"
-                    component={ProviderHomeScreen2}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Home" navigation={navigation} />
-                        ),
-                    }}
-                />
-                <Stack.Screen
-                    name="Profile"
-                    component={BottomTabNavigator}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name="ProviderHomeScreen"
-                    component={ProviderHomeScreen}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Home" navigation={navigation}/>
-                        ),
-                    }}
-                />
-                {/* <Stack.Screen
+    <Consumer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddVehicle"
+          component={AddVehicle}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="Add Vehicle" navigation={navigation} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Vehicles"
+          component={Vehicles}
+          options={{
+            header: ({ route, navigation }) => <MyAppBar title="Vehicles" />,
+          }}
+        />
+        <Stack.Screen
+          name="Payment"
+          component={Payment}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="Payment" navigation={navigation} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="PayPal"
+          component={PayPal}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="PayPal" navigation={navigation} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={BottomTabNavigator}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="PayPal" navigation={navigation} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="ProviderHomeScreen2"
+          component={ProviderHomeScreen2}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="Home" navigation={navigation} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={BottomTabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProviderHomeScreen"
+          component={ProviderHomeScreen}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="Home" navigation={navigation} />
+            ),
+          }}
+        />
+        {/* <Stack.Screen
                     name="userTypeScreen"
                     component={userTypeScreen}
                     options={{
@@ -105,14 +104,14 @@ export function MyStack() {
                         ),
                     }}
                 /> */}
-                <Stack.Screen
-                    name="ConsumerRegScreen"
-                    component={ConsumerRegisterScreen}
-                    options={{
-                        headerShown:false
-                    }}
-                />
-                {/* <Stack.Screen
+        <Stack.Screen
+          name="ConsumerRegScreen"
+          component={ConsumerRegisterScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* <Stack.Screen
                     name="ProviderRegScreen"
                     component={ProviderRegisterScreen}
                     options={{
@@ -121,38 +120,38 @@ export function MyStack() {
                         ),
                     }}
                 /> */}
-                <Stack.Screen
-                    name="LoginScreen"
-                    component={LoginScreen}
-                    options={{
-                        headerShown:false
-                    }}
-                />
-                <Stack.Screen
-                    name="Road Services"
-                    component={RoadServiceScreen}
-                    options={{
-                        headerShown:false
-                    }}
-                />
-                <Stack.Screen
-                    name="ChatbotScreen"
-                    component={ChatbotScreen}
-                    options={{
-                        headerShown:false
-                    }}
-                />
-                <Stack.Screen
-                    name="RequestScreen"
-                    component={RequestScreen}
-                    options={{
-                        header: ({ route, navigation }) => (
-                            <MyAppBar title="Requests" navigation={navigation}/>
-                        ),
-                    }}
-                />
-            </Stack.Navigator>
-            </Consumer>
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Road Services"
+          component={RoadServiceScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ChatbotScreen"
+          component={ChatbotScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="RequestScreen"
+          component={RequestScreen}
+          options={{
+            header: ({ route, navigation }) => (
+              <MyAppBar title="Requests" navigation={navigation} />
+            ),
+          }}
+        />
+      </Stack.Navigator>
+    </Consumer>
   );
 }
 export default MyStack;
