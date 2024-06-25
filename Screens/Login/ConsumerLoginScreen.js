@@ -43,8 +43,8 @@ const ConsumerLoginScreen = ({navigation}) => {
         axios.post("http://192.168.1.13:8000/api/user/login",data)
         .then(async (res)=>{
         let foundUser = res.data
-          await AsyncStorage.setItem('userId',foundUser._id)
-          await AsyncStorage.setItem('userRole','consumer')
+          await AsyncStorage.setItem('userId',foundUser._id);
+          await AsyncStorage.setItem('userRole','consumer');
           navigation.navigate('Home');
         })
         .catch((err)=>{

@@ -1,52 +1,50 @@
 import React from 'react';
-import { StyleSheet, View, Text,Image ,TextInput} from 'react-native';
-import Icon from "react-native-vector-icons/FontAwesome"; // Example icon library
+import { StyleSheet, View, Text, Image, TextInput } from 'react-native';
+import Icon from "react-native-vector-icons/FontAwesome"; 
+import CustomButton from '@/components/CustomButton';
 
 const AddVehicle = () => {
     return (
         <View style={styles.container}>
-      <View style={styles.homeHeader}>
-        <Text style={styles.textHeader}>Add Vehicle</Text>
-      </View>
-      <View style={styles.imageHeaderContainer}>
-        <Image
-          style={styles.imageHeader}
-          source={require("../../assets/images/R.png")}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <View style={[styles.inputWrapper,{marginTop: 70}]}>
-          <Icon name="user" size={20} color="#666" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="car make"
-            placeholderTextColor="#666"
-            
-          />
+            <View style={styles.homeHeader}>
+                <Text style={styles.textHeader}>Add Vehicle</Text>
+            </View>
+            <View style={styles.imageHeaderContainer}>
+                <Image
+                    style={styles.imageHeader}
+                    source={require("../../assets/images/carr.jpg")}
+                />
+            </View>
+            <View style={styles.inputContainer}>
+                <View style={[styles.inputWrapper, { marginTop: 70 }]}>
+                    <Icon name="car" size={20} color="#666" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="car make"
+                        placeholderTextColor="#666"
+                    />
+                </View>
+                <View style={styles.inputWrapper}>
+                    <Icon name="info" size={20} color="#666" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="car model"
+                        placeholderTextColor="#666"
+                    />
+                </View>
+                <View style={styles.inputWrapper}>
+                    <Icon name="calendar" size={20} color="#666" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="year"
+                        placeholderTextColor="#666"
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <CustomButton title={"Add"} onPressHandler={() => {}}></CustomButton>
+                </View>
+            </View>
         </View>
-        <View style={styles.inputWrapper}>
-          <Icon name="model" size={20} color="#666" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="info@aplusdesign.co"
-            placeholderTextColor="#666"
-            keyboardType="email-address"
-          />
-        </View>
-        <View style={styles.inputWrapper}>
-          <Icon name="year" size={20} color="#666" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="818 123 4567"
-            placeholderTextColor="#666"
-            keyboardType="phone-pad"
-          />
-        </View>
-      </View>
-      
-
-     
-    </View>
     );
 }
 
@@ -54,8 +52,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-      },
-      homeHeader: {
+    },
+    homeHeader: {
         height: 90,
         width: "100%",
         flexDirection: "row",
@@ -64,30 +62,29 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         overflow: "hidden",
-      },
-      textHeader: {
+    },
+    textHeader: {
         flex: 1,
         marginLeft: 10,
         fontSize: 18,
         color: "white",
-      },
-      imageHeaderContainer: {
+    },
+    imageHeaderContainer: {
         width: "100%",
         alignItems: "center",
         zIndex: 1,
         position: "relative",
-        top: 0,
-      },
-      imageHeader: {
-        width: 300,
+        top: 10,
+        borderRadius: 90,
+
+    },
+    imageHeader: {
+        width: 180,
         height: 180,
+        borderRadius: 90,
         resizeMode: "contain",
-      },
-      inputContainer: {
-        // flex: 1,
-        // justifyContent:"space-around",
-        // marginVertical: 80,
-        // paddingHorizontal: 20,
+    },
+    inputContainer: {
         flex: 1,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
@@ -96,9 +93,8 @@ const styles = StyleSheet.create({
         backgroundColor: "rgb(251, 245, 247)",
         marginTop: -60,
         zIndex: 0,
-    
     },
-      inputWrapper: {
+    inputWrapper: {
         flexDirection: "row",
         alignItems: "center",
         height: 50,
@@ -107,16 +103,23 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         marginVertical: 5,
-      },
-      input: {
+    },
+    input: {
         flex: 1,
         height: 50,
         paddingHorizontal: 10,
         color: "#666",
-      },
-      icon: {
+    },
+    icon: {
         marginRight: 10,
-      },
+    },
+    buttonContainer: {
+        marginTop: 10,
+        width: "100%",
+        borderRadius: 8,
+        overflow: "hidden",
+        alignItems: "center",
+    },
 })
 
 export default AddVehicle;
