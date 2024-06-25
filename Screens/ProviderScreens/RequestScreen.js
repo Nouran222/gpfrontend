@@ -15,6 +15,7 @@ import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import { url } from "./../../constants/urls";
 
 const RequestScreen = ({ navigation, servicePrice }) => {
   // let car = route.params;
@@ -30,7 +31,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
 
   let [socket, setSocket] = useState(null);
   let [id, setId] = useState(null);
-  let [type, setType] = useState('consumer');
+  let [type, setType] = useState("consumer");
   let [providers, setProviders] = useState([]);
   let [providersData, setProvidersData] = useState([]);
   let [acceptedProviderId, setAcceptedProviderId] = useState();
@@ -38,7 +39,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   let [providersLiveLocation, setProvidersLiveLocation] = useState(null);
   let mapRef = useRef(null);
 
-  console.log("provData" , providersData);
+  console.log("provData", providersData);
 
   // const [consumers, setConsumers] = useState([
   //   { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
@@ -48,7 +49,6 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   // ]);
 
   const sendRequest = (conId, conLoc, proId) => {
-
     socket.emit("SentRequest", {
       userId: conId,
       targetId: proId,
@@ -60,25 +60,23 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   let getProviders = () => {
     if (id && socket) {
       console.log("click");
-      socket.emit("GetNearBy", { userId: id })
-
+      socket.emit("GetNearBy", { userId: id });
     } else {
       console.log(socket);
       console.log(id);
     }
   };
 
-
   useEffect(() => {
     AsyncStorage.getItem("userId").then((data) => {
       setId(data);
     });
 
-    let newsocket = io("http://192.168.1.10:8000/");
+    let newsocket = io(url);
     setSocket(newsocket);
 
     userLocation();
-  }, [])
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -97,19 +95,17 @@ const RequestScreen = ({ navigation, servicePrice }) => {
           console.log(data);
         });
 
-        socket.on("RequestAccepted", ({ providerId }) => { 
+        socket.on("RequestAccepted", ({ providerId }) => {
           setAcceptedProviderId(providerId);
           setIsRequestAccepted(true);
-          console.log("data" , providersData);
-
-        
+          console.log("data", providersData);
 
           setProviders((old) => {
             return old.filter((p) => {
               console.log("old");
-              return p["providerId"] === providerId
-            })
-          })
+              return p["providerId"] === providerId;
+            });
+          });
 
           // providersData.map((p) => {
           //   console.log(p);
@@ -117,11 +113,11 @@ const RequestScreen = ({ navigation, servicePrice }) => {
           // setProvidersData((old) => {
 
           // })
-        })
+        });
 
         socket.on("Tracking", (data) => {
           setProvidersLiveLocation(data);
-        })
+        });
 
         socket.on("disconnect", () => {
           console.log("socket disconnected");
@@ -138,33 +134,33 @@ const RequestScreen = ({ navigation, servicePrice }) => {
         setProviders([]);
 
         if (socket && id && type) {
-          socket.emit('disconnected', { id, type });
+          socket.emit("disconnected", { id, type });
           socket.disconnect();
           setSocket(null);
         }
-
-      }
+      };
     }, [id])
-  )
-
+  );
 
   useEffect(() => {
     if (providersLiveLocation) {
       // console.log("asda");
       console.log(providersLiveLocation);
-      let loc = providersLiveLocation["trackingMessage"]
+      let loc = providersLiveLocation["trackingMessage"];
       console.log("lat ", loc["latitude"]);
       console.log("long ", loc["longitude"]);
 
-      mapRef.current.animateToRegion({
-
-        latitude: loc["latitude"],
-        longitude: loc["longitude"],
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }, 1000)
+      mapRef.current.animateToRegion(
+        {
+          latitude: loc["latitude"],
+          longitude: loc["longitude"],
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        },
+        1000
+      );
     }
-  }, [providersLiveLocation])
+  }, [providersLiveLocation]);
 
   useEffect(() => {
     if (providers.length > 0) {
@@ -174,7 +170,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
       });
 
       axios
-        .post("http://192.168.1.10:8000/api/serviceProvider/providers", ids)
+        .post(url + "/api/serviceProvider/providers", ids)
         .then((data) => {
           setProvidersData(data.data);
         })
@@ -201,34 +197,30 @@ const RequestScreen = ({ navigation, servicePrice }) => {
     }
   };
 
-
   return (
     <>
-      {
-        !isRequestAccepted ? <Button
+      {!isRequestAccepted ? (
+        <Button
           title="Get Nearby Providers"
           onPress={getProviders}
           buttonStyle={styles.button}
-        /> : null
-      }
+        />
+      ) : null}
 
       <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          region={mapRegion}
-          ref={mapRef}
-        >
+        <MapView style={styles.map} region={mapRegion} ref={mapRef}>
           <Marker coordinate={mapRegion} title="You"></Marker>
 
-          {
-            providersLiveLocation ?
-              <Marker coordinate={
-                {
-                  latitude: providersLiveLocation["trackingMessage"]["latitude"],
-                  longitude: providersLiveLocation["trackingMessage"]["longitude"]
-                }
-              } title="You"></Marker> : null
-          }
+          {providersLiveLocation ? (
+            <Marker
+              coordinate={{
+                latitude: providersLiveLocation["trackingMessage"]["latitude"],
+                longitude:
+                  providersLiveLocation["trackingMessage"]["longitude"],
+              }}
+              title="You"
+            ></Marker>
+          ) : null}
 
           {providers?.map((p) => {
             let location = p["location"];
@@ -245,39 +237,39 @@ const RequestScreen = ({ navigation, servicePrice }) => {
               </Marker>
             );
           })}
-
         </MapView>
-       
+
         <View style={styles.consumersList}>
           {!isRequestAccepted ? (
             <FlatList
-            data={providersData["providersArray"]}
-            renderItem={({ item }) => {
-              return (
-                <ConsumerCard
-                  sendRequest={sendRequest}
-                  consumerId={id}
-                  consumerLocation={mapRegion}
-                  name={item["name"]}
-                  providerId={item["_id"]}
-                  // distance={item.distance}
-                  carType={
-                    item["owned_car"]["make"] + " " + item["owned_car"]["model"]
-                  }
-                  navigation={navigation}
-                  // servicePrice={50}
-                  servicePrice={servicePrice}
-                />
-              );
-            }}
-            keyExtractor={(item) => item["_id"]}
-            contentContainerStyle={styles.listContentContainer}
-          />
-          ): 
-          <Text>Driver Is On The Way!!</Text>
-          }
+              data={providersData["providersArray"]}
+              renderItem={({ item }) => {
+                return (
+                  <ConsumerCard
+                    sendRequest={sendRequest}
+                    consumerId={id}
+                    consumerLocation={mapRegion}
+                    name={item["name"]}
+                    providerId={item["_id"]}
+                    // distance={item.distance}
+                    carType={
+                      item["owned_car"]["make"] +
+                      " " +
+                      item["owned_car"]["model"]
+                    }
+                    navigation={navigation}
+                    // servicePrice={50}
+                    servicePrice={servicePrice}
+                  />
+                );
+              }}
+              keyExtractor={(item) => item["_id"]}
+              contentContainerStyle={styles.listContentContainer}
+            />
+          ) : (
+            <Text>Driver Is On The Way!!</Text>
+          )}
         </View>
-        
       </View>
     </>
   );

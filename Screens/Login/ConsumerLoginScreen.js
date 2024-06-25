@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button, Divider, Menu, Provider } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import i18n from "@/app/(tabs)/i18n.js";
+import { url } from "@/constants/urls.js";
 
 const ConsumerLoginScreen = ({ navigation }) => {
   const { t } = useTranslation();
@@ -40,14 +41,14 @@ const ConsumerLoginScreen = ({ navigation }) => {
 
   const onSubmit = (data) => {
     // Alert.alert("Successful", JSON.stringify(data));
-    if(data)
-      {
-        axios.post("http://192.168.1.2:8000/api/user/login",data)
-        .then(async (res)=>{
-        let foundUser = res.data
-          await AsyncStorage.setItem('userId',foundUser._id)
-          await AsyncStorage.setItem('userRole','consumer')
-          navigation.navigate('Home');
+    if (data) {
+      axios
+        .post(url + "/api/user/login", data)
+        .then(async (res) => {
+          let foundUser = res.data;
+          await AsyncStorage.setItem("userId", foundUser._id);
+          await AsyncStorage.setItem("userRole", "consumer");
+          navigation.navigate("Home");
         })
         .catch((err) => {
           console.log(err);
