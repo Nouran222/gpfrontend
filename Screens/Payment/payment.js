@@ -1,14 +1,18 @@
-import React,{useState} from "react";
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import RatingBottomModal from "../../components/modal"
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image, Alert, Linking, TouchableOpacity } from "react-native";
+import axios from 'axios';
+import RatingBottomModal from "../../components/modal";
 
-
-
-
-const Payment = ({ navigation }) => {
+const Payment = ({ navigation ,route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
+  const [paidFor, setPaidFor] = useState(false);
+  const [error, setError] = useState(null);
+  const [paypalUrl, setPaypalUrl] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+
+  const { servicePrice = 50 } = route.params || {};
+  console.log('Route params:', route.params);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
@@ -16,6 +20,133 @@ const Payment = ({ navigation }) => {
 
   const handleModalClose = () => {
     setIsModalVisible(false);
+  };
+
+  const buyBook = async () => {
+    const dataDetail = {
+      intent: 'sale',
+      payer: {
+        payment_method: 'paypal',
+      },
+      transactions: [
+        {
+          amount: {
+            currency: 'AUD',
+            total: servicePrice+"",
+            // details: {
+            //   shipping: '6',
+            //   subtotal: '20',
+            //   shipping_discount: '0',
+            //   insurance: '0',
+            //   handling_fee: '0',
+            //   tax: '0',
+            // },
+          },
+          description: 'This is the payment transaction description',
+          payment_options: {
+            allowed_payment_method: 'IMMEDIATE_PAY',
+          },
+          // item_list: {
+          //   items: [
+          //     {
+          //       name: 'Book',
+          //       description: 'Chasing After The Wind',
+          //       quantity: '1',
+          //       price: '20',
+          //       tax: '0',
+          //       sku: 'product34',
+          //       currency: 'AUD',
+          //     },
+          //   ],
+          // },
+        },
+      ],
+      redirect_urls: {
+        return_url: 'https://example.com/',
+        cancel_url: 'https://example.com/',
+      },
+    };
+
+    const tokenUrl = 'https://api.sandbox.paypal.com/v1/oauth2/token';
+
+    const tokenData = {
+      grant_type: 'client_credentials',
+    };
+
+    const auth = {
+      username: 'AdO-NE8K2IY9chzjwYnXu-gzWuzwcu2a6jkozf6mtl1dLi-hkC2B7rZlzcbD5Sj_RfC3c5g-5n_NNh6p',
+      password: 'EOtlR1WUDKZhH8RdLGLurIY3Ob0UOFC9xYHVvq3fetnUAQpn1ddRnwfYvbTvzfxerPlO72UR7TqqOENl',
+    };
+
+    const tokenOptions = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Credentials': true,
+      },
+      data: Object.keys(tokenData)
+        .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(tokenData[key]))
+        .join('&'),
+      auth: auth,
+      url: tokenUrl,
+    };
+
+    try {
+      const tokenResponse = await axios(tokenOptions);
+      console.log('Token response:', tokenResponse.data);
+
+      const accessToken = tokenResponse.data.access_token;
+      if (!accessToken) {
+        throw new Error('Failed to obtain access token');
+      }
+
+      setAccessToken(accessToken);
+
+      const paymentUrl = 'https://api.sandbox.paypal.com/v1/payments/payment';
+
+      const paymentOptions = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const paymentResponse = await axios.post(paymentUrl, dataDetail, paymentOptions);
+      console.log('Payment response:', paymentResponse.data);
+
+      const { id, links } = paymentResponse.data;
+      const approvalUrl = links.find((data) => data.rel === 'approval_url').href;
+
+      console.log('Approval URL:', approvalUrl);
+      setPaypalUrl(approvalUrl);
+      return approvalUrl;
+    } catch (error) {
+      console.error('PayPal payment error:', error.response ? error.response.data : error.message);
+      setError('An error occurred during the payment process');
+      return null;
+    }
+  };
+
+  const handlePayPalPayment = async () => {
+    try {
+      const approvalUrl = await buyBook();
+
+      if (approvalUrl) {
+        console.log('Opening PayPal URL:', approvalUrl);
+        const supported = await Linking.canOpenURL(approvalUrl);
+        if (supported) {
+          await Linking.openURL(approvalUrl);
+          setPaidFor(true);
+        } else {
+          Alert.alert("Can't handle URL: " + approvalUrl);
+        }
+      } else {
+        setError('Failed to initiate PayPal payment');
+      }
+    } catch (error) {
+      console.error('PayPal payment error:', error);
+      setError('An error occurred during the payment process');
+    }
   };
 
   return (
@@ -51,15 +182,7 @@ const Payment = ({ navigation }) => {
             styles.paymentContainer,
             { backgroundColor: "silver", elevation: 5 },
           ]}
-          onPress={() => {
-            navigation.navigate("PayPal", {
-              product: {
-                name: "Pick Up Service",
-                price: "50.00",
-                description: "Pick up service for your order",
-              },
-            });
-          }}
+          onPress={handlePayPalPayment}
         >
           <View style={styles.row}>
             <Image
@@ -153,4 +276,3 @@ const styles = StyleSheet.create({
 });
 
 export default Payment;
-

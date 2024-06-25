@@ -14,6 +14,7 @@ const ConsumerCard = ({
   consumerId,
   consumerLocation,
   providerId,
+  servicePrice,
 }) => (
   <View style={styles.cardContainer}>
     <Card style={styles.card}>
@@ -43,12 +44,17 @@ const ConsumerCard = ({
         Select
       </Button> */}
         <View style={styles.button}>
-          <CustomButton
+        <CustomButton
             title={"Send Request"}
-            onPressHandler={() =>
-              sendRequest(consumerId, consumerLocation, providerId)
-            }
+            onPressHandler={() => {
+              sendRequest(consumerId, consumerLocation, providerId);
+              navigation.navigate('Payment', {servicePrice} );
+              // console.log(servicePrice);
+              // navigation.navigate('Payment');
+
+            }}
           ></CustomButton>
+
         </View>
       </Card.Actions>
     </Card>

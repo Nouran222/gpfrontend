@@ -42,7 +42,7 @@ const ConsumerLoginScreen = ({ navigation }) => {
     // Alert.alert("Successful", JSON.stringify(data));
     if (data) {
       axios
-        .post("http://192.168.1.5:8000/api/user/login", data)
+        .post("http://192.168.1.4:8000/api/user/login", data)
         .then(async (res) => {
           let foundUser = res.data;
           await AsyncStorage.setItem("userId", foundUser._id);

@@ -25,7 +25,7 @@ const Vehicles = ({ navigation, route }) => {
       
       // console.log(id);
       axios
-        .get(`http://192.168.1.10:8000/api/user/${id}`)
+        .get(`http://192.168.1.4:8000/api/user/${id}`)
         .then((data) => {
           setUserCars(data.data["user"]["owned_cars"]);
         })
