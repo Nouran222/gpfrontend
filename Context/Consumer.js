@@ -11,12 +11,12 @@ const Consumer = ({children}) => {
 const [serviceType,setServiceType] = useState([])
 const [currentVehicle, setCurrentVehicle]=useState()
 const [paymentMethod, setPaymentMethod]=useState()
-
+const [price,setPrice]=useState()
 
 
 
     return (
-        <ConsumersContext.Provider value={{serviceType,setServiceType,currentVehicle, setCurrentVehicle,paymentMethod, setPaymentMethod}}>
+        <ConsumersContext.Provider value={{serviceType,setServiceType,currentVehicle,setCurrentVehicle,paymentMethod,setPaymentMethod,price,setPrice}}>
                 {children}
         </ConsumersContext.Provider>
     );

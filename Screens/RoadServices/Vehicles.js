@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { url } from "@/constants/urls";
 import { ConsumersContext } from "@/Context/Consumer";
-
+import AddVehicle from "./AddVehicle";
 
 const Vehicles = ({ navigation }) => {
   let [userCars, setUserCars] = useState(null);
@@ -65,9 +65,13 @@ const {currentVehicle, setCurrentVehicle}=useContext(ConsumersContext);
                         // console.log(u);
                          setCurrentVehicle(u);
                         // console.log(currentVehicle);
-                      if (serviceType === "winch")
+                      if (serviceType[0] === "winch")
+                        // console.log(serviceType);
+
                         navigation.navigate("ProviderHomeScreen2");
                       else
+                      // console.log(serviceType);
+
                         navigation.navigate("RequestScreen");
                     }}
                   />
@@ -79,7 +83,7 @@ const {currentVehicle, setCurrentVehicle}=useContext(ConsumersContext);
       </ScrollView>
 
       <View style={styles.addButton} onPress={() => {}}>
-        <CustomButton title={"+"} onPressHandler={() => {}} fontSize={24} />
+        <CustomButton title={"+"} onPressHandler={() => {navigation.navigate("AddVehicle")}} fontSize={24} />
       </View>
     </View>
   );

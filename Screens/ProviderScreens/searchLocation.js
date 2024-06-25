@@ -7,9 +7,11 @@ import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ConsumersContext } from "@/Context/Consumer";
-const ProviderHomeScreen2 = ({navigation,route}) => {
-  
-  const {currentVehicle, setCurrentVehicle} = useContext(ConsumersContext)
+import { ServicePrice } from "../../constants/ServicePrice";
+
+const ProviderHomeScreen2 = ({ navigation, route }) => {
+  const { currentVehicle, setCurrentVehicle } = useContext(ConsumersContext);
+  const { serviceType, setServiceType } = useContext(ConsumersContext);
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -18,17 +20,16 @@ const ProviderHomeScreen2 = ({navigation,route}) => {
   });
 
   const [consumers, setConsumers] = useState([
-    { id: "1", name: "Provider 1", distance: "2 km", carType: "Sedan" },
-    { id: "2", name: "Provider 2", distance: "5 km", carType: "SUV" },
-    { id: "3", name: "Provider 3", distance: "3 km", carType: "Sedan" },
-    { id: "4", name: "Provider 4", distance: "7 km", carType: "SUV" },
+    { id: "1", name: "Provider 1", distance: 2, carType: "Sedan" },
+    { id: "2", name: "Provider 2", distance: 5, carType: "SUV" },
+    { id: "3", name: "Provider 3", distance: 3, carType: "Sedan" },
+    { id: "4", name: "Provider 4", distance: 7, carType: "SUV" },
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     userLocation();
-    
   }, []);
 
   const userLocation = async () => {
@@ -83,7 +84,6 @@ const ProviderHomeScreen2 = ({navigation,route}) => {
         <TouchableOpacity onPress={handleSearch} style={styles.searchIcon}>
           <Ionicons name="search" size={24} color="#587FA7" />
         </TouchableOpacity>
-        {/* <Button title="Search" onPress={handleSearch} /> */}
       </View>
       <MapView style={styles.map} region={mapRegion}>
         <Marker coordinate={mapRegion} title="Selected Location" />
@@ -92,14 +92,23 @@ const ProviderHomeScreen2 = ({navigation,route}) => {
       <View style={styles.consumersList}>
         <FlatList
           data={consumers}
-          renderItem={({ item }) => (
-            <ConsumerCard
-              name={item.name}
-              distance={item.distance}
-              carType={item.carType}
-              navigation={navigation}
-            />
-          )}
+          renderItem={({ item }) => {
+            let price = 0;
+            serviceType.forEach(element => {
+              price += item.distance * ServicePrice[element];
+            });
+            {console.log(price)}
+            return (
+              <ConsumerCard
+                name={item.name}
+                distance={item.distance}
+                carType={item.carType}
+                navigation={navigation}
+                price={price}
+              />
+              
+            );
+          }}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContentContainer}
         />
@@ -141,10 +150,8 @@ const styles = StyleSheet.create({
   listContentContainer: {
     paddingVertical: 16,
   },
-
   searchIcon: {
     padding: 10,
-    
   },
 });
 

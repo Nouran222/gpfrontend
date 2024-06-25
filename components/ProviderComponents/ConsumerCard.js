@@ -16,10 +16,11 @@ const ConsumerCard = ({
   consumerId,
   consumerLocation,
   providerId,
-  servicePrice,
+  price,
 }) => {
   let [isClicked, setIsClicked] = React.useState(false);
-  const {currentVehicle,setCurrentVehicle}=useContext(ConsumersContext)
+  const {setPrice}=useContext(ConsumersContext)
+  const {currentVehicle,setcurrentVehicle}=useContext(ConsumersContext)
   return (
     <View style={styles.cardContainer}>
       <Card style={styles.card}>
@@ -36,6 +37,10 @@ const ConsumerCard = ({
               <Text variant="bodyMedium" style={styles.carType}>
                 {/* {carType} */}
                 {currentVehicle["make"]+" "+currentVehicle["model"]}
+
+              </Text>
+              <Text variant="bodyMedium" style={styles.carType}>
+                {price} LE
 
               </Text>
             </View>
@@ -56,7 +61,8 @@ const ConsumerCard = ({
               onPressHandler={() => {
                 !isClicked ?
                   (sendRequest(consumerId, consumerLocation, providerId), setIsClicked(true)) : null;
-              navigation.navigate('Payment', {servicePrice} );
+                  setPrice(price)
+                  navigation.navigate('Payment' );
               // console.log(servicePrice);
               // navigation.navigate('Payment');
 
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 8,
     elevation: 4,
-    height: 160,
+    // height: 160,
   },
   row: {
     flexDirection: "row",

@@ -6,7 +6,7 @@ import userTypeScreen from "@/Screens/SplashScreens/userTypeScreen";
 import SplashScreen from "@/Screens/SplashScreens/splashscreen";
 import RoadServiceScreen from "@/Screens/RoadServices/roadServiceScreen";
 // import Home from "../Screens/Home/Home"
-import Vehichles from "../Screens/RoadServices/Vehicles";
+import Vehicles from "../Screens/RoadServices/Vehicles";
 import ProviderHomeScreen from "../Screens/ProviderScreens/ProviderHomeScreen";
 // import Profile from "../Screens/Profile/profile"
 import ProviderHomeScreen2 from "../Screens/ProviderScreens/searchLocation";
@@ -18,6 +18,9 @@ import RequestScreen from "@/Screens/ProviderScreens/RequestScreen";
 import ChatbotScreen from "./../Screens/ChatbotScreen/ChatbotScreeen";
 import MyAppBar from '../components/AppBar';
 import Consumer from "../Context/Consumer";
+
+
+
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
@@ -37,7 +40,7 @@ export function MyStack() {
                         ),
                     }}
                 />
-                {/* <Stack.Screen
+                <Stack.Screen
                     name="Vehicles"
                     component={Vehicles}
                     options={{
@@ -45,7 +48,7 @@ export function MyStack() {
                             <MyAppBar title="Vehicles" />
                         ),
                     }}
-                /> */}
+                />
                 <Stack.Screen
                     name="Payment"
                     component={Payment}

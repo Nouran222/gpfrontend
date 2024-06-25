@@ -40,10 +40,11 @@ const Profile = () => {
             keyboardType="phone-pad"
           />
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer}>
         <CustomButton title={"Save"} onPressHandler={() => {}}></CustomButton>
       </View>
+      </View>
+
     </View>
   );
 };
