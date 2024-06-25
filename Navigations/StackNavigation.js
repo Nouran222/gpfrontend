@@ -14,6 +14,7 @@ import Payment from "../Screens/Payment/payment"
 import BottomTabNavigator from "./BottomTabNavigator"
 import PayPal from "../Screens/Payment/PayPal"
 import AddVehicle from "../Screens/RoadServices/AddVehicle"
+import RequestScreen from '@/Screens/ProviderScreens/RequestScreen';
 
 const Stack = createStackNavigator();
 export function MyStack() {
@@ -21,8 +22,8 @@ export function MyStack() {
     
     <Stack.Navigator>
       
-      <Stack.Screen name='AddVehicle' component={AddVehicle} options={{headerShown: false}}/>
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{headerShown: false}}/>
+      <Stack.Screen name='AddVehicle' component={AddVehicle} options={{headerShown: false}}/>
       <Stack.Screen name='Vehichles' component={Vehichles} options={{headerShown: false}}/>
       <Stack.Screen name='Payment' component={Payment} options={{headerShown: false}}/>
       <Stack.Screen name='PayPal' component={PayPal} options={{headerShown: false}}/>
@@ -35,6 +36,7 @@ export function MyStack() {
       <Stack.Screen name="ProviderRegScreen" component={ProviderRegisterScreen} options={{headerShown:false}} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
       <Stack.Screen name='Road Services' component={RoadServiceScreen} options={{headerShown:false}} />
+      <Stack.Screen name='RequestScreen' component={RequestScreen} options={{headerShown:false}} />
     </Stack.Navigator>
   );
 };

@@ -11,14 +11,27 @@ import MapView, { Callout, Marker, Overlay, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import { ProgressBar } from "react-native-paper";
+import io from "socket.io-client";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
-const RequestScreen = ({navigation}) => {
+const RequestScreen = ({ navigation, route }) => {
+  let car = route.params
+  // console.log(route.params);
+
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  let [socket, setSocket] = useState(null);
+  let [id, setId] = useState(null);
+  let [type, setType] = useState(null);
+  let [providers, setProviders] = useState([]);
+  let [providersData, setProvidersData] = useState([]);
+  console.log(providers);
 
   const [consumers, setConsumers] = useState([
     { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
@@ -27,9 +40,67 @@ const RequestScreen = ({navigation}) => {
     { id: "4", name: "Consumer 2", distance: "5 km", carType: "SUV" },
   ]);
 
+  let getProviders = () => {
+    if (id) {
+      console.log("click");
+      socket.emit("GetNearBy", { userId: id })
+      socket.emit("GetNearBy", { userId: id })
+      socket.emit("GetNearBy", { userId: id })
+      socket.emit("GetNearBy", { userId: id })
+    }
+  }
+
   useEffect(() => {
-    userLocation();
-  }, []);
+    AsyncStorage.getItem("userId").then((data) => {
+      setId(data)
+    })
+
+    AsyncStorage.getItem("userRole").then((data) => {
+      setType(data)
+    })
+
+
+  }, [])
+
+  useEffect(() => {
+    if (id && type) {
+      let newsocket = io("https://gp-backend-8p08.onrender.com");
+
+      newsocket.on("connect", () => {
+        console.log("Connected to server");
+        newsocket.emit("connected", { id, type });
+      });
+
+      newsocket.on("SentAvailable", (data) => {
+        console.log("Sent");
+        setProviders(data);
+      })
+
+      newsocket.on("disconnect", () => {
+        console.log('socket disconnected');
+      })
+
+      setSocket(newsocket);
+      userLocation();
+    }
+  }, [id, type]);
+
+  useEffect(() => {
+    if (providers.length > 0) {
+      let ids = [];
+      providers.forEach((p) => {
+        ids.push(p["providerId"]);
+      })
+
+      axios.post("http://192.168.1.10:8000/api/serviceProvider/providers", ids)
+        .then((data) => {
+          setProvidersData(data.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+    }
+  }, [providers])
 
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -49,6 +120,8 @@ const RequestScreen = ({navigation}) => {
       });
     }
   };
+
+
   const origin = { latitude: 37.78825, longitude: -122.4324 };
   const destination = { latitude: 37.79855, longitude: -122.4324 };
   const region = {
@@ -59,16 +132,38 @@ const RequestScreen = ({navigation}) => {
   };
   return (
     <>
+      <Button
+        title="Get Nearby Providers"
+        onPress={getProviders}
+        buttonStyle={styles.button}
+      />
+
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
-          //   region={mapRegion}
-          initialRegion={region}
+          region={mapRegion}
+        // initialRegion={region}
         >
-          {/* <Marker coordinate={mapRegion} title="Hassan's Home"></Marker> */}
-          <Marker coordinate={origin} title="Origin" />
+          <Marker coordinate={mapRegion} title="Hassan's Home"></Marker>
+
+          {
+            providers.map((p) => {
+              let location = p["location"];
+              let latitude = location["latitude"];
+              let longitude = location["longitude"];
+              let coordinate = { latitude, longitude }
+              return (
+                <Marker key={p["providerId"]} coordinate={coordinate} title="Origin" >
+                  <View style={[styles.customMarker, styles.originMarker]}>
+
+                  </View>
+                </Marker>
+              )
+            })
+          }
+
           {/* Show marker for destination */}
-          <Marker coordinate={destination} title="Destination"></Marker>
+          {/* <Marker coordinate={destination} title="Destination"></Marker> */}
 
           {/* <Polyline
             coordinates={[origin, destination]}
@@ -80,21 +175,24 @@ const RequestScreen = ({navigation}) => {
           <ProgressBar progress={0.5} />
           <ConsumerCard name="Consumer 1" distance={"2 Km"} carType={"Sedan"} navigation={navigation} />
         </View> */}
-         <View style={styles.consumersList}>
-        <FlatList
-          data={consumers}
-          renderItem={({ item }) => (
-            <ConsumerCard
-              name={item.name}
-              distance={item.distance}
-              carType={item.carType}
-              navigation={navigation}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContentContainer}
-        />
-      </View>
+        <View style={styles.consumersList}>
+
+          <FlatList
+            data={providersData["providersArray"]}
+            renderItem={({ item }) => {
+              return (
+                <ConsumerCard
+                  name={item["name"]}
+                  // distance={item.distance}
+                  carType={item["owned_car"]["make"] + " " + item["owned_car"]["model"]}
+                  navigation={navigation}
+                />
+              )
+            }}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContentContainer}
+          />
+        </View>
         {/* <Button title="Get Location" onPress={userLocation}/> */}
       </View>
     </>
@@ -118,6 +216,16 @@ const styles = StyleSheet.create({
   },
   listContentContainer: {
     paddingVertical: 16,
+  },
+  customMarker: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderColor: '#fff',
+    borderWidth: 2,
+  },
+  originMarker: {
+    backgroundColor: 'blue',
   },
 
 });

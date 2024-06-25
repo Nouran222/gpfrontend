@@ -1,106 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import CustomButton from "../../components/CustomButton"
 import ProviderHomeScreen from '../ProviderScreens/ProviderHomeScreen';
 import ProviderHomeScreen2 from "../ProviderScreens/searchLocation"
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const Vehicles = ({ navigation, route  }) => {
+const Vehicles = ({ navigation, route }) => {
+
+
+    let [userCars, setUserCars] = useState(null);
+    let [id, setId] = useState(null);
+
+
+    useEffect(() => {
+        AsyncStorage.getItem('userId').then((data) => {
+            setId(data)
+        });
+    }, [])
+
+    useEffect(() => {
+        if (id) {
+            // console.log(id);
+            axios.get(`http://192.168.1.10:8000/api/user/${id}`)
+                .then(data => {
+                    setUserCars(data.data["user"]["owned_cars"])
+                })
+                .catch((e) => {
+                    console.log(e);
+                })
+        }
+    }, [id])
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.homeHeader}>
                 <Text style={styles.textHeader}>Vehicles</Text>
             </View>
             {/* <Text style={styles.Text}> Please Select Vehicle</Text> */}
-            <ScrollView style={styles.container} contentContainerStyle={{alignItems:'center'}}>
-                <View style={styles.VehicleContainer}>
-                    <View style={styles.VehicleRow}>
-                        <Text style={styles.Text}>1234-ABC purple</Text>
-                        <Text style={styles.Text}>Toyota</Text>
-                        <Text style={styles.Text}>Corolla</Text>
-                    </View>
-                    <View style={styles.VehicleRow}>
-                        <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
-                        <View style={styles.buttonContainer}>
-                            <CustomButton title={"Select"} onPressHandler={() => {
-                                if (route.params.service[0] === 'winch')
-                                    navigation.navigate("ProviderHomeScreen2")
-                                else
-                                    navigation.navigate("ProviderHomeScreen")
-                                // console.log(route.params.service[0])
-
-                            }} />
-                        </View>
-                    </View>
-                </View>
+            <ScrollView style={styles.container} contentContainerStyle={{ alignItems: 'center' }}>
 
 
-                <View style={styles.VehicleContainer}>
-                    <View style={styles.VehicleRow}>
-                        <Text style={styles.Text}>1234-ABC purple</Text>
-                        <Text style={styles.Text}>Toyota</Text>
-                        <Text style={styles.Text}>Corolla</Text>
-                    </View>
-                    <View style={styles.VehicleRow}>
-                        <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
-                        <View style={styles.buttonContainer}>
-                            <CustomButton title={"Select"} onPressHandler={() => {
-                                if (route.params.service[0] === 'winch')
-                                    navigation.navigate("ProviderHomeScreen2")
-                                else
-                                    navigation.navigate("ProviderHomeScreen")
-                                // console.log(route.params.service[0])
+                {
+                    userCars?.map((u, i) => {
+                        return (
+                            <View key={i} style={styles.VehicleContainer}>
+                                <View style={styles.VehicleRow}>
+                                    <Text style={styles.Text}>{u["make"].toUpperCase()}</Text>
+                                    <Text style={styles.Text}>{u["model"].toUpperCase()}</Text>
+                                    <Text style={styles.Text}>{u["year"]}</Text>
+                                </View>
+                                <View style={styles.VehicleRow}>
+                                    <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
+                                    <View style={styles.buttonContainer}>
+                                        <CustomButton title={"Select"} onPressHandler={() => {
+                                            if (route.params.service[0] === 'winch')
+                                                navigation.navigate("ProviderHomeScreen2", { make: u["make"], model: u["model"], year: u["year"] })
+                                            else
+                                                navigation.navigate("RequestScreen", { make: u["make"], model: u["model"], year: u["year"] })
+                                            // console.log(route.params.service[0])
 
-                            }} />
-                        </View>
-                    </View>
-                </View>
+                                        }} />
+                                    </View>
+                                </View>
+                            </View>
+                        )
 
-
-
-
-                <View style={styles.VehicleContainer}>
-                    <View style={styles.VehicleRow}>
-                        <Text style={styles.Text}>1234-ABC purple</Text>
-                        <Text style={styles.Text}>Toyota</Text>
-                        <Text style={styles.Text}>Corolla</Text>
-                    </View>
-                    <View style={styles.VehicleRow}>
-                        <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
-                        <View style={styles.buttonContainer}>
-                            <CustomButton title={"Select"} onPressHandler={() => {
-                                if (route.params.service[0] === 'winch')
-                                    navigation.navigate("ProviderHomeScreen2")
-                                else
-                                    navigation.navigate("ProviderHomeScreen")
-                                // console.log(route.params.service[0])
-
-                            }} />
-                        </View>
-                    </View>
-                </View>
-
-
-                {/* <View style={styles.VehicleContainer}>
-                    <View style={styles.VehicleRow}>
-                        <Text style={styles.Text}>1234-ABC purple</Text>
-                        <Text style={styles.Text}>Toyota</Text>
-                        <Text style={styles.Text}>Corolla</Text>
-                    </View>
-                    <View style={styles.VehicleRow}>
-                        <Image style={styles.carImage} source={require("../../assets/images/car.jpeg")} />
-                        <View style={styles.buttonContainer}>
-                            <CustomButton title={"Select"} onPressHandler={() => {
-                                if (route.params.service[0] === 'winch')
-                                    navigation.navigate("ProviderHomeScreen2")
-                                else
-                                    navigation.navigate("ProviderHomeScreen")
-                                // console.log(route.params.service[0])
-
-                            }} />
-                        </View>
-                    </View>
-                </View> */}
+                    })
+                }
 
             </ScrollView>
 
