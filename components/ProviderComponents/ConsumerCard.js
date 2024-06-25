@@ -5,27 +5,38 @@ import CustomButton from "../CustomButton";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
-const ConsumerCard = ({ name, distance, carType, navigation }) => (
-  <View style={styles.cardContainer}>
-    <Card style={styles.card}>
-      <Card.Content>
-        <View style={styles.row}>
-          <Avatar.Icon icon="account" size={48} style={styles.avatar} />
-          <View style={styles.textContainer}>
-            <Text variant="titleLarge" style={styles.title}>
-              {name}
-            </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
-              {distance}
-            </Text>
-            <Text variant="bodyMedium" style={styles.carType}>
-              {carType}
-            </Text>
+const ConsumerCard = ({
+  name,
+  distance,
+  carType,
+  navigation,
+  sendRequest,
+  consumerId,
+  consumerLocation,
+  providerId,
+}) => {
+  let [isClicked, setIsClicked] = React.useState(false);
+  return (
+    <View style={styles.cardContainer}>
+      <Card style={styles.card}>
+        <Card.Content>
+          <View style={styles.row}>
+            <Avatar.Icon icon="account" size={48} style={styles.avatar} />
+            <View style={styles.textContainer}>
+              <Text variant="titleLarge" style={styles.title}>
+                {name}
+              </Text>
+              <Text variant="bodyMedium" style={styles.subtitle}>
+                {distance}
+              </Text>
+              <Text variant="bodyMedium" style={styles.carType}>
+                {carType}
+              </Text>
+            </View>
           </View>
-        </View>
-      </Card.Content>
-      <Card.Actions style={styles.actions}>
-        {/* <Button
+        </Card.Content>
+        <Card.Actions style={styles.actions}>
+          {/* <Button
         style={styles.button}
         onPress={() => {
           console.log("Accepted");
@@ -33,29 +44,31 @@ const ConsumerCard = ({ name, distance, carType, navigation }) => (
       >
         Select
       </Button> */}
-        <View  style={styles.button}>
-          <CustomButton
-            title={'Select'}
-            onPressHandler={() => navigation.navigate("Payment")}
-          >
-          </CustomButton>
-        </View>
-
-      </Card.Actions>
-    </Card>
-  </View>
-);
+          <View style={styles.button}>
+            <CustomButton
+              title={"Send Request"}
+              onPressHandler={() =>
+                !isClicked ?
+                  (sendRequest(consumerId, consumerLocation, providerId), setIsClicked(true)) : null
+              }
+            ></CustomButton>
+          </View>
+        </Card.Actions>
+      </Card>
+    </View>
+  )
+};
 
 const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     padding: 8,
   },
   card: {
     borderRadius: 8,
     elevation: 4,
-    height:160,
+    height: 160,
   },
   row: {
     flexDirection: "row",
@@ -65,7 +78,7 @@ const styles = StyleSheet.create({
   avatar: {
     marginRight: 16,
     // backgroundColor:'lightskyblue',
-    backgroundColor: '#587FA7',
+    backgroundColor: "#587FA7",
     // backgroundColor:'dodgerblue',
   },
   textContainer: {
@@ -89,7 +102,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 4,
-    width:'50%',
+    width: "50%",
   },
 });
 

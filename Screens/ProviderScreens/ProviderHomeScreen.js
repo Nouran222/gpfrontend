@@ -13,7 +13,8 @@ import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import SwitchStatus from "./../../components/ProviderComponents/SwitchStatus";
 import RequestScreen from "./RequestScreen";
 
-const ProviderHomeScreen = ({ service, navigation }) => {
+const ProviderHomeScreen = ({ service, navigation, route }) => {
+  
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
