@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Button,
   FlatList,
@@ -32,10 +32,12 @@ const RequestScreen = ({ navigation, route }) => {
   let [type, setType] = useState('consumer');
   let [providers, setProviders] = useState([]);
   let [providersData, setProvidersData] = useState([]);
+  let [acceptedProviderId, setAcceptedProviderId] = useState();
+  let [isRequestAccepted, setIsRequestAccepted] = useState(false);
+  let [providersLiveLocation, setProvidersLiveLocation] = useState(null);
+  let mapRef = useRef(null);
 
-
-  console.log("socket");
-  console.log(socket);
+  console.log("provData" , providersData);
 
   // const [consumers, setConsumers] = useState([
   //   { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
@@ -45,6 +47,7 @@ const RequestScreen = ({ navigation, route }) => {
   // ]);
 
   const sendRequest = (conId, conLoc, proId) => {
+
     socket.emit("SentRequest", {
       userId: conId,
       targetId: proId,
@@ -70,97 +73,97 @@ const RequestScreen = ({ navigation, route }) => {
       setId(data);
     });
 
-    // AsyncStorage.getItem("userRole").then((data) => {
-    //   setType(data)
-    // })
+    let newsocket = io("http://192.168.1.10:8000/");
+    setSocket(newsocket);
 
     userLocation();
-
-
-
   }, [])
 
   useFocusEffect(
     useCallback(() => {
-      if (id && type) {
-        // let newsocket = io("https://gp-backend-8p08.onrender.com");
-        let newsocket = io("http://192.168.1.10:8000/");
-
-        newsocket.on("connect", () => {
+      if (id) {
+        socket.on("connect", () => {
           console.log("Connected to server");
-          newsocket.emit("connected", { id, type });
+          socket.emit("connected", { id, type });
         });
 
-        newsocket.on("SentAvailable", (data) => {
-          console.log("Sent");
-          console.log(data);
+        socket.on("SentAvailable", (data) => {
+          console.log("sent ", data);
           setProviders(data);
         });
 
-        newsocket.on("disconnect", () => {
+        socket.on("notification", (data) => {
+          console.log(data);
+        });
+
+        socket.on("RequestAccepted", ({ providerId }) => { 
+          setAcceptedProviderId(providerId);
+          setIsRequestAccepted(true);
+          console.log("data" , providersData);
+
+        
+
+          setProviders((old) => {
+            return old.filter((p) => {
+              console.log("old");
+              return p["providerId"] === providerId
+            })
+          })
+
+          // providersData.map((p) => {
+          //   console.log(p);
+          // })
+          // setProvidersData((old) => {
+
+          // })
+        })
+
+        socket.on("Tracking", (data) => {
+          setProvidersLiveLocation(data);
+        })
+
+        socket.on("disconnect", () => {
           console.log("socket disconnected");
         });
 
-        setSocket(newsocket);
+        // setSocket(newsocket);
       }
 
       return () => {
         console.log("cleanup");
-        console.log(socket);
-        console.log(id);
-        console.log(type);
+        // console.log(socket);
+        // console.log(id);
+        // console.log(type);
         setProviders([]);
 
         if (socket && id && type) {
-          console.log("Asdadad");
           socket.emit('disconnected', { id, type });
           socket.disconnect();
-          // setSocket(null);
+          setSocket(null);
         }
 
       }
-    }, [id, type])
+    }, [id])
   )
 
-  // useEffect(() => {
-  //   if (id && type) {
-  //     // let newsocket = io("https://gp-backend-8p08.onrender.com");
-  //     let newsocket = io("http://192.168.1.10:8000/");
 
-  //     newsocket.on("connect", () => {
-  //       console.log("Connected to server");
-  //       newsocket.emit("connected", { id, type });
-  //     });
+  useEffect(() => {
+    if (providersLiveLocation) {
+      // console.log("asda");
+      console.log(providersLiveLocation);
+      let loc = providersLiveLocation["trackingMessage"]
+      console.log("lat ", loc["latitude"]);
+      console.log("long ", loc["longitude"]);
 
-  //     newsocket.on("SentAvailable", (data) => {
-  //       console.log("Sent");
-  //       setProviders(data);
-  //     });
+      mapRef.current.animateToRegion({
 
-  //     newsocket.on("disconnect", () => {
-  //       console.log("socket disconnected");
-  //     });
-
-  //     setSocket(newsocket);
-  //   }
-
-
-  //   return () => {
-  //     console.log("cleanup");
-  //     console.log(socket);
-  //     console.log(id);
-  //     console.log(type);
-  //     setProviders([]);
-
-  //     if (socket && id && type) {
-  //       console.log("Asdadad");
-  //       socket.emit('disconnected', { id, type });
-  //       socket.disconnect();
-  //       // setSocket(null);
-  //     }
-  //   }
-
-  // }, [id, type]);
+        latitude: loc["latitude"],
+        longitude: loc["longitude"],
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }, 1000)
+    }
+  }, [providersLiveLocation])
 
   useEffect(() => {
     if (providers.length > 0) {
@@ -180,7 +183,6 @@ const RequestScreen = ({ navigation, route }) => {
     }
   }, [providers]);
 
-  console.log("pro:", providersData);
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
 
@@ -188,8 +190,6 @@ const RequestScreen = ({ navigation, route }) => {
       let location = await Location.getCurrentPositionAsync({
         enableHighAccuracy: true,
       });
-
-      //   console.log("loc is" + location.coords.latitude);
 
       setMapRegion({
         latitude: location.coords.latitude,
@@ -201,31 +201,35 @@ const RequestScreen = ({ navigation, route }) => {
   };
 
 
-  // const origin = { latitude: 37.78825, longitude: -122.4324 };
-  // const destination = { latitude: 37.79855, longitude: -122.4324 };
-  // const region = {
-  //   latitude: 37.78825,
-  //   longitude: -122.4324,
-  //   latitudeDelta: 0.0922,
-  //   longitudeDelta: 0.0421,
-  // };
   return (
     <>
-      <Button
-        title="Get Nearby Providers"
-        onPress={getProviders}
-        buttonStyle={styles.button}
-      />
+      {
+        !isRequestAccepted ? <Button
+          title="Get Nearby Providers"
+          onPress={getProviders}
+          buttonStyle={styles.button}
+        /> : null
+      }
 
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
           region={mapRegion}
-        // initialRegion={region}
+          ref={mapRef}
         >
-          <Marker coordinate={mapRegion} title="Hassan's Home"></Marker>
+          <Marker coordinate={mapRegion} title="You"></Marker>
 
-          {providers.map((p) => {
+          {
+            providersLiveLocation ?
+              <Marker coordinate={
+                {
+                  latitude: providersLiveLocation["trackingMessage"]["latitude"],
+                  longitude: providersLiveLocation["trackingMessage"]["longitude"]
+                }
+              } title="You"></Marker> : null
+          }
+
+          {providers?.map((p) => {
             let location = p["location"];
             let latitude = location["latitude"];
             let longitude = location["longitude"];
@@ -242,15 +246,12 @@ const RequestScreen = ({ navigation, route }) => {
           })}
 
         </MapView>
-        {/* <View style={styles.consumersList}>
-          <ProgressBar progress={0.5} />
-          <ConsumerCard name="Consumer 1" distance={"2 Km"} carType={"Sedan"} navigation={navigation} />
-        </View> */}
+       
         <View style={styles.consumersList}>
-          <FlatList
+          {!isRequestAccepted ? (
+            <FlatList
             data={providersData["providersArray"]}
             renderItem={({ item }) => {
-              console.log(item);
               return (
                 <ConsumerCard
                   sendRequest={sendRequest}
@@ -269,8 +270,11 @@ const RequestScreen = ({ navigation, route }) => {
             keyExtractor={(item) => item["_id"]}
             contentContainerStyle={styles.listContentContainer}
           />
+          ): 
+          <Text>Driver Is On The Way!!</Text>
+          }
         </View>
-        {/* <Button title="Get Location" onPress={userLocation}/> */}
+        
       </View>
     </>
   );

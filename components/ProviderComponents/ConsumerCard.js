@@ -14,27 +14,29 @@ const ConsumerCard = ({
   consumerId,
   consumerLocation,
   providerId,
-}) => (
-  <View style={styles.cardContainer}>
-    <Card style={styles.card}>
-      <Card.Content>
-        <View style={styles.row}>
-          <Avatar.Icon icon="account" size={48} style={styles.avatar} />
-          <View style={styles.textContainer}>
-            <Text variant="titleLarge" style={styles.title}>
-              {name}
-            </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
-              {distance}
-            </Text>
-            <Text variant="bodyMedium" style={styles.carType}>
-              {carType}
-            </Text>
+}) => {
+  let [isClicked, setIsClicked] = React.useState(false);
+  return (
+    <View style={styles.cardContainer}>
+      <Card style={styles.card}>
+        <Card.Content>
+          <View style={styles.row}>
+            <Avatar.Icon icon="account" size={48} style={styles.avatar} />
+            <View style={styles.textContainer}>
+              <Text variant="titleLarge" style={styles.title}>
+                {name}
+              </Text>
+              <Text variant="bodyMedium" style={styles.subtitle}>
+                {distance}
+              </Text>
+              <Text variant="bodyMedium" style={styles.carType}>
+                {carType}
+              </Text>
+            </View>
           </View>
-        </View>
-      </Card.Content>
-      <Card.Actions style={styles.actions}>
-        {/* <Button
+        </Card.Content>
+        <Card.Actions style={styles.actions}>
+          {/* <Button
         style={styles.button}
         onPress={() => {
           console.log("Accepted");
@@ -42,18 +44,20 @@ const ConsumerCard = ({
       >
         Select
       </Button> */}
-        <View style={styles.button}>
-          <CustomButton
-            title={"Send Request"}
-            onPressHandler={() =>
-              sendRequest(consumerId, consumerLocation, providerId)
-            }
-          ></CustomButton>
-        </View>
-      </Card.Actions>
-    </Card>
-  </View>
-);
+          <View style={styles.button}>
+            <CustomButton
+              title={"Send Request"}
+              onPressHandler={() =>
+                !isClicked ?
+                  (sendRequest(consumerId, consumerLocation, providerId), setIsClicked(true)) : null
+              }
+            ></CustomButton>
+          </View>
+        </Card.Actions>
+      </Card>
+    </View>
+  )
+};
 
 const styles = StyleSheet.create({
   cardContainer: {
