@@ -19,9 +19,13 @@ const Vehicles = ({ navigation, route }) => {
 
   useEffect(() => {
     if (id) {
+
+
+
+      
       // console.log(id);
       axios
-        .get(`http://192.168.1.5:8000/api/user/${id}`)
+        .get(`http://192.168.1.10:8000/api/user/${id}`)
         .then((data) => {
           setUserCars(data.data["user"]["owned_cars"]);
         })

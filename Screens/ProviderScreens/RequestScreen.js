@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Button,
   FlatList,
@@ -14,6 +14,7 @@ import { ProgressBar } from "react-native-paper";
 import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RequestScreen = ({ navigation, route }) => {
   let car = route.params;
@@ -32,7 +33,9 @@ const RequestScreen = ({ navigation, route }) => {
   let [providers, setProviders] = useState([]);
   let [providersData, setProvidersData] = useState([]);
 
-  console.log(providers);
+
+  console.log("socket");
+  console.log(socket);
 
   // const [consumers, setConsumers] = useState([
   //   { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
@@ -53,75 +56,111 @@ const RequestScreen = ({ navigation, route }) => {
   let getProviders = () => {
     if (id && socket) {
       console.log("click");
-<<<<<<< HEAD
       socket.emit("GetNearBy", { userId: id })
 
     } else {
       console.log(socket);
       console.log(id);
-=======
-      socket.emit("GetNearBy", { userId: id });
-      socket.emit("GetNearBy", { userId: id });
-      socket.emit("GetNearBy", { userId: id });
-      socket.emit("GetNearBy", { userId: id });
->>>>>>> 80dad14d69fbf1c92799a5d6b4d419224831235e
     }
   };
+
 
   useEffect(() => {
     AsyncStorage.getItem("userId").then((data) => {
       setId(data);
     });
 
-<<<<<<< HEAD
     // AsyncStorage.getItem("userRole").then((data) => {
     //   setType(data)
     // })
 
     userLocation();
 
-    return () => {
-      if (socket && id && type) {
-        socket.emit('disconnect', { id, type });
-        socket.disconnect();
-        setSocket(null);
-      }
-    }
+
 
   }, [])
-=======
-    AsyncStorage.getItem("userRole").then((data) => {
-      setType(data);
-    });
-  }, []);
->>>>>>> 80dad14d69fbf1c92799a5d6b4d419224831235e
 
-  useEffect(() => {
-    if (id && type) {
-      // let newsocket = io("https://gp-backend-8p08.onrender.com");
-<<<<<<< HEAD
-      let newsocket = io("http://192.168.1.10:8000/");
-=======
-      let newsocket = io("http://192.168.1.5:8000/");
->>>>>>> 80dad14d69fbf1c92799a5d6b4d419224831235e
+  useFocusEffect(
+    useCallback(() => {
+      if (id && type) {
+        // let newsocket = io("https://gp-backend-8p08.onrender.com");
+        let newsocket = io("http://192.168.1.10:8000/");
 
-      newsocket.on("connect", () => {
-        console.log("Connected to server");
-        newsocket.emit("connected", { id, type });
-      });
+        newsocket.on("connect", () => {
+          console.log("Connected to server");
+          newsocket.emit("connected", { id, type });
+        });
 
-      newsocket.on("SentAvailable", (data) => {
-        console.log("Sent");
-        setProviders(data);
-      });
+        newsocket.on("SentAvailable", (data) => {
+          console.log("Sent");
+          console.log(data);
+          setProviders(data);
+        });
 
-      newsocket.on("disconnect", () => {
-        console.log("socket disconnected");
-      });
+        newsocket.on("disconnect", () => {
+          console.log("socket disconnected");
+        });
 
-      setSocket(newsocket);
-    }
-  }, [id, type]);
+        setSocket(newsocket);
+      }
+
+      return () => {
+        console.log("cleanup");
+        console.log(socket);
+        console.log(id);
+        console.log(type);
+        setProviders([]);
+
+        if (socket && id && type) {
+          console.log("Asdadad");
+          socket.emit('disconnected', { id, type });
+          socket.disconnect();
+          // setSocket(null);
+        }
+
+      }
+    }, [id, type])
+  )
+
+  // useEffect(() => {
+  //   if (id && type) {
+  //     // let newsocket = io("https://gp-backend-8p08.onrender.com");
+  //     let newsocket = io("http://192.168.1.10:8000/");
+
+  //     newsocket.on("connect", () => {
+  //       console.log("Connected to server");
+  //       newsocket.emit("connected", { id, type });
+  //     });
+
+  //     newsocket.on("SentAvailable", (data) => {
+  //       console.log("Sent");
+  //       setProviders(data);
+  //     });
+
+  //     newsocket.on("disconnect", () => {
+  //       console.log("socket disconnected");
+  //     });
+
+  //     setSocket(newsocket);
+  //   }
+
+
+  //   return () => {
+  //     console.log("cleanup");
+  //     console.log(socket);
+  //     console.log(id);
+  //     console.log(type);
+  //     setProviders([]);
+
+  //     if (socket && id && type) {
+  //       console.log("Asdadad");
+  //       socket.emit('disconnected', { id, type });
+  //       socket.disconnect();
+  //       // setSocket(null);
+  //     }
+  //   }
+
+  // }, [id, type]);
 
   useEffect(() => {
     if (providers.length > 0) {
@@ -131,7 +170,7 @@ const RequestScreen = ({ navigation, route }) => {
       });
 
       axios
-        .post("http://192.168.1.5:8000/api/serviceProvider/providers", ids)
+        .post("http://192.168.1.10:8000/api/serviceProvider/providers", ids)
         .then((data) => {
           setProvidersData(data.data);
         })
@@ -161,7 +200,6 @@ const RequestScreen = ({ navigation, route }) => {
     }
   };
 
-<<<<<<< HEAD
 
   // const origin = { latitude: 37.78825, longitude: -122.4324 };
   // const destination = { latitude: 37.79855, longitude: -122.4324 };
@@ -171,16 +209,6 @@ const RequestScreen = ({ navigation, route }) => {
   //   latitudeDelta: 0.0922,
   //   longitudeDelta: 0.0421,
   // };
-=======
-  const origin = { latitude: 37.78825, longitude: -122.4324 };
-  const destination = { latitude: 37.79855, longitude: -122.4324 };
-  const region = {
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  };
->>>>>>> 80dad14d69fbf1c92799a5d6b4d419224831235e
   return (
     <>
       <Button
@@ -193,7 +221,7 @@ const RequestScreen = ({ navigation, route }) => {
         <MapView
           style={styles.map}
           region={mapRegion}
-          // initialRegion={region}
+        // initialRegion={region}
         >
           <Marker coordinate={mapRegion} title="Hassan's Home"></Marker>
 
@@ -238,7 +266,7 @@ const RequestScreen = ({ navigation, route }) => {
                 />
               );
             }}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item["_id"]}
             contentContainerStyle={styles.listContentContainer}
           />
         </View>
