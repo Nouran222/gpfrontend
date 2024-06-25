@@ -107,7 +107,7 @@ const Vehicles = ({ navigation, route  }) => {
 
 
             <View style={styles.addButton} onPress={() => { }}>
-                <CustomButton title={"+"} onPressHandler={() => { }} fontSize={24} />
+                <CustomButton title={"+"} onPressHandler={() => {navigation.navigate("AddVehicle") }} fontSize={24} />
             </View>
         </View>
     );

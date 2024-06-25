@@ -1,5 +1,12 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 
 const Home = ({ navigation }) => {
   // Map image names to their require paths
@@ -9,11 +16,11 @@ const Home = ({ navigation }) => {
     "NoSearchResult.jpg": require("../../assets/images/NoSearchResult.jpg"),
   };
 
-  const Card = ({ title, color, img }) => {
+  const Card = ({ title, color, img, navigate }) => {
     return (
       <TouchableOpacity
         style={[styles.card, { backgroundColor: color }]}
-        onPress={() => navigation.navigate('Road Services')}
+        onPress={() => navigation.navigate(navigate)}
       >
         <Image style={styles.cardImage} source={images[img]} />
         <Text style={styles.cardText}>{title}</Text>
@@ -25,12 +32,25 @@ const Home = ({ navigation }) => {
     <View style={styles.mainContainer}>
       <View style={styles.homeHeader}>
         <Text style={styles.text}>Hello, Yasmeen</Text>
-        <Image style={styles.profilePicture} source={require("../../assets/images/person.jpg")} />
+        <Image
+          style={styles.profilePicture}
+          source={require("../../assets/images/person.jpg")}
+        />
       </View>
 
       <ScrollView horizontal style={styles.scrollViewContainer}>
-        <Card title="Road Services" color="white" img="9.jpg" />
-        <Card title="Consultation" color='white' img="5.jpg" />
+        <Card
+          title="Road Services"
+          color="white"
+          img="9.jpg"
+          navigate="Road Services"
+        />
+        <Card
+          title="Consultation"
+          color="white"
+          img="5.jpg"
+          navigate="ChatbotScreen"
+        />
       </ScrollView>
 
       <Text style={styles.requestsText}>Current Requests</Text>
@@ -50,28 +70,28 @@ const styles = StyleSheet.create({
   },
   homeHeader: {
     height: 120,
-    width: '100%',
+    width: "100%",
     flexDirection: "row",
     backgroundColor: "#9AB3CA",
     borderBottomRightRadius: 50,
     justifyContent: "space-between",
-    alignItems: 'center',
-    overflow: 'hidden',
+    alignItems: "center",
+    overflow: "hidden",
   },
   text: {
     margin: 8,
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontFamily: 'Oswald',
+    fontFamily: "Oswald",
   },
   profilePicture: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    margin: 15
+    margin: 15,
   },
   scrollViewContainer: {
-    backgroundColor: 'rgb(251, 245, 247)',
+    backgroundColor: "rgb(251, 245, 247)",
     paddingHorizontal: 10,
     marginVertical: 0,
   },
@@ -79,44 +99,44 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: 10,
     marginVertical: 10,
   },
   cardImage: {
     width: 200,
     height: 180,
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
   cardText: {
-    color: 'black',
+    color: "black",
     fontSize: 16,
     fontWeight: "bold",
-    textAlign: 'center',
-    marginBottom: 3
+    textAlign: "center",
+    marginBottom: 3,
   },
   requestsContainer: {
     // flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 10,
     borderTopRightRadius: 60,
     borderTopLeftRadius: 60,
     marginTop: 10,
     marginBottom: 10,
     paddingTop: 20,
-    overflow:"hidden"
+    overflow: "hidden",
   },
   requestsText: {
     margin: 5,
-    color: '#3D3B3B',
+    color: "#3D3B3B",
     fontSize: 18,
-    fontFamily: 'Oswald',
+    fontFamily: "Oswald",
   },
   image: {
     width: "90%",
     height: 370,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
 });
 

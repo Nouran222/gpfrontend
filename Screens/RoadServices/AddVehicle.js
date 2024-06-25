@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontSize: 18,
         color: "white",
+        fontFamily:"Oswald"
     },
     imageHeaderContainer: {
         width: "100%",
