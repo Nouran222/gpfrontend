@@ -28,25 +28,27 @@ const RequestScreen = ({ navigation, route }) => {
 
   let [socket, setSocket] = useState(null);
   let [id, setId] = useState(null);
-  let [type, setType] = useState(null);
+  let [type, setType] = useState('consumer');
   let [providers, setProviders] = useState([]);
   let [providersData, setProvidersData] = useState([]);
+
   console.log(providers);
 
-  const [consumers, setConsumers] = useState([
-    { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
-    { id: "2", name: "Consumer 2", distance: "5 km", carType: "SUV" },
-    { id: "3", name: "Consumer 2", distance: "5 km", carType: "Sedan" },
-    { id: "4", name: "Consumer 2", distance: "5 km", carType: "SUV" },
-  ]);
+  // const [consumers, setConsumers] = useState([
+  //   { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
+  //   { id: "2", name: "Consumer 2", distance: "5 km", carType: "SUV" },
+  //   { id: "3", name: "Consumer 2", distance: "5 km", carType: "Sedan" },
+  //   { id: "4", name: "Consumer 2", distance: "5 km", carType: "SUV" },
+  // ]);
 
   let getProviders = () => {
-    if (id) {
+    if (id && socket) {
       console.log("click");
       socket.emit("GetNearBy", { userId: id })
-      socket.emit("GetNearBy", { userId: id })
-      socket.emit("GetNearBy", { userId: id })
-      socket.emit("GetNearBy", { userId: id })
+
+    } else {
+      console.log(socket);
+      console.log(id);
     }
   }
 
@@ -55,16 +57,26 @@ const RequestScreen = ({ navigation, route }) => {
       setId(data)
     })
 
-    AsyncStorage.getItem("userRole").then((data) => {
-      setType(data)
-    })
+    // AsyncStorage.getItem("userRole").then((data) => {
+    //   setType(data)
+    // })
 
+    userLocation();
+
+    return () => {
+      if (socket && id && type) {
+        socket.emit('disconnect', { id, type });
+        socket.disconnect();
+        setSocket(null);
+      }
+    }
 
   }, [])
 
   useEffect(() => {
     if (id && type) {
-      let newsocket = io("https://gp-backend-8p08.onrender.com");
+      // let newsocket = io("https://gp-backend-8p08.onrender.com");
+      let newsocket = io("http://192.168.1.10:8000/");
 
       newsocket.on("connect", () => {
         console.log("Connected to server");
@@ -81,7 +93,6 @@ const RequestScreen = ({ navigation, route }) => {
       })
 
       setSocket(newsocket);
-      userLocation();
     }
   }, [id, type]);
 
@@ -122,14 +133,14 @@ const RequestScreen = ({ navigation, route }) => {
   };
 
 
-  const origin = { latitude: 37.78825, longitude: -122.4324 };
-  const destination = { latitude: 37.79855, longitude: -122.4324 };
-  const region = {
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  };
+  // const origin = { latitude: 37.78825, longitude: -122.4324 };
+  // const destination = { latitude: 37.79855, longitude: -122.4324 };
+  // const region = {
+  //   latitude: 37.78825,
+  //   longitude: -122.4324,
+  //   latitudeDelta: 0.0922,
+  //   longitudeDelta: 0.0421,
+  // };
   return (
     <>
       <Button
@@ -162,14 +173,6 @@ const RequestScreen = ({ navigation, route }) => {
             })
           }
 
-          {/* Show marker for destination */}
-          {/* <Marker coordinate={destination} title="Destination"></Marker> */}
-
-          {/* <Polyline
-            coordinates={[origin, destination]}
-            strokeColor="#FF0000"
-            strokeWidth={3}
-          /> */}
         </MapView>
         {/* <View style={styles.consumersList}>
           <ProgressBar progress={0.5} />
