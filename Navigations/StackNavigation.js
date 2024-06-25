@@ -16,7 +16,8 @@ import PayPal from "../Screens/Payment/PayPal";
 import AddVehicle from "../Screens/RoadServices/AddVehicle";
 import RequestScreen from "@/Screens/ProviderScreens/RequestScreen";
 import ChatbotScreen from "./../Screens/ChatbotScreen/ChatbotScreeen";
-import MyAppBar from '../components/AppBar'import Consumer from "../Context/Consumer"
+import MyAppBar from '../components/AppBar';
+import Consumer from "../Context/Consumer";
 const Stack = createStackNavigator();
 export function MyStack() {
   return (
@@ -151,6 +152,7 @@ export function MyStack() {
                     }}
                 />
             </Stack.Navigator>
+            </Consumer>
   );
 }
 export default MyStack;
