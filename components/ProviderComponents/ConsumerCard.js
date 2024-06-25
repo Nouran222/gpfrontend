@@ -5,7 +5,16 @@ import CustomButton from "../CustomButton";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
-const ConsumerCard = ({ name, distance, carType, navigation }) => (
+const ConsumerCard = ({
+  name,
+  distance,
+  carType,
+  navigation,
+  sendRequest,
+  consumerId,
+  consumerLocation,
+  providerId,
+}) => (
   <View style={styles.cardContainer}>
     <Card style={styles.card}>
       <Card.Content>
@@ -33,14 +42,14 @@ const ConsumerCard = ({ name, distance, carType, navigation }) => (
       >
         Select
       </Button> */}
-        <View  style={styles.button}>
+        <View style={styles.button}>
           <CustomButton
-            title={'Select'}
-            onPressHandler={() => navigation.navigate("Payment")}
-          >
-          </CustomButton>
+            title={"Send Request"}
+            onPressHandler={() =>
+              sendRequest(consumerId, consumerLocation, providerId)
+            }
+          ></CustomButton>
         </View>
-
       </Card.Actions>
     </Card>
   </View>
@@ -49,13 +58,13 @@ const ConsumerCard = ({ name, distance, carType, navigation }) => (
 const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     padding: 8,
   },
   card: {
     borderRadius: 8,
     elevation: 4,
-    height:160,
+    height: 160,
   },
   row: {
     flexDirection: "row",
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
   avatar: {
     marginRight: 16,
     // backgroundColor:'lightskyblue',
-    backgroundColor: '#587FA7',
+    backgroundColor: "#587FA7",
     // backgroundColor:'dodgerblue',
   },
   textContainer: {
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 4,
-    width:'50%',
+    width: "50%",
   },
 });
 
