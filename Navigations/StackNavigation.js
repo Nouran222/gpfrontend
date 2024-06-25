@@ -6,7 +6,7 @@ import userTypeScreen from "@/Screens/SplashScreens/userTypeScreen";
 import SplashScreen from "@/Screens/SplashScreens/splashscreen";
 import RoadServiceScreen from "@/Screens/RoadServices/roadServiceScreen";
 // import Home from "../Screens/Home/Home"
-import Vehichles from "../Screens/RoadServices/Vehicles";
+import Vehicles from "../Screens/RoadServices/Vehicles";
 import ProviderHomeScreen from "../Screens/ProviderScreens/ProviderHomeScreen";
 // import Profile from "../Screens/Profile/profile"
 import ProviderHomeScreen2 from "../Screens/ProviderScreens/searchLocation";
