@@ -14,6 +14,7 @@ const ConsumerCard = ({
   consumerId,
   consumerLocation,
   providerId,
+  servicePrice,
 }) => {
   let [isClicked, setIsClicked] = React.useState(false);
   return (
@@ -45,14 +46,19 @@ const ConsumerCard = ({
         Select
       </Button> */}
           <View style={styles.button}>
-            <CustomButton
+          <CustomButton
               title={"Send Request"}
-              onPressHandler={() =>
+              onPressHandler={() => {
                 !isClicked ?
-                  (sendRequest(consumerId, consumerLocation, providerId), setIsClicked(true)) : null
-              }
+                  (sendRequest(consumerId, consumerLocation, providerId), setIsClicked(true)) : null;
+              navigation.navigate('Payment', {servicePrice} );
+              // console.log(servicePrice);
+              // navigation.navigate('Payment');
+
+              }}
             ></CustomButton>
-          </View>
+  
+        </View>
         </Card.Actions>
       </Card>
     </View>

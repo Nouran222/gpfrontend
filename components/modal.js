@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { BlurView } from "@react-native-community/blur";
 // import { Platform } from 'react-native';
 import {
@@ -12,6 +12,8 @@ import {
   Text,
 } from 'react-native';
 import Star from './Star';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import Stars from './Stars';
 
 
@@ -28,7 +30,15 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
   const pan = React.useRef(new Animated.ValueXY({ x: 0, y: height })).current;
   const [offset, setOffset] = React.useState(starRating || 0);
   const animatedWidth = React.useRef(0);
-
+  // let id = null;
+  // useEffect(()=>{
+  //   let getId = async ()=>{
+  //     // id = await AsyncStorage.getItem('userId')
+  //     // i want provider id
+  //     console.log(id);
+  //   }
+  //   getId()
+  // },[])
   const openAnim = () => {
     Animated.spring(pan.y, {
       toValue: height - MODAL_HEIGHT,
@@ -50,6 +60,13 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
 
   React.useEffect(() => {
     onRatingChanged(offset);
+    
+      axios.post('http://192.168.1.2:8000/api/serviceProvider/updateRating',{providerId:"66780dc5e5784b60828de855",rating:offset}).then((res)=>{
+        console.log(res);
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
   }, [offset]);
 
   React.useEffect(() => {
@@ -77,6 +94,7 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
     }
 
     setOffset(v);
+    
   }, []);
 
   const changeModalPosition = React.useCallback(

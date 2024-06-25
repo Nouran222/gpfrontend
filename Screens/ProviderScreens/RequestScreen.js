@@ -17,9 +17,10 @@ import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import { url } from "./../../constants/urls";
 
-const RequestScreen = ({ navigation, route }) => {
-  let car = route.params;
+const RequestScreen = ({ navigation, servicePrice }) => {
+  // let car = route.params;
   // console.log(route.params);
+  // car.servicePrice = 50;
 
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
@@ -257,6 +258,8 @@ const RequestScreen = ({ navigation, route }) => {
                       item["owned_car"]["model"]
                     }
                     navigation={navigation}
+                    // servicePrice={50}
+                    servicePrice={servicePrice}
                   />
                 );
               }}

@@ -66,7 +66,7 @@ const BottomTabNavigator = () => {
                   top: Platform.OS === 'ios' ? 10 : 0,
                 }}>
                 <Icon
-                  name="message1"
+                  name="home"
                   size={30}
                   color={focused ? 'white' : "lightgray"}
                 />
@@ -85,7 +85,7 @@ const BottomTabNavigator = () => {
                   top: Platform.OS === 'ios' ? 10 : 0,
                 }}>
                 <Icon
-                  name="message1"
+                  name="user"
                   size={30}
                   color={focused ? 'white' : "lightgray"}
                 />

@@ -67,7 +67,7 @@ const ProviderRegisterScreen = ({navigation}) => {
       return;
     
     // await axios.post('https://gp-backend-8p08.onrender.com/api/serviceProvider/', data)
-    await axios.post('http://192.168.1.13:8000/api/serviceProvider/', data)
+    await axios.post('http://192.168.1.2:8000/api/serviceProvider/', data)
       .then(async res => {
         if (res.status === 200) {
             AsyncStorage.setItem("userId",res.data._id)

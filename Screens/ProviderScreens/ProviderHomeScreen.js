@@ -74,7 +74,7 @@ const ProviderHomeScreen = ({ service, navigation, route }) => {
   return (
     <>
       {isRequest ? (
-        <RequestScreen navigation={navigation}></RequestScreen>
+        <RequestScreen navigation={navigation} servicePrice={50}></RequestScreen>
       ) : (
         <View style={styles.mapContainer}>
           <SwitchStatus handleSwitchChange={handleSwitchChange} />
