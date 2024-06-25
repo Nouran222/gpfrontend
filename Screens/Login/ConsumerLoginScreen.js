@@ -40,11 +40,7 @@ const ConsumerLoginScreen = ({navigation}) => {
     // Alert.alert("Successful", JSON.stringify(data));
     if(data)
       {
-<<<<<<< HEAD
         axios.post("http://192.168.1.2:8000/api/user/login",data)
-=======
-        axios.post("http://192.168.1.13:8000/api/user/login",data)
->>>>>>> e49b3b492e0ac9fca544e529b48f671dae752a20
         .then(async (res)=>{
         let foundUser = res.data
           await AsyncStorage.setItem('userId',foundUser._id)
