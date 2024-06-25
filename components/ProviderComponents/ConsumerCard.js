@@ -1,9 +1,11 @@
+import { useContext } from "react";
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Avatar, Button, Card, Text } from "react-native-paper";
 import CustomButton from "../CustomButton";
-
+import { ConsumersContext } from "@/Context/Consumer";
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
+
 
 const ConsumerCard = ({
   name,
@@ -17,6 +19,7 @@ const ConsumerCard = ({
   servicePrice,
 }) => {
   let [isClicked, setIsClicked] = React.useState(false);
+  const {currentVehicle,setCurrentVehicle}=useContext(ConsumersContext)
   return (
     <View style={styles.cardContainer}>
       <Card style={styles.card}>
@@ -31,7 +34,9 @@ const ConsumerCard = ({
                 {distance}
               </Text>
               <Text variant="bodyMedium" style={styles.carType}>
-                {carType}
+                {/* {carType} */}
+                {currentVehicle["make"]+" "+currentVehicle["model"]}
+
               </Text>
             </View>
           </View>

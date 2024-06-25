@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Button,
   FlatList,
@@ -16,9 +22,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import { url } from "./../../constants/urls";
+import { ConsumersContext } from "@/Context/Consumer";
 import { date } from "zod";
 
 const RequestScreen = ({ navigation, servicePrice }) => {
+  const { currentVehicle, setCurrentVehicle } = useContext(ConsumersContext);
   // let car = route.params;
   // console.log(route.params);
   // car.servicePrice = 50;

@@ -10,6 +10,7 @@ import i18n from "../../app/(tabs)/i18n";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "@/constants/urls";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ConsumerRegistrationScreen = ({ navigation }) => {
   const { t } = useTranslation();
@@ -130,10 +131,19 @@ const ConsumerRegistrationScreen = ({ navigation }) => {
         </View>
         <View style={styles.registerTxtContainer}>
           <Text style={styles.registerTxt}>
-            {t("no_account")}
-            <Text style={{ color: "blue", marginHorizontal: 3 }}>
-              {t("register_now")}
+            {t("Already have an account")}?
+            <TouchableOpacity
+            onPress={()=>{
+                    
+              navigation.navigate("LoginScreen")
+            }}
+            >
+
+            <Text style={{ color: 'blue', marginHorizontal: 3 }}>
+              {t("Login Now")}
             </Text>
+
+            </TouchableOpacity>
           </Text>
         </View>
       </View>

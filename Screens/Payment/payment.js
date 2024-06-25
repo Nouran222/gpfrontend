@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, Image, Alert, Linking, TouchableOpacity } from "react-native";
 import axios from 'axios';
 import RatingBottomModal from "../../components/modal";
+import { ConsumersContext } from "@/Context/Consumer";
 
 const Payment = ({ navigation ,route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -10,6 +11,8 @@ const Payment = ({ navigation ,route}) => {
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [paymentMethod,setPaymentMethod]=useContext(ConsumersContext)
+
 
   const { servicePrice = 50 } = route.params || {};
   console.log('Route params:', route.params);
@@ -137,6 +140,9 @@ const Payment = ({ navigation ,route}) => {
         if (supported) {
           await Linking.openURL(approvalUrl);
           setPaidFor(true);
+          setPaymentMethod("paypal")
+          console.log(paymentMethod);
+
         } else {
           Alert.alert("Can't handle URL: " + approvalUrl);
         }
@@ -166,7 +172,11 @@ const Payment = ({ navigation ,route}) => {
             styles.paymentContainer,
             { backgroundColor: "mistyrose", elevation: 5, marginTop: 70 },
           ]}
-          onPress={() => setIsModalVisible(true)}
+          onPress={() => {
+            setIsModalVisible(true);
+             setPaymentMethod("cash")
+            console.log(paymentMethod);
+            }}
         >
           <View style={styles.row}>
             <Image
