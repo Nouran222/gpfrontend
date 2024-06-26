@@ -23,10 +23,10 @@ const Payment = ({ navigation }) => {
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const { paymentMethod, setPaymentMethod } = useContext(ConsumersContext);
+  const { paymentMethod, setPaymentMethod, providerId, serviceType } =
+    useContext(ConsumersContext);
 
   // const servicePrice = route.params ? route.params : {};
-  // console.log(servicePrice);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
@@ -227,7 +227,7 @@ const Payment = ({ navigation }) => {
           </View>
         </TouchableOpacity>
       </View>
-
+      {/* {console.log("ser type in payment ", serviceType)} */}
       <RatingBottomModal
         visible={isModalVisible}
         onClose={handleModalClose}
@@ -235,6 +235,9 @@ const Payment = ({ navigation }) => {
         starSize={40} // Adjust the star size as needed
         maxStars={5} // Adjust the maximum number of stars as needed
         starRating={rating} // Initial rating value
+        providerId={providerId}
+        navigation={navigation}
+        serviceType={serviceType}
       />
     </View>
   );

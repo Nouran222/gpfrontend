@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 // import { BlurView } from "@react-native-community/blur";
 // import { Platform } from 'react-native';
 import {
@@ -10,25 +10,39 @@ import {
   GestureResponderEvent,
   PanResponderGestureState,
   Text,
-} from 'react-native';
-import Star from './Star';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+  Button,
+  serviceType,
+} from "react-native";
+import Star from "./Star";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "@/constants/urls";
+import CustomButton from "./CustomButton";
+
 // import Stars from './Stars';
 
+const { width, height } = Dimensions.get("screen");
 
+const MODAL_HEIGHT = height * 0.3;
 
-const { width, height } = Dimensions.get('screen');
-
-const MODAL_HEIGHT = height * 0.30;
-
-export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,maxStars = 5,starRating = 0,}) => {
+export const RatingBottomModal = ({
+  visible,
+  onClose,
+  onRatingChanged,
+  starSize,
+  maxStars = 5,
+  starRating = 0,
+  providerId,
+  navigation,
+  serviceType,
+}) => {
   if (!visible) {
     return null;
   }
-
+  console.log("proooId", providerId);
   const pan = React.useRef(new Animated.ValueXY({ x: 0, y: height })).current;
   const [offset, setOffset] = React.useState(starRating || 0);
+  const [provider, setProvider] = React.useState(null);
   const animatedWidth = React.useRef(0);
   // let id = null;
   // useEffect(()=>{
@@ -60,13 +74,18 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
 
   React.useEffect(() => {
     onRatingChanged(offset);
-    
-      axios.post('http://192.168.1.2:8000/api/serviceProvider/updateRating',{providerId:"66780dc5e5784b60828de855",rating:offset}).then((res)=>{
+
+    axios
+      .post(url + "/api/serviceProvider/updateRating", {
+        providerId,
+        rating: offset,
+      })
+      .then((res) => {
         console.log(res);
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err);
-      })
+      });
   }, [offset]);
 
   React.useEffect(() => {
@@ -76,6 +95,16 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
 
     openAnim();
   }, [visible]);
+
+  React.useEffect(() => {
+    axios
+      .get(`${url}/api/serviceProvider/${providerId}`)
+      .then((res) => {
+        setProvider(res.data["sProvider"]["name"]);
+        console.log("res.data = ", res.data["sProvider"]["name"]);
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   const changeOffset = React.useCallback((e) => {
     const { nativeEvent } = e;
@@ -94,22 +123,41 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
     }
 
     setOffset(v);
-    
   }, []);
 
-  const changeModalPosition = React.useCallback(
-    (gs) => {
-      const value = height - MODAL_HEIGHT + gs.dy;
+  const handleRate = () => {
+    console.log("handle");
 
-      // prevent dragging too high or too low
-      if (value >= height || value < height - MODAL_HEIGHT) {
-        return;
-      }
+    if (serviceType.length === 1 && serviceType[0] === "winch") {
+      axios.post(`${url}/api/analysis`, {
+        providerId,
+        serviceName: "pick up",
+        providerName: provider,
+      });
+    } else {
+      axios.post(`${url}/api/analysis`, {
+        providerId,
+        serviceName: "repair",
+        providerName: provider,
+      });
+    }
 
-      pan.y.setValue(value);
-    },
-    [],
-  );
+    navigation.navigate("Home");
+
+    //tires,fuel,battery >> repair
+    //data > providerId , providerName,serviceName
+    // console.log("ser Typeee", serviceType);
+  };
+  const changeModalPosition = React.useCallback((gs) => {
+    const value = height - MODAL_HEIGHT + gs.dy;
+
+    // prevent dragging too high or too low
+    if (value >= height || value < height - MODAL_HEIGHT) {
+      return;
+    }
+
+    pan.y.setValue(value);
+  }, []);
 
   const modalResponder = React.useRef(
     PanResponder.create({
@@ -136,7 +184,7 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
           closeAnim();
         }
       },
-    }),
+    })
   ).current;
 
   const starPanResponder = React.useRef(
@@ -161,23 +209,24 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
           closeAnim();
         }
       },
-    }),
+    })
   ).current;
-
+  console.log("or", provider);
   return (
     <Animated.View
       {...modalResponder.panHandlers}
       style={[
         {
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
           width,
           height,
-          backgroundColor: 'rgba(0,0,0,.1)',
+          backgroundColor: "rgba(0,0,0,.1)",
         },
-      ]}>
-        {/* {Platform.OS === 'android'?(<BlurView
+      ]}
+    >
+      {/* {Platform.OS === 'android'?(<BlurView
         style={StyleSheet.absoluteFillObject}
         blurType="light"
         blurAmount={5}
@@ -201,44 +250,50 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
                 translateY: pan.y,
               },
             ],
-          }}>
+          }}
+        >
           <View
             style={{
-              width: '100%',
+              width: "100%",
               height: MODAL_HEIGHT,
-              backgroundColor: '#fff',
-              shadowColor: '#ccc',
+              backgroundColor: "#fff",
+              shadowColor: "#ccc",
               shadowOffset: { height: -1, width: 0 },
               shadowRadius: 15,
               shadowOpacity: 0.1,
-            }}>
+            }}
+          >
             <View
               style={{
                 flex: 1,
                 paddingTop: 24,
-                alignItems: 'center',
-                justifyContent: 'flex-start'
-              }}>
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
               <Text
                 style={{
-                  textTransform: 'uppercase',
-                  fontWeight: 'bold',
+                  textTransform: "uppercase",
+                  fontWeight: "bold",
                   fontSize: 16,
-                }}>
-                rate Provider 1
+                }}
+              >
+                {provider}
               </Text>
 
               <View
                 style={{
                   marginTop: 16,
-                  flexDirection: 'row',
-                }}>
+                  flexDirection: "row",
+                }}
+              >
                 <Animated.View
                   onLayout={(e) => {
                     animatedWidth.current = e.nativeEvent.layout.width;
                   }}
-                  style={{ flexDirection: 'row' }}
-                  {...starPanResponder.panHandlers}>
+                  style={{ flexDirection: "row" }}
+                  {...starPanResponder.panHandlers}
+                >
                   {Array.from({ length: maxStars || 5 }).map((_, i) => {
                     return (
                       <Star
@@ -251,6 +306,10 @@ export const RatingBottomModal = ({visible, onClose,onRatingChanged,starSize,max
                   })}
                 </Animated.View>
               </View>
+
+              <CustomButton title="Go Back Home" onPressHandler={handleRate}>
+                {" "}
+              </CustomButton>
             </View>
           </View>
         </Animated.View>

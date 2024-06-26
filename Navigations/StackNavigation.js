@@ -33,52 +33,42 @@ export function MyStack() {
           name="AddVehicle"
           component={AddVehicle}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="Add Vehicle" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Vehicles"
           component={Vehicles}
           options={{
-            header: ({ route, navigation }) => <MyAppBar title="Vehicles" />,
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Payment"
           component={Payment}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="Payment" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="PayPal"
           component={PayPal}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="PayPal" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="Home"
           component={BottomTabNavigator}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="PayPal" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="ProviderHomeScreen2"
           component={ProviderHomeScreen2}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="Home" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -90,9 +80,7 @@ export function MyStack() {
           name="ProviderHomeScreen"
           component={ProviderHomeScreen}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="Home" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         {/* <Stack.Screen
@@ -145,9 +133,7 @@ export function MyStack() {
           name="RequestScreen"
           component={RequestScreen}
           options={{
-            header: ({ route, navigation }) => (
-              <MyAppBar title="Requests" navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

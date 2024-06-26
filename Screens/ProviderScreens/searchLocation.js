@@ -4,7 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ConsumersContext } from "@/Context/Consumer";
 import { ServicePrice } from "../../constants/ServicePrice";
@@ -94,10 +94,12 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
           data={consumers}
           renderItem={({ item }) => {
             let price = 0;
-            serviceType.forEach(element => {
+            serviceType.forEach((element) => {
               price += item.distance * ServicePrice[element];
             });
-            {console.log(price)}
+            {
+              console.log(price);
+            }
             return (
               <ConsumerCard
                 name={item.name}
@@ -106,7 +108,6 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
                 navigation={navigation}
                 price={price}
               />
-              
             );
           }}
           keyExtractor={(item) => item.id}
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 15
+    padding: 15,
   },
   map: {
     width: "100%",

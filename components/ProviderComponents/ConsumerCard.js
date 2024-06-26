@@ -4,8 +4,8 @@ import { View, StyleSheet } from "react-native";
 import { Avatar, Button, Card, Text } from "react-native-paper";
 import CustomButton from "../CustomButton";
 import { ConsumersContext } from "@/Context/Consumer";
-const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
+const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 const ConsumerCard = ({
   name,
@@ -16,11 +16,14 @@ const ConsumerCard = ({
   consumerId,
   consumerLocation,
   providerId,
-  price,
 }) => {
   let [isClicked, setIsClicked] = React.useState(false);
-  const {setPrice}=useContext(ConsumersContext)
-  const {currentVehicle,setcurrentVehicle}=useContext(ConsumersContext)
+  // const { price } = useContext(ConsumersContext);
+
+  const { serviceType } = useContext(ConsumersContext);
+  const { currentVehicle, setcurrentVehicle } = useContext(ConsumersContext);
+  const { price, setPrice } = useContext(ConsumersContext);
+
   return (
     <View style={styles.cardContainer}>
       <Card style={styles.card}>
@@ -36,12 +39,13 @@ const ConsumerCard = ({
               </Text>
               <Text variant="bodyMedium" style={styles.carType}>
                 {/* {carType} */}
-                {currentVehicle["make"]+" "+currentVehicle["model"]}
-
+                {currentVehicle["make"] + " " + currentVehicle["model"]}
               </Text>
+              {serviceType.map((m) => (
+                <Text>{m} 50 L.E</Text>
+              ))}
               <Text variant="bodyMedium" style={styles.carType}>
-                {price} LE
-
+                Total Price : {serviceType.length * 50}
               </Text>
             </View>
           </View>
@@ -63,8 +67,8 @@ const ConsumerCard = ({
                   ? (sendRequest(consumerId, consumerLocation, providerId),
                     setIsClicked(true))
                   : null;
-                  setPrice(price)
-                    // navigation.navigate('Payment' );
+                setPrice(serviceType.length * 50);
+                // navigation.navigate('Payment' );
                 // console.log(servicePrice);
                 // navigation.navigate('Payment');
               }}
