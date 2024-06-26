@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, TextInput,Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Example icon library
 import CustomButton from "@/components/CustomButton";
+import { useTranslation } from "react-i18next";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { url } from "@/constants/urls";
 const Profile = () => {
+  const {t}=useTranslation()
   const [userId, setUserId] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -73,7 +76,7 @@ const Profile = () => {
           />
         </View>
         <View style={styles.buttonContainer}>
-        {/* <CustomButton title={"Save"} onPressHandler={() => {}}></CustomButton> */}
+        <CustomButton title={t("Save")} onPressHandler={() => {}}></CustomButton>
       </View>
       </View>
 

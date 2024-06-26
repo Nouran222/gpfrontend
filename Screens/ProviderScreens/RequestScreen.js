@@ -8,6 +8,7 @@ import React, {
 import {
   Button,
   FlatList,
+  ImageBackground,
   StatusBar,
   StyleSheet,
   Text,
@@ -16,16 +17,19 @@ import {
 import MapView, { Callout, Marker, Overlay, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
-import { ProgressBar } from "react-native-paper";
+import { IconButton, ProgressBar } from "react-native-paper";
 import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import { url } from "./../../constants/urls";
 import { ConsumersContext } from "@/Context/Consumer";
+import LoadingScreen from "../SplashScreens/loadingScreen";
+import { Image } from "react-native";
 
 const RequestScreen = ({ navigation, servicePrice }) => {
-  const { currentVehicle, setCurrentVehicle } = useContext(ConsumersContext);
+  const { currentVehicle, setCurrentVehicle, setProviderId } =
+    useContext(ConsumersContext);
   // let car = route.params;
   // console.log(route.params);
   // car.servicePrice = 50;
@@ -49,13 +53,6 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   let mapRef = useRef(null);
 
   console.log("provData", providersData);
-
-  // const [consumers, setConsumers] = useState([
-  //   { id: "1", name: "Consumer 1", distance: "2 km", carType: "Sedan" },
-  //   { id: "2", name: "Consumer 2", distance: "5 km", carType: "SUV" },
-  //   { id: "3", name: "Consumer 2", distance: "5 km", carType: "Sedan" },
-  //   { id: "4", name: "Consumer 2", distance: "5 km", carType: "SUV" },
-  // ]);
 
   const sendRequest = (conId, conLoc, proId) => {
     socket.emit("SentRequest", {
@@ -110,6 +107,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
         socket.on("RequestAccepted", ({ providerId }) => {
           setAcceptedProviderId(providerId);
           setIsRequestAccepted(true);
+
           console.log("data", providersData);
 
           setProviders((old) => {
@@ -118,22 +116,20 @@ const RequestScreen = ({ navigation, servicePrice }) => {
               return p["providerId"] === providerId;
             });
           });
-
-          // providersData.map((p) => {
-          //   console.log(p);
-          // })
-          // setProvidersData((old) => {
-
-          // })
         });
 
         socket.on("Tracking", (data) => {
           setProvidersLiveLocation(data);
         });
 
-        socket.on("ServiceEnded", (date) => {
+        socket.on("ServiceEnded", (data) => {
           console.log("payment process");
-          navigation.navigate("Payment", { servicePrice: 50 });
+
+          setProviderId(data["providerId"]);
+
+          // console.log("dataaaaaaaa", data);
+          navigation.navigate("Payment");
+          // navigation.navigate("LoginScreen");
         });
 
         socket.on("disconnect", () => {
@@ -216,13 +212,32 @@ const RequestScreen = ({ navigation, servicePrice }) => {
 
   return (
     <>
-      {!isRequestAccepted ? (
+      <View style={styles.homeHeader}>
+        <Text style={styles.text}>Find Nearby</Text>
+
+        <View style={{ flexDirection: "row" }}>
+          {!isRequestAccepted ? (
+            // <Button
+            //   title="Get Nearby Providers"
+            //   onPress={getProviders}
+            //   buttonStyle={styles.button}
+            // />
+            <IconButton
+              icon="search-web"
+              iconColor={"white"}
+              size={40}
+              onPress={getProviders}
+            />
+          ) : null}
+        </View>
+      </View>
+      {/* {!isRequestAccepted ? (
         <Button
           title="Get Nearby Providers"
           onPress={getProviders}
           buttonStyle={styles.button}
         />
-      ) : null}
+      ) : null} */}
 
       <View style={styles.mapContainer}>
         <MapView style={styles.map} region={mapRegion} ref={mapRef}>
@@ -288,9 +303,49 @@ const RequestScreen = ({ navigation, servicePrice }) => {
               if (providers[0]) {
                 if (m["_id"] === providers[0]["providerId"]) {
                   return !hasArrived ? (
-                    <Text>{m["name"]} Is On The Way!!</Text>
+                    <View style={{ marginTop: 5 }}>
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          fontSize: 20,
+                          margin: 3,
+                          fontStyle: "italic",
+                          color: "#3D3B3B",
+                        }}
+                      >
+                        {m["name"]} Is On The Way!!
+                      </Text>
+                      <LoadingScreen></LoadingScreen>
+                    </View>
                   ) : (
-                    <Text>{m["name"]} has Arrived!!</Text>
+                    <ImageBackground
+                      style={{ flex: 1 }}
+                      source={require("../../assets/images/carr.jpg")}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          fontSize: 20,
+                          margin: 8,
+                          fontStyle: "italic",
+                          color: "#3D3B3B",
+                        }}
+                      >
+                        {m["name"]} has Arrived!!
+                      </Text>
+                      {/* <View style={{ justifyContent: "center" }}>
+                        <Image
+                          source={require("../../assets/images/carr.jpg")}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            resizeMode: "center",
+                          }}
+                        ></Image>
+                      </View> */}
+                    </ImageBackground>
                   );
                 }
               }
@@ -307,6 +362,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  homeHeader: {
+    height: 100,
+    width: "100%",
+    flexDirection: "row",
+    backgroundColor: "#9AB3CA",
+    borderBottomRightRadius: 50,
+    justifyContent: "space-between",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  text: {
+    margin: 8,
+    color: "white",
+    fontSize: 18,
+    fontFamily: "Oswald",
   },
   map: {
     width: 400,

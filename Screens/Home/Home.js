@@ -1,3 +1,5 @@
+import i18n from "@/app/(tabs)/i18n";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
   StyleSheet,
@@ -7,8 +9,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from "react-i18next";
+import { IconButton } from "react-native-paper";
 
 const Home = ({ navigation }) => {
+  const { t } = useTranslation();
   // Map image names to their require paths
   const images = {
     "5.jpg": require("../../assets/images/5.jpg"),
@@ -30,30 +36,56 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.mainContainer}>
-      {/* <View style={styles.homeHeader}>
+      <View style={styles.homeHeader}>
         <Text style={styles.text}>Hello, Yasmeen</Text>
-        <Image
+
+        <View style={{ flexDirection: "row" }}>
+          <IconButton
+            icon="earth"
+            iconColor={"white"}
+            size={30}
+            onPress={() => {
+              if (i18n.language === "en") {
+                i18n.changeLanguage("ar");
+              } else {
+                i18n.changeLanguage("en");
+              }
+            }}
+          />
+
+          <IconButton
+            icon="logout"
+            iconColor={"white"}
+            size={30}
+            onPress={async () => {
+              await AsyncStorage.clear();
+              navigation.navigate("LoginScreen");
+            }}
+          />
+        </View>
+
+        {/* <Image
           style={styles.profilePicture}
           source={require("../../assets/images/person.jpg")}
-        />
-      </View> */}
+        /> */}
+      </View>
 
       <ScrollView horizontal style={styles.scrollViewContainer}>
         <Card
-          title="Road Services"
+          title={t("Road Services")}
           color="white"
           img="9.jpg"
           navigate="Road Services"
         />
         <Card
-          title="Consultation"
+          title={t("Consultation")}
           color="white"
           img="5.jpg"
           navigate="ChatbotScreen"
         />
       </ScrollView>
 
-      <Text style={styles.requestsText}>Current Requests</Text>
+      <Text style={styles.requestsText}>{t("Current Requests")}</Text>
 
       <View style={styles.requestsContainer}>
         <Image source={images["NoSearchResult.jpg"]} style={styles.image} />
@@ -64,12 +96,12 @@ const Home = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
+    // flex: 1,
     margin: 2,
     backgroundColor: "rgb(251, 245, 247)",
   },
   homeHeader: {
-    height:60,
+    height: 100,
     width: "100%",
     flexDirection: "row",
     backgroundColor: "#9AB3CA",
@@ -94,7 +126,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(251, 245, 247)",
     paddingHorizontal: 10,
     marginVertical: 0,
-    
   },
   card: {
     width: 200,

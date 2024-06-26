@@ -72,7 +72,7 @@ const ConsumerLoginScreen = ({ navigation }) => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Menu
+        {/* <Menu
           style={{ width: 50, marginVertical: 45, marginHorizontal: 10 }}
           visible={visible}
           onDismiss={closeMenu}
@@ -90,7 +90,7 @@ const ConsumerLoginScreen = ({ navigation }) => {
           <Menu.Item onPress={() => handleMenuItemPress("en")} title="en" />
 
           <Menu.Item onPress={() => handleMenuItemPress("ar")} title="ar" />
-        </Menu>
+        </Menu> */}
         <Text style={styles.heading}>{t("Login")}</Text>
         <Image
           style={styles.LoginImage}

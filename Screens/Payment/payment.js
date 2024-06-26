@@ -1,21 +1,29 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, Image, Alert, Linking, TouchableOpacity } from "react-native";
-import axios from 'axios';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Alert,
+  Linking,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
 import RatingBottomModal from "../../components/modal";
 import { ConsumersContext } from "@/Context/Consumer";
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from "react-i18next";
 
-const Payment = ({ navigation ,route}) => {
+const Payment = ({ navigation, route }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [paymentMethod,setPaymentMethod]=useContext(ConsumersContext)
+  const { paymentMethod, setPaymentMethod } = useContext(ConsumersContext);
 
-
-  const { servicePrice = 50 } = route.params || {};
-  console.log('Route params:', route.params);
+  // const servicePrice = route.params ? route.params : {};
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
@@ -27,15 +35,15 @@ const Payment = ({ navigation ,route}) => {
 
   const buyBook = async () => {
     const dataDetail = {
-      intent: 'sale',
+      intent: "sale",
       payer: {
-        payment_method: 'paypal',
+        payment_method: "paypal",
       },
       transactions: [
         {
           amount: {
-            currency: 'AUD',
-            total: servicePrice+"",
+            currency: "AUD",
+            total: 50 + "",
             // details: {
             //   shipping: '6',
             //   subtotal: '20',
@@ -45,9 +53,9 @@ const Payment = ({ navigation ,route}) => {
             //   tax: '0',
             // },
           },
-          description: 'This is the payment transaction description',
+          description: "This is the payment transaction description",
           payment_options: {
-            allowed_payment_method: 'IMMEDIATE_PAY',
+            allowed_payment_method: "IMMEDIATE_PAY",
           },
           // item_list: {
           //   items: [
@@ -65,67 +73,81 @@ const Payment = ({ navigation ,route}) => {
         },
       ],
       redirect_urls: {
-        return_url: 'https://example.com/',
-        cancel_url: 'https://example.com/',
+        return_url: "https://example.com/",
+        cancel_url: "https://example.com/",
       },
     };
 
-    const tokenUrl = 'https://api.sandbox.paypal.com/v1/oauth2/token';
+    const tokenUrl = "https://api.sandbox.paypal.com/v1/oauth2/token";
 
     const tokenData = {
-      grant_type: 'client_credentials',
+      grant_type: "client_credentials",
     };
 
     const auth = {
-      username: 'AdO-NE8K2IY9chzjwYnXu-gzWuzwcu2a6jkozf6mtl1dLi-hkC2B7rZlzcbD5Sj_RfC3c5g-5n_NNh6p',
-      password: 'EOtlR1WUDKZhH8RdLGLurIY3Ob0UOFC9xYHVvq3fetnUAQpn1ddRnwfYvbTvzfxerPlO72UR7TqqOENl',
+      username:
+        "AdO-NE8K2IY9chzjwYnXu-gzWuzwcu2a6jkozf6mtl1dLi-hkC2B7rZlzcbD5Sj_RfC3c5g-5n_NNh6p",
+      password:
+        "EOtlR1WUDKZhH8RdLGLurIY3Ob0UOFC9xYHVvq3fetnUAQpn1ddRnwfYvbTvzfxerPlO72UR7TqqOENl",
     };
 
     const tokenOptions = {
-      method: 'post',
+      method: "post",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Credentials': true,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Access-Control-Allow-Credentials": true,
       },
       data: Object.keys(tokenData)
-        .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(tokenData[key]))
-        .join('&'),
+        .map(
+          (key) =>
+            encodeURIComponent(key) + "=" + encodeURIComponent(tokenData[key])
+        )
+        .join("&"),
       auth: auth,
       url: tokenUrl,
     };
 
     try {
       const tokenResponse = await axios(tokenOptions);
-      console.log('Token response:', tokenResponse.data);
+      console.log("Token response:", tokenResponse.data);
 
       const accessToken = tokenResponse.data.access_token;
       if (!accessToken) {
-        throw new Error('Failed to obtain access token');
+        throw new Error("Failed to obtain access token");
       }
 
       setAccessToken(accessToken);
 
-      const paymentUrl = 'https://api.sandbox.paypal.com/v1/payments/payment';
+      const paymentUrl = "https://api.sandbox.paypal.com/v1/payments/payment";
 
       const paymentOptions = {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       };
 
-      const paymentResponse = await axios.post(paymentUrl, dataDetail, paymentOptions);
-      console.log('Payment response:', paymentResponse.data);
+      const paymentResponse = await axios.post(
+        paymentUrl,
+        dataDetail,
+        paymentOptions
+      );
+      console.log("Payment response:", paymentResponse.data);
 
       const { id, links } = paymentResponse.data;
-      const approvalUrl = links.find((data) => data.rel === 'approval_url').href;
+      const approvalUrl = links.find(
+        (data) => data.rel === "approval_url"
+      ).href;
 
-      console.log('Approval URL:', approvalUrl);
+      console.log("Approval URL:", approvalUrl);
       setPaypalUrl(approvalUrl);
       return approvalUrl;
     } catch (error) {
-      console.error('PayPal payment error:', error.response ? error.response.data : error.message);
-      setError('An error occurred during the payment process');
+      console.error(
+        "PayPal payment error:",
+        error.response ? error.response.data : error.message
+      );
+      setError("An error occurred during the payment process");
       return null;
     }
   };
@@ -135,30 +157,29 @@ const Payment = ({ navigation ,route}) => {
       const approvalUrl = await buyBook();
 
       if (approvalUrl) {
-        console.log('Opening PayPal URL:', approvalUrl);
+        console.log("Opening PayPal URL:", approvalUrl);
         const supported = await Linking.canOpenURL(approvalUrl);
         if (supported) {
           await Linking.openURL(approvalUrl);
           setPaidFor(true);
-          setPaymentMethod("paypal")
+          setPaymentMethod("paypal");
           console.log(paymentMethod);
-
         } else {
           Alert.alert("Can't handle URL: " + approvalUrl);
         }
       } else {
-        setError('Failed to initiate PayPal payment');
+        setError("Failed to initiate PayPal payment");
       }
     } catch (error) {
-      console.error('PayPal payment error:', error);
-      setError('An error occurred during the payment process');
+      console.error("PayPal payment error:", error);
+      setError("An error occurred during the payment process");
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.homeHeader}>
-        <Text style={styles.textHeader}>Payment</Text>
+        <Text style={styles.textHeader}>{t("Payment")}</Text>
       </View>
       <View style={styles.imageHeaderContainer}>
         <Image
@@ -174,16 +195,16 @@ const Payment = ({ navigation ,route}) => {
           ]}
           onPress={() => {
             setIsModalVisible(true);
-             setPaymentMethod("cash")
+            setPaymentMethod("cash");
             console.log(paymentMethod);
-            }}
+          }}
         >
           <View style={styles.row}>
             <Image
               style={styles.methodImage}
               source={require("../../assets/images/cash.jpg")}
             />
-            <Text style={styles.paymentText}>Cash on delivery</Text>
+            <Text style={styles.paymentText}>{t("Cash on delivery")}</Text>
           </View>
         </TouchableOpacity>
 
@@ -199,11 +220,11 @@ const Payment = ({ navigation ,route}) => {
               style={styles.methodImage}
               source={require("../../assets/images/paypal.jpg")}
             />
-            <Text style={styles.paymentText}>Pay with PayPal</Text>
+            <Text style={styles.paymentText}>{t("Pay with PayPal")}</Text>
           </View>
         </TouchableOpacity>
       </View>
-
+      {/* {console.log("ser type in payment ", serviceType)} */}
       <RatingBottomModal
         visible={isModalVisible}
         onClose={handleModalClose}
@@ -211,6 +232,9 @@ const Payment = ({ navigation ,route}) => {
         starSize={40} // Adjust the star size as needed
         maxStars={5} // Adjust the maximum number of stars as needed
         starRating={rating} // Initial rating value
+        providerId={providerId}
+        navigation={navigation}
+        serviceType={serviceType}
       />
     </View>
   );
