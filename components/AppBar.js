@@ -7,7 +7,7 @@ const MyAppBar = ({ navigation }) => {
         <Header
             statusBarProps={{ barStyle: 'light-content' }}
             backgroundColor="#587FA7"
-            leftComponent={{ text: "O2torni", style: { color: '#fff' } }}
+            leftComponent={{ text: "O'torny",style: { color: '#fff',fontSize:25,fontWeight:"bold",width:120 } }}
             rightComponent={{
                 icon: 'logout',
                 color: '#fff',

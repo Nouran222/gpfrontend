@@ -1,8 +1,37 @@
-import React from "react";
-import { StyleSheet, View, Image, TextInput } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Image, TextInput,Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Example icon library
 import CustomButton from "@/components/CustomButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { url } from "@/constants/urls";
 const Profile = () => {
+  const [userId, setUserId] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+        const id = await AsyncStorage.getItem("userId");
+        setUserId(id);
+    };
+    fetchUserId();
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      axios
+        .post(url + "/api/user/profile",  {userId})
+        .then((res) => {
+          setUserInfo(res.data.userInfo);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [userId]);
+
+
+  if(!userInfo) return <Text>Loading...</Text>
   return (
     <View style={styles.profile}>
       <View style={styles.header}>{/* Header content */}</View>
@@ -16,8 +45,9 @@ const Profile = () => {
         <View style={styles.inputWrapper}>
           <Icon name="user" size={20} color="#666" style={styles.icon} />
           <TextInput
+            editable={false}
             style={styles.input}
-            placeholder="Anna Avetisyan"
+            placeholder={userInfo.name}
             placeholderTextColor="#666"
             
           />
@@ -25,8 +55,9 @@ const Profile = () => {
         <View style={styles.inputWrapper}>
           <Icon name="envelope" size={20} color="#666" style={styles.icon} />
           <TextInput
+            editable={false}
             style={styles.input}
-            placeholder="info@aplusdesign.co"
+            placeholder={userInfo.email}
             placeholderTextColor="#666"
             keyboardType="email-address"
           />
@@ -34,14 +65,15 @@ const Profile = () => {
         <View style={styles.inputWrapper}>
           <Icon name="phone" size={20} color="#666" style={styles.icon} />
           <TextInput
+            editable={false}
             style={styles.input}
-            placeholder="818 123 4567"
+            placeholder={""+userInfo.contact_number}
             placeholderTextColor="#666"
             keyboardType="phone-pad"
           />
         </View>
         <View style={styles.buttonContainer}>
-        <CustomButton title={"Save"} onPressHandler={() => {}}></CustomButton>
+        {/* <CustomButton title={"Save"} onPressHandler={() => {}}></CustomButton> */}
       </View>
       </View>
 
