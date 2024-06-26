@@ -11,20 +11,17 @@ import {
 import axios from "axios";
 import RatingBottomModal from "../../components/modal";
 import { ConsumersContext } from "@/Context/Consumer";
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from "react-i18next";
 
-// const Payment = ({ navigation }) => {
-//   return <Text>Pa</Text>;
-// };
-
-const Payment = ({ navigation }) => {
+const Payment = ({ navigation, route }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const { paymentMethod, setPaymentMethod, providerId, serviceType } =
-    useContext(ConsumersContext);
+  const { paymentMethod, setPaymentMethod } = useContext(ConsumersContext);
 
   // const servicePrice = route.params ? route.params : {};
 
@@ -182,7 +179,7 @@ const Payment = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.homeHeader}>
-        <Text style={styles.textHeader}>Payment</Text>
+        <Text style={styles.textHeader}>{t("Payment")}</Text>
       </View>
       <View style={styles.imageHeaderContainer}>
         <Image
@@ -207,7 +204,7 @@ const Payment = ({ navigation }) => {
               style={styles.methodImage}
               source={require("../../assets/images/cash.jpg")}
             />
-            <Text style={styles.paymentText}>Cash on delivery</Text>
+            <Text style={styles.paymentText}>{t("Cash on delivery")}</Text>
           </View>
         </TouchableOpacity>
 
@@ -223,7 +220,7 @@ const Payment = ({ navigation }) => {
               style={styles.methodImage}
               source={require("../../assets/images/paypal.jpg")}
             />
-            <Text style={styles.paymentText}>Pay with PayPal</Text>
+            <Text style={styles.paymentText}>{t("Pay with PayPal")}</Text>
           </View>
         </TouchableOpacity>
       </View>

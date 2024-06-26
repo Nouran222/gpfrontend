@@ -34,6 +34,24 @@
   "successful": "Registration successful",
   "Register as Consumer":"Register as Consumer",
   "Register as  Provider":"Register as Provider",
-  "Register":"Register"
-
+  "Register":"Register",
+  "Road Services":"Road Services",
+  "Current Requests":"Current Requests",
+  "Payment":"Payment",
+  "Cash on delivery":"Cash on delivery",
+  "Pay with PayPal":"Pay with PayPal",
+  "Waiting For Requests...":"Waiting For Requests...",
+  "Not Available For Request":"Not Available For Request",
+  "Search location...":"Search location...",
+  "Add Vehicle":"Add Vehicle",
+"Please select at least one service.":"Please select at least one service.",
+"Fuel":"Fuel",
+"Winch":"Winch",
+"Tire":"Tire",
+"Battery":"Battery",
+"Vehicles":"Vehicles",
+"Save":"Save",
+"Add":"Add",
+"Request":"Request",
+"Select":"Select"
 }

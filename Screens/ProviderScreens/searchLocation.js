@@ -8,8 +8,11 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ConsumersContext } from "@/Context/Consumer";
 import { ServicePrice } from "../../constants/ServicePrice";
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from "react-i18next";
 
 const ProviderHomeScreen2 = ({ navigation, route }) => {
+  const {t}=useTranslation()
   const { currentVehicle, setCurrentVehicle } = useContext(ConsumersContext);
   const { serviceType, setServiceType } = useContext(ConsumersContext);
   const [mapRegion, setMapRegion] = useState({
@@ -76,7 +79,7 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search location..."
+          placeholder={t("Search location...")}
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />

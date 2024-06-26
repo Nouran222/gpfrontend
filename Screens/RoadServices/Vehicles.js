@@ -9,8 +9,10 @@ import axios from "axios";
 import { url } from "@/constants/urls";
 import { ConsumersContext } from "@/Context/Consumer";
 import AddVehicle from "./AddVehicle";
+import { useTranslation } from "react-i18next";
 
 const Vehicles = ({ navigation }) => {
+  const {t}=useTranslation();
   let [userCars, setUserCars] = useState(null);
   let [id, setId] = useState(null);
 const  { serviceType, setServiceType } = useContext(ConsumersContext);
@@ -38,7 +40,7 @@ const {currentVehicle, setCurrentVehicle}=useContext(ConsumersContext);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.homeHeader}>
-        <Text style={styles.textHeader}>Vehicles</Text>
+        <Text style={styles.textHeader}>{t("Vehicles")}</Text>
       </View>
       {/* <Text style={styles.Text}> Please Select Vehicle</Text> */}
       <ScrollView
@@ -60,7 +62,7 @@ const {currentVehicle, setCurrentVehicle}=useContext(ConsumersContext);
                 />
                 <View style={styles.buttonContainer}>
                   <CustomButton
-                    title={"Select"}
+                    title={t("Select")}
                     onPressHandler={() => {
                         // console.log(u);
                          setCurrentVehicle(u);

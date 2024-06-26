@@ -12,9 +12,11 @@ import * as Location from "expo-location";
 import ConsumerCard from "../../components/ProviderComponents/ConsumerCard";
 import SwitchStatus from "./../../components/ProviderComponents/SwitchStatus";
 import RequestScreen from "./RequestScreen";
+import i18n from "../../app/(tabs)/i18n";
+import { useTranslation } from "react-i18next";
 
 const ProviderHomeScreen = ({ service, navigation, route }) => {
-  
+  const {t}=useTranslation()
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -79,9 +81,9 @@ const ProviderHomeScreen = ({ service, navigation, route }) => {
         <View style={styles.mapContainer}>
           <SwitchStatus handleSwitchChange={handleSwitchChange} />
           {isOpened ? (
-            <Text>Waiting For Requests...</Text>
+            <Text>{t("Waiting For Requests...")}</Text>
           ) : (
-            <Text>Not Available For Request</Text>
+            <Text>{t("Not Available For Request")}</Text>
           )}
         </View>
       )}
