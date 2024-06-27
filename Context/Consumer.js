@@ -10,7 +10,7 @@ const Consumer = ({ children }) => {
   const [paymentMethod, setPaymentMethod] = useState();
   const [price, setPrice] = useState();
   const [providerId, setProviderId] = useState();
-
+  const [ref, setRef]= useState()
   return (
     <ConsumersContext.Provider
       value={{
@@ -24,6 +24,8 @@ const Consumer = ({ children }) => {
         setPrice,
         providerId,
         setProviderId,
+        ref, 
+        setRef
       }}
     >
       {children}
