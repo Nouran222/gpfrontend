@@ -21,8 +21,9 @@ const Payment = ({ navigation, route }) => {
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const { paymentMethod, setPaymentMethod } = useContext(ConsumersContext);
-
+  const { paymentMethod, setPaymentMethod, providerId, serviceType } =
+    useContext(ConsumersContext);
+  const { t } = useTranslation();
   // const servicePrice = route.params ? route.params : {};
 
   const handleRatingChange = (newRating) => {

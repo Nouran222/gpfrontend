@@ -10,11 +10,14 @@ const Consumer = ({ children }) => {
   const [paymentMethod, setPaymentMethod] = useState();
   const [price, setPrice] = useState();
   const [providerId, setProviderId] = useState();
+  const [targetLocation, setTargetLocation] = useState();
 
   return (
     <ConsumersContext.Provider
       value={{
         serviceType,
+        targetLocation,
+        setTargetLocation,
         setServiceType,
         currentVehicle,
         setCurrentVehicle,

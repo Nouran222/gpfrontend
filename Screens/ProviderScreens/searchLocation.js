@@ -10,10 +10,17 @@ import { ConsumersContext } from "@/Context/Consumer";
 import { ServicePrice } from "../../constants/ServicePrice";
 import i18n from "../../app/(tabs)/i18n";
 import { useTranslation } from "react-i18next";
+import CustomButton from "@/components/CustomButton";
+import { Text } from "react-native";
 
 const ProviderHomeScreen2 = ({ navigation, route }) => {
-  const {t}=useTranslation()
-  const { currentVehicle, setCurrentVehicle } = useContext(ConsumersContext);
+  const { t } = useTranslation();
+  const {
+    currentVehicle,
+    setCurrentVehicle,
+    setTargetLocation,
+    targetLocation,
+  } = useContext(ConsumersContext);
   const { serviceType, setServiceType } = useContext(ConsumersContext);
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
@@ -88,11 +95,12 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
           <Ionicons name="search" size={24} color="#587FA7" />
         </TouchableOpacity>
       </View>
+
       <MapView style={styles.map} region={mapRegion}>
         <Marker coordinate={mapRegion} title="Selected Location" />
       </MapView>
 
-      <View style={styles.consumersList}>
+      {/* <View style={styles.consumersList}>
         <FlatList
           data={consumers}
           renderItem={({ item }) => {
@@ -116,7 +124,25 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContentContainer}
         />
-      </View>
+      </View> */}
+
+      {/* <Text>Location : {searchQuery}</Text>
+      <Text>
+        Lat & long : {mapRegion.latitude}& {mapRegion.longitude}
+      </Text> */}
+
+      <CustomButton
+        title={"Confirm target location"}
+        onPressHandler={() => {
+          console.log("clk confirm");
+          setTargetLocation({
+            targetLocationName: searchQuery,
+            targetLocationLat: mapRegion.latitude,
+            targetLocationLong: mapRegion.longitude,
+          });
+          navigation.navigate("RequestScreen");
+        }}
+      ></CustomButton>
     </View>
   );
 };
