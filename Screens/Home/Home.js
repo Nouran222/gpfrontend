@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import i18n from "../../app/(tabs)/i18n";
 import { useTranslation } from "react-i18next";
 import { IconButton } from "react-native-paper";
 
