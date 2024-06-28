@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   text: {
     margin: 8,
     color: "white",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Oswald",
   },
   profilePicture: {

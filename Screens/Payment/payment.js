@@ -1,22 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   Alert,
-  Linking,
   TouchableOpacity,
-  
 } from "react-native";
+import * as Linking from 'expo-linking';
 import axios from "axios";
 import RatingBottomModal from "../../components/modal";
 import { ConsumersContext } from "@/Context/Consumer";
-import i18n from "../../app/(tabs)/i18n";
 import { useTranslation } from "react-i18next";
 
 const Payment = ({ navigation, route }) => {
-  const {t}=useTranslation()
+  const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [paidFor, setPaidFor] = useState(false);
@@ -26,7 +24,31 @@ const Payment = ({ navigation, route }) => {
   const { paymentMethod, setPaymentMethod } = useContext(ConsumersContext);
 
   // const servicePrice = route.params ? route.params : {};
+  useEffect(() => {
+    const handleUrl = (event) => {
+      const { url } = event;
+      if (url) {
+        const { path } = Linking.parse(url);
+        if (path === "Home") {
+          navigation.navigate("Home");
+        } else if (path === "Payment") {
+          navigation.navigate("Payment");
+        }
+      }
+    };
 
+    Linking.addEventListener('url', handleUrl);
+
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleUrl({ url });
+      }
+    });
+
+    return () => {
+      Linking.removeEventListener('url', handleUrl);
+    };
+  }, []);
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
@@ -260,8 +282,9 @@ const styles = StyleSheet.create({
   textHeader: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 18,
+    fontSize: 25,
     color: "white",
+    fontFamily:"Oswald"
   },
   imageHeaderContainer: {
     width: "100%",

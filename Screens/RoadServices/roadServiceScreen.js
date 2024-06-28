@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   textHeader: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Oswald",
     color: "white",
   },
@@ -159,8 +159,9 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 16,
-    fontFamily: "Oswald",
+    fontSize: 18,
+    fontWeight:"bold"
+    // fontFamily: "Oswald",
   },
   row: {
     flexDirection: "row",

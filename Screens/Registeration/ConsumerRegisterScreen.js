@@ -68,7 +68,7 @@ const ConsumerRegistrationScreen = ({ navigation }) => {
             style={styles.image}
           />
         </View>
-        {i18n.language === "en" && (
+        {/* {i18n.language === "en" && (
           <CustomButton
             title="ar"
             onPressHandler={() => i18n.changeLanguage("ar")}
@@ -79,7 +79,7 @@ const ConsumerRegistrationScreen = ({ navigation }) => {
             title="en"
             onPressHandler={() => i18n.changeLanguage("en")}
           />
-        )}
+        )} */}
         <FormInput
           control={control}
           name="name"
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     // marginBottom: 24,
     // color: '#333',
     marginBottom: 24,
-    fontSize: 25,
+    fontSize: 28,
     fontFamily: "Oswald",
   },
   input: {

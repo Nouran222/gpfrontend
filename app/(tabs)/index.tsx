@@ -5,6 +5,8 @@ import { MyStack } from "../../Navigations/StackNavigation";
 import { useFonts } from "expo-font";
 import LoadingScreen from "../../Screens/SplashScreens/loadingScreen";
 import * as Linking from 'expo-linking';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 
 const linking = {
   prefixes: ["myapp://"],
@@ -17,7 +19,7 @@ const linking = {
 };
 
 const fonts = {
-  Oswald: require("../../assets/fonts/static/Oswald-Bold.ttf"),
+  Oswald: require("../../assets/fonts/PlaywriteAUSA-VariableFont_wght.ttf"),
 };
 
 export default function HomeScreen() {
@@ -25,9 +27,11 @@ export default function HomeScreen() {
 
   if (fontsLoaded) {
     return (
+      <GestureHandlerRootView>
       <NavigationContainer independent={true} linking={linking}>
         <MyStack />
       </NavigationContainer>
+      </GestureHandlerRootView>
     );
   }
 

@@ -23,31 +23,32 @@ import * as Linking from "expo-linking";
 import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
-const linking = {
-  prefixes: [Linking.createURL("/")],
-  config: {
-    screens: {
-      Home: "Home",
-      Payment: "Payment",
-    },
-  },
-};
+// const linking = {
+//   prefixes: [Linking.createURL("/")],
+//   config: {
+//     screens: {
+//       Home: "Home",
+//       Payment: "Payment",
+//     },
+//   },
+// };
 export function MyStack() {
   return (
     <Consumer>
       {/* <NavigationContainer linking={linking}> */}
         <Stack.Navigator>
+       
           <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
             name="Payment"
             component={Payment}
             options={{
               headerShown: false,
             }}
-          />
-          <Stack.Screen
-            name="SplashScreen"
-            component={SplashScreen}
-            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="AddVehicle"
