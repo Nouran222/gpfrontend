@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { IconButton } from "react-native-paper";
+import i18n from "@/app/(tabs)/i18n.js";
 
 const Home = ({ navigation }) => {
   const { t } = useTranslation();
@@ -161,7 +162,8 @@ const styles = StyleSheet.create({
     margin: 5,
     color: "#3D3B3B",
     fontSize: 18,
-    fontFamily: "Oswald",
+    fontWeight:"bold"
+    // fontFamily: "Oswald",
   },
   image: {
     width: "90%",

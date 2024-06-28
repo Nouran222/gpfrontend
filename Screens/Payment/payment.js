@@ -21,9 +21,8 @@ const Payment = ({ navigation, route }) => {
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const { paymentMethod, setPaymentMethod, providerId, serviceType } =
+  const { paymentMethod, setPaymentMethod, providerId, serviceType , price} =
     useContext(ConsumersContext);
-  const { t } = useTranslation();
   // const servicePrice = route.params ? route.params : {};
   useEffect(() => {
     const handleUrl = (event) => {
@@ -213,10 +212,14 @@ const Payment = ({ navigation, route }) => {
         />
       </View>
       <View style={styles.selectionsContainer}>
+
+        <View style={{ marginTop: 70 , backgroundColor:"#FFF394",padding:15 , width :"50%" , marginHorizontal:"auto"}}>
+          <Text style={{textAlign:"center", fontSize:22, color:"#3D3B3B",fontWeight:"bold"}}>  {price ? `${price} LE` : "00.00 LE"}  </Text>
+        </View>
         <TouchableOpacity
           style={[
             styles.paymentContainer,
-            { backgroundColor: "mistyrose", elevation: 5, marginTop: 70 },
+            { backgroundColor: "mistyrose", elevation: 5, marginTop: 30 },
           ]}
           onPress={() => {
             setIsModalVisible(true);
@@ -250,7 +253,7 @@ const Payment = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       {/* {console.log("ser type in payment ", serviceType)} */}
-      {/* <RatingBottomModal
+      <RatingBottomModal
         visible={isModalVisible}
         onClose={handleModalClose}
         onRatingChanged={handleRatingChange}
@@ -260,7 +263,7 @@ const Payment = ({ navigation, route }) => {
         providerId={providerId}
         navigation={navigation}
         serviceType={serviceType}
-      /> */}
+      />
     </View>
   );
 };

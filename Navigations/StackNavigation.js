@@ -21,7 +21,7 @@ import Consumer from "../Context/Consumer";
 import Vehicles from "./../Screens/RoadServices/Vehicles";
 import * as Linking from "expo-linking";
 import { NavigationContainer } from "@react-navigation/native";
-
+import LanguageScreen from "../Screens/SplashScreens/languageScreen"
 const Stack = createNativeStackNavigator();
 // const linking = {
 //   prefixes: [Linking.createURL("/")],
@@ -43,7 +43,15 @@ export function MyStack() {
             component={SplashScreen}
             options={{ headerShown: false }}
           />
-           <Stack.Screen
+          
+          <Stack.Screen
+            name="LanguageScreen"
+            component={LanguageScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        <Stack.Screen
             name="Payment"
             component={Payment}
             options={{

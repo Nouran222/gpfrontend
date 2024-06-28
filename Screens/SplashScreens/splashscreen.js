@@ -13,7 +13,7 @@ const Splashscreen = ({ navigation }) => {
       console.log(userId);
       if (!userId && navigation) {
         const timer = setTimeout(() => {
-          navigation.navigate("LoginScreen");
+          navigation.navigate("LanguageScreen");
         }, 5000);
 
         return () => clearTimeout(timer);

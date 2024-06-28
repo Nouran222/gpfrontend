@@ -27,8 +27,6 @@ const Consumer = ({ children }) => {
         setPrice,
         providerId,
         setProviderId,
-        ref,
-        setRef,
       }}
     >
       {children}
