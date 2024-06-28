@@ -27,12 +27,14 @@ import { ConsumersContext } from "@/Context/Consumer";
 import LoadingScreen from "../SplashScreens/loadingScreen";
 import { Image } from "react-native";
 
-const RequestScreen = ({ navigation, servicePrice }) => {
-  const { currentVehicle, setCurrentVehicle, setProviderId } =
-    useContext(ConsumersContext);
-  // let car = route.params;
-  // console.log(route.params);
-  // car.servicePrice = 50;
+const RequestScreen = ({ navigation, servicePrice, route }) => {
+  const {
+    currentVehicle,
+    setCurrentVehicle,
+    setProviderId,
+    serviceType,
+    targetLocation,
+  } = useContext(ConsumersContext);
 
   const [mapRegion, setMapRegion] = useState({
     latitude: 37.78825,
@@ -50,17 +52,30 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   let [isRequestAccepted, setIsRequestAccepted] = useState(false);
   let [providersLiveLocation, setProvidersLiveLocation] = useState(null);
   let [hasArrived, setHasArrived] = useState(false);
+  let [startPickup, setStartPickup] = useState(false);
   let mapRef = useRef(null);
 
-  console.log("provData", providersData);
-
   const sendRequest = (conId, conLoc, proId) => {
-    socket.emit("SentRequest", {
-      userId: conId,
-      targetId: proId,
-      location: conLoc,
-      distance: 5.151,
-    });
+    if (serviceType.length === 1 && serviceType[0] === "winch") {
+      socket.emit("SentPickUpRequest", {
+        userId: conId,
+        targetId: proId,
+        location: conLoc,
+        distance: 5.151,
+        targetLocation: {
+          latitude: targetLocation.targetLocationLat,
+          longitude: targetLocation.targetLocationLong,
+          name: targetLocation.targetLocationName,
+        },
+      });
+    } else {
+      socket.emit("SentRequest", {
+        userId: conId,
+        targetId: proId,
+        location: conLoc,
+        distance: 5.151,
+      });
+    }
   };
 
   let getProviders = () => {
@@ -68,8 +83,8 @@ const RequestScreen = ({ navigation, servicePrice }) => {
       console.log("click");
       socket.emit("GetNearBy", { userId: id });
     } else {
-      console.log(socket);
-      console.log(id);
+      // console.log(socket);
+      // console.log(id);
     }
   };
 
@@ -98,8 +113,11 @@ const RequestScreen = ({ navigation, servicePrice }) => {
         });
 
         socket.on("notification", (data) => {
-          console.log(data);
-          if (data.arrivalMessage) {
+          console.log("message data : ", data);
+          if (data.arrivalMessage.includes("Start Pickup")) {
+            setStartPickup(true);
+          } else {
+            setStartPickup(false);
             setHasArrived(true);
           }
         });
@@ -107,23 +125,25 @@ const RequestScreen = ({ navigation, servicePrice }) => {
         socket.on("RequestAccepted", ({ providerId }) => {
           setAcceptedProviderId(providerId);
           setIsRequestAccepted(true);
+          console.log("in RequestAccepted");
 
-          console.log("data", providersData);
+          // console.log("data", providersData);
 
           setProviders((old) => {
             return old.filter((p) => {
-              console.log("old");
+              // console.log("old");
               return p["providerId"] === providerId;
             });
           });
         });
 
         socket.on("Tracking", (data) => {
+          console.log("in tracking");
           setProvidersLiveLocation(data);
         });
 
         socket.on("ServiceEnded", (data) => {
-          console.log("payment process");
+          // console.log("payment process");
 
           setProviderId(data["providerId"]);
 
@@ -158,7 +178,7 @@ const RequestScreen = ({ navigation, servicePrice }) => {
   useEffect(() => {
     if (providersLiveLocation) {
       // console.log("asda");
-      console.log(providersLiveLocation);
+      // console.log(providersLiveLocation);
       let loc = providersLiveLocation["trackingMessage"];
       console.log("lat ", loc["latitude"]);
       console.log("long ", loc["longitude"]);
@@ -185,7 +205,18 @@ const RequestScreen = ({ navigation, servicePrice }) => {
       axios
         .post(url + "/api/serviceProvider/providers", ids)
         .then((data) => {
-          setProvidersData(data.data);
+          let dataFiltered;
+          if (serviceType.length === 1 && serviceType[0] === "winch") {
+            dataFiltered = data.data.providersArray.filter((provider) => {
+              return provider["service_type"].includes("pickup");
+            });
+          } else {
+            dataFiltered = data.data.providersArray.filter((provider) => {
+              return provider["service_type"].includes("repair");
+            });
+          }
+          // console.log("data filteredddddd", dataFiltered);
+          setProvidersData(dataFiltered);
         })
         .catch((e) => {
           console.log(e);
@@ -254,27 +285,35 @@ const RequestScreen = ({ navigation, servicePrice }) => {
             ></Marker>
           ) : null}
 
-          {providers?.map((p) => {
-            let location = p["location"];
-            let latitude = location["latitude"];
-            let longitude = location["longitude"];
-            let coordinate = { latitude, longitude };
-            return (
-              <Marker
-                key={p["providerId"]}
-                coordinate={coordinate}
-                title="Origin"
-              >
-                <View style={[styles.customMarker, styles.originMarker]}></View>
-              </Marker>
-            );
-          })}
+          {providersData.length > 0 &&
+            providers?.map((p) => {
+              let check = providersData.find(
+                (provider) => provider["_id"] === p["providerId"]
+              );
+              if (check) {
+                let location = p["location"];
+                let latitude = location["latitude"];
+                let longitude = location["longitude"];
+                let coordinate = { latitude, longitude };
+                return (
+                  <Marker
+                    key={p["providerId"]}
+                    coordinate={coordinate}
+                    title="Origin"
+                  >
+                    <View
+                      style={[styles.customMarker, styles.originMarker]}
+                    ></View>
+                  </Marker>
+                );
+              }
+            })}
         </MapView>
 
         <View style={styles.consumersList}>
           {!isRequestAccepted ? (
             <FlatList
-              data={providersData["providersArray"]}
+              data={providersData}
               renderItem={({ item }) => {
                 return (
                   <ConsumerCard
@@ -299,10 +338,12 @@ const RequestScreen = ({ navigation, servicePrice }) => {
               contentContainerStyle={styles.listContentContainer}
             />
           ) : (
-            providersData["providersArray"].map((m) => {
+            providersData.map((m) => {
               if (providers[0]) {
                 if (m["_id"] === providers[0]["providerId"]) {
-                  return !hasArrived ? (
+                  return startPickup ? (
+                    <Text>Start Pickup</Text>
+                  ) : !hasArrived && !startPickup ? (
                     <View style={{ marginTop: 5 }}>
                       <Text
                         style={{

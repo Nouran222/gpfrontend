@@ -1,4 +1,3 @@
-import i18n from "@/app/(tabs)/i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
