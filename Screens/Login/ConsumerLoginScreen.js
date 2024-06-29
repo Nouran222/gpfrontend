@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
@@ -20,8 +20,10 @@ import { Button, Divider, Menu, Provider } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import i18n from "@/app/(tabs)/i18n.js";
 import { url } from "@/constants/urls.js";
+import { ConsumersContext } from "@/Context/Consumer.js";
 
 const ConsumerLoginScreen = ({ navigation }) => {
+  const { setConsumerName } = useContext(ConsumersContext);
   const { t } = useTranslation();
   const isRTL = I18nManager.isRTL;
 
@@ -48,6 +50,8 @@ const ConsumerLoginScreen = ({ navigation }) => {
           let foundUser = res.data;
           await AsyncStorage.setItem("userId", foundUser._id);
           await AsyncStorage.setItem("userRole", "consumer");
+          setConsumerName(foundUser.name);
+
           navigation.navigate("Home");
         })
         .catch((err) => {

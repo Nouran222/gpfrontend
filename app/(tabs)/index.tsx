@@ -4,7 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MyStack } from "../../Navigations/StackNavigation";
 import { useFonts } from "expo-font";
 import LoadingScreen from "../../Screens/SplashScreens/loadingScreen";
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const linking = {
   prefixes: ["myapp://"],
@@ -25,9 +26,11 @@ export default function HomeScreen() {
 
   if (fontsLoaded) {
     return (
-      <NavigationContainer independent={true} linking={linking}>
-        <MyStack />
-      </NavigationContainer>
+      <GestureHandlerRootView>
+        <NavigationContainer independent={true} linking={linking}>
+          <MyStack />
+        </NavigationContainer>
+      </GestureHandlerRootView>
     );
   }
 

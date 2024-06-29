@@ -7,7 +7,6 @@ import {
   Alert,
   Linking,
   TouchableOpacity,
-  
 } from "react-native";
 import axios from "axios";
 import RatingBottomModal from "../../components/modal";
@@ -16,7 +15,6 @@ import i18n from "../../app/(tabs)/i18n";
 import { useTranslation } from "react-i18next";
 
 const Payment = ({ navigation, route }) => {
-  const {t}=useTranslation()
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [paidFor, setPaidFor] = useState(false);
@@ -228,7 +226,7 @@ const Payment = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       {/* {console.log("ser type in payment ", serviceType)} */}
-      {/* <RatingBottomModal
+      <RatingBottomModal
         visible={isModalVisible}
         onClose={handleModalClose}
         onRatingChanged={handleRatingChange}
@@ -238,7 +236,7 @@ const Payment = ({ navigation, route }) => {
         providerId={providerId}
         navigation={navigation}
         serviceType={serviceType}
-      /> */}
+      />
     </View>
   );
 };

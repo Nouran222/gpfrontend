@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, TextInput,Text } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { StyleSheet, View, Image, TextInput, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Example icon library
 import CustomButton from "@/components/CustomButton";
 import { useTranslation } from "react-i18next";
@@ -7,15 +7,17 @@ import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { url } from "@/constants/urls";
+import { useFocusEffect } from "@react-navigation/native";
 const Profile = () => {
-  const {t}=useTranslation()
+  const { t } = useTranslation();
   const [userId, setUserId] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     const fetchUserId = async () => {
-        const id = await AsyncStorage.getItem("userId");
-        setUserId(id);
+      const id = await AsyncStorage.getItem("userId");
+      setUserId(id);
+      console.log(id);
     };
     fetchUserId();
   }, []);
@@ -23,7 +25,7 @@ const Profile = () => {
   useEffect(() => {
     if (userId) {
       axios
-        .post(url + "/api/user/profile",  {userId})
+        .post(url + "/api/user/profile", { userId })
         .then((res) => {
           setUserInfo(res.data.userInfo);
         })
@@ -33,8 +35,7 @@ const Profile = () => {
     }
   }, [userId]);
 
-
-  if(!userInfo) return <Text>Loading...</Text>
+  if (!userInfo) return <Text>Loading...</Text>;
   return (
     <View style={styles.profile}>
       <View style={styles.header}>{/* Header content */}</View>
@@ -47,12 +48,12 @@ const Profile = () => {
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
           <Icon name="user" size={20} color="#666" style={styles.icon} />
+
           <TextInput
             editable={false}
             style={styles.input}
             placeholder={userInfo.name}
             placeholderTextColor="#666"
-            
           />
         </View>
         <View style={styles.inputWrapper}>
@@ -70,16 +71,18 @@ const Profile = () => {
           <TextInput
             editable={false}
             style={styles.input}
-            placeholder={""+userInfo.contact_number}
+            placeholder={"" + userInfo.contact_number}
             placeholderTextColor="#666"
             keyboardType="phone-pad"
           />
         </View>
         <View style={styles.buttonContainer}>
-        <CustomButton title={t("Save")} onPressHandler={() => {}}></CustomButton>
+          <CustomButton
+            title={t("Save")}
+            onPressHandler={() => {}}
+          ></CustomButton>
+        </View>
       </View>
-      </View>
-
     </View>
   );
 };
@@ -87,7 +90,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   profile: {
     // flex: 1,
-    justifyContent:"center"
+    justifyContent: "center",
   },
   header: {
     backgroundColor: "#9AB3CA",
@@ -107,7 +110,6 @@ const styles = StyleSheet.create({
     top: 130,
     width: "100%",
     alignItems: "center",
-    
   },
   img: {
     width: 120,
@@ -115,8 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     borderWidth: 2,
     borderColor: "white",
-    backgroundColor:'white',
-    
+    backgroundColor: "white",
   },
   inputContainer: {
     // flex: 1,

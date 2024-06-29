@@ -26,6 +26,7 @@ import { url } from "./../../constants/urls";
 import { ConsumersContext } from "@/Context/Consumer";
 import LoadingScreen from "../SplashScreens/loadingScreen";
 import { Image } from "react-native";
+import CustomButton from "@/components/CustomButton";
 
 const RequestScreen = ({ navigation, servicePrice, route }) => {
   const {
@@ -34,6 +35,7 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
     setProviderId,
     serviceType,
     targetLocation,
+    providerId,
   } = useContext(ConsumersContext);
 
   const [mapRegion, setMapRegion] = useState({
@@ -241,6 +243,14 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
     }
   };
 
+  const cancelHandle = () => {
+    if (socket && id && type) {
+      // navigation.navigate("home");
+      console.log("cancel");
+      // socket.emit("notification", { CancelMessage: "Cancel", });
+    }
+  };
+
   return (
     <>
       <View style={styles.homeHeader}>
@@ -358,6 +368,16 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
                         {m["name"]} Is On The Way!!
                       </Text>
                       <LoadingScreen></LoadingScreen>
+                      <View
+                        style={{
+                          marginTop: 270,
+                        }}
+                      >
+                        <CustomButton
+                          title={"Cancel Service"}
+                          onPressHandler={cancelHandle}
+                        ></CustomButton>
+                      </View>
                     </View>
                   ) : (
                     <ImageBackground

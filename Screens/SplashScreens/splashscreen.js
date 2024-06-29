@@ -1,29 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyleSheet, View, Dimensions, Text } from "react-native";
 import LottieView from "lottie-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "@/constants/urls";
+import axios from "axios";
+import { ConsumersContext } from "@/Context/Consumer";
 const { height } = Dimensions.get("window");
 
 const Splashscreen = ({ navigation }) => {
+  const { setConsumerName } = useContext(ConsumersContext);
   useEffect(() => {
     const getCurrentUser = async () => {
       // AsyncStorage.clear();
       const userId = await AsyncStorage.getItem("userId");
       const userType = await AsyncStorage.getItem("userRole");
-      console.log(userId);
+
       if (!userId && navigation) {
         const timer = setTimeout(() => {
           navigation.navigate("LoginScreen");
         }, 5000);
 
         return () => clearTimeout(timer);
-      } else if (userId && userType == "consumer" && navigation)
+      } else if (userId && userType == "consumer" && navigation) {
+        if (userId) {
+          axios
+            .get(`${url}/api/user/${userId}`)
+            .then((res) => {
+              setConsumerName(res.data.user["name"]);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         navigation.navigate("Home");
-      else if (userId && userType == "provider" && navigation)
+      } else if (userId && userType == "provider" && navigation)
         navigation.navigate("ProviderHomeScreen2");
     };
     getCurrentUser();
   }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.animationContainer}>

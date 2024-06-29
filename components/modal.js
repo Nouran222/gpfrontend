@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { BlurView } from "@react-native-community/blur";
 // import { Platform } from 'react-native';
 import {
@@ -18,6 +18,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "@/constants/urls";
 import CustomButton from "./CustomButton";
+import { Snackbar, TextInput } from "react-native-paper";
+import { ConsumersContext } from "@/Context/Consumer";
 
 // import Stars from './Stars';
 
@@ -39,11 +41,20 @@ export const RatingBottomModal = ({
   if (!visible) {
     return null;
   }
-  console.log("proooId", providerId);
+  // console.log("proooId", providerId);
   const pan = React.useRef(new Animated.ValueXY({ x: 0, y: height })).current;
   const [offset, setOffset] = React.useState(starRating || 0);
   const [provider, setProvider] = React.useState(null);
   const animatedWidth = React.useRef(0);
+  const [inputValue, setInputValue] = useState("");
+  const { consumerName } = useContext(ConsumersContext);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const onDismissSnackBar = () => {
+    setInterval(() => {
+      setSnackbarVisible(false);
+    }, 2000);
+  };
+
   // let id = null;
   // useEffect(()=>{
   //   let getId = async ()=>{
@@ -55,7 +66,7 @@ export const RatingBottomModal = ({
   // },[])
   const openAnim = () => {
     Animated.spring(pan.y, {
-      toValue: height - MODAL_HEIGHT,
+      toValue: height * 0.6 - MODAL_HEIGHT,
       bounciness: 0,
       useNativeDriver: true,
     }).start();
@@ -105,6 +116,37 @@ export const RatingBottomModal = ({
       })
       .catch((e) => console.log(e));
   }, []);
+
+  const handleComplaint = () => {
+    const now = new Date();
+    let ser_type;
+    if (serviceType.length == 1 && serviceType[0] === "winch") {
+      ser_type = "pickup";
+    } else {
+      ser_type = "repair";
+    }
+    let data = {
+      providerId: providerId,
+      complaint: {
+        consumerName: consumerName,
+        service_type: ser_type,
+        date: now.toLocaleDateString(),
+        content: inputValue,
+      },
+    };
+    axios
+      .post(`${url}/api/serviceProvider/complaint`, data)
+      .then((res) => {
+        console.log(res.data);
+        setInputValue("");
+        setSnackbarVisible(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    // console.log(data);
+  };
 
   const changeOffset = React.useCallback((e) => {
     const { nativeEvent } = e;
@@ -211,110 +253,166 @@ export const RatingBottomModal = ({
       },
     })
   ).current;
-  console.log("or", provider);
+  // console.log("or", provider);
   return (
-    <Animated.View
-      {...modalResponder.panHandlers}
-      style={[
-        {
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width,
-          height,
-          backgroundColor: "rgba(0,0,0,.1)",
-        },
-      ]}
-    >
-      {/* {Platform.OS === 'android'?(<BlurView
+    <>
+      <Animated.View
+        {...modalResponder.panHandlers}
+        style={[
+          {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width,
+            height,
+            backgroundColor: "rgba(0,0,0,.1)",
+          },
+        ]}
+      >
+        {/* {Platform.OS === 'android'?(<BlurView
         style={StyleSheet.absoluteFillObject}
         blurType="light"
         blurAmount={5}
         reducedTransparencyFallbackColor="white"
       />):<View><Text>MSH Gaya</Text></View> } */}
-      {/* <BlurView
+        {/* <BlurView
         style={StyleSheet.absoluteFillObject}
         blurType="light"
         blurAmount={5}
         reducedTransparencyFallbackColor="white"
       /> */}
-      <View>
-        <Animated.View
-          style={{
-            opacity: pan.y.interpolate({
-              inputRange: [height - MODAL_HEIGHT, height],
-              outputRange: [1, 0.5],
-            }),
-            transform: [
-              {
-                translateY: pan.y,
-              },
-            ],
-          }}
-        >
-          <View
+        <View>
+          <Animated.View
             style={{
-              width: "100%",
-              height: MODAL_HEIGHT,
-              backgroundColor: "#fff",
-              shadowColor: "#ccc",
-              shadowOffset: { height: -1, width: 0 },
-              shadowRadius: 15,
-              shadowOpacity: 0.1,
+              opacity: pan.y.interpolate({
+                inputRange: [height - MODAL_HEIGHT, height],
+                outputRange: [1, 0.5],
+              }),
+              transform: [
+                {
+                  translateY: pan.y,
+                },
+              ],
             }}
           >
             <View
               style={{
-                flex: 1,
-                paddingTop: 24,
-                alignItems: "center",
-                justifyContent: "flex-start",
+                width: "100%",
+                height: MODAL_HEIGHT,
+                backgroundColor: "#fff",
+                shadowColor: "#ccc",
+                shadowOffset: { height: -1, width: 0 },
+                shadowRadius: 15,
+                shadowOpacity: 0.1,
               }}
             >
-              <Text
-                style={{
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                  fontSize: 16,
-                }}
-              >
-                {provider}
-              </Text>
-
               <View
                 style={{
-                  marginTop: 16,
-                  flexDirection: "row",
+                  flex: 1,
+                  paddingTop: 24,
+                  alignItems: "center",
+                  justifyContent: "flex-start",
                 }}
               >
-                <Animated.View
-                  onLayout={(e) => {
-                    animatedWidth.current = e.nativeEvent.layout.width;
+                <Text
+                  style={{
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    fontSize: 16,
                   }}
-                  style={{ flexDirection: "row" }}
-                  {...starPanResponder.panHandlers}
                 >
-                  {Array.from({ length: maxStars || 5 }).map((_, i) => {
-                    return (
-                      <Star
-                        key={i}
-                        size={starSize}
-                        distance={8}
-                        offset={offset - i}
-                      />
-                    );
-                  })}
-                </Animated.View>
-              </View>
+                  {provider}
+                </Text>
 
-              <CustomButton title="Go Back Home" onPressHandler={handleRate}>
-                {" "}
-              </CustomButton>
+                <View
+                  style={{
+                    marginTop: 16,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Animated.View
+                    onLayout={(e) => {
+                      animatedWidth.current = e.nativeEvent.layout.width;
+                    }}
+                    style={{ flexDirection: "row" }}
+                    {...starPanResponder.panHandlers}
+                  >
+                    {Array.from({ length: maxStars || 5 }).map((_, i) => {
+                      return (
+                        <Star
+                          key={i}
+                          size={starSize}
+                          distance={8}
+                          offset={offset - i}
+                        />
+                      );
+                    })}
+                  </Animated.View>
+                </View>
+
+                <View
+                  style={{
+                    marginTop: 16,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Animated.View
+                    onLayout={(e) => {
+                      animatedWidth.current = e.nativeEvent.layout.width;
+                    }}
+                    style={{ flexDirection: "row" }}
+                    {...starPanResponder.panHandlers}
+                  >
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Do you have any complaints? Write it here"
+                      value={inputValue}
+                      onChangeText={(text) => setInputValue(text)}
+                      right={
+                        <TextInput.Icon
+                          onPress={handleComplaint}
+                          icon="send"
+                          size={30}
+                          style={{ marginRight: 25, padding: 1 }}
+                        />
+                      }
+                      theme={{
+                        colors: {
+                          primary: "red", // Customize the primary color
+                          text: "#000", // Customize the text color
+                          placeholder: "#aaa", // Customize the placeholder color
+                          background: "#fff", // Customize the background color
+                        },
+                      }}
+                    />
+                  </Animated.View>
+                </View>
+
+                <CustomButton title="Go Back Home" onPressHandler={handleRate}>
+                  {" "}
+                </CustomButton>
+              </View>
             </View>
-          </View>
-        </Animated.View>
-      </View>
-    </Animated.View>
+          </Animated.View>
+        </View>
+      </Animated.View>
+      <Snackbar visible={snackbarVisible} onDismiss={onDismissSnackBar}>
+        Complaint added Successfully.
+      </Snackbar>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: "#fff",
+    fontSize: 15,
+    borderRadius: 5,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+});
 export default RatingBottomModal;

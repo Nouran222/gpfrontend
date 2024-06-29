@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useContext, useEffect, useId, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -10,8 +10,14 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { IconButton } from "react-native-paper";
+import i18n from "@/app/(tabs)/i18n.js";
+import axios from "axios";
+import { url } from "@/constants/urls";
+import { ConsumersContext } from "@/Context/Consumer";
 
 const Home = ({ navigation }) => {
+  const { consumerName } = useContext(ConsumersContext);
+
   const { t } = useTranslation();
   // Map image names to their require paths
   const images = {
@@ -35,7 +41,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.homeHeader}>
-        <Text style={styles.text}>Hello, Yasmeen</Text>
+        <Text style={styles.text}>Hello, {consumerName}</Text>
 
         <View style={{ flexDirection: "row" }}>
           <IconButton

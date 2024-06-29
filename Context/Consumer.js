@@ -11,10 +11,13 @@ const Consumer = ({ children }) => {
   const [price, setPrice] = useState();
   const [providerId, setProviderId] = useState();
   const [targetLocation, setTargetLocation] = useState();
+  const [consumerName, setConsumerName] = useState();
 
   return (
     <ConsumersContext.Provider
       value={{
+        consumerName,
+        setConsumerName,
         serviceType,
         targetLocation,
         setTargetLocation,
@@ -27,8 +30,6 @@ const Consumer = ({ children }) => {
         setPrice,
         providerId,
         setProviderId,
-        ref,
-        setRef,
       }}
     >
       {children}
