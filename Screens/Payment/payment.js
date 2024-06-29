@@ -1,31 +1,54 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   Alert,
-  Linking,
   TouchableOpacity,
 } from "react-native";
+import * as Linking from "expo-linking";
 import axios from "axios";
 import RatingBottomModal from "../../components/modal";
 import { ConsumersContext } from "@/Context/Consumer";
-import i18n from "../../app/(tabs)/i18n";
 import { useTranslation } from "react-i18next";
 
 const Payment = ({ navigation, route }) => {
+  const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const [paypalUrl, setPaypalUrl] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const { paymentMethod, setPaymentMethod, providerId, serviceType } =
+  const { paymentMethod, setPaymentMethod, providerId, serviceType, price } =
     useContext(ConsumersContext);
-  const { t } = useTranslation();
   // const servicePrice = route.params ? route.params : {};
+  useEffect(() => {
+    const handleUrl = (event) => {
+      const { url } = event;
+      if (url) {
+        const { path } = Linking.parse(url);
+        if (path === "Home") {
+          navigation.navigate("Home");
+        } else if (path === "Payment") {
+          navigation.navigate("Payment");
+        }
+      }
+    };
 
+    Linking.addEventListener("url", handleUrl);
+
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleUrl({ url });
+      }
+    });
+
+    return () => {
+      Linking.removeEventListener("url", handleUrl);
+    };
+  }, []);
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };
@@ -189,10 +212,31 @@ const Payment = ({ navigation, route }) => {
         />
       </View>
       <View style={styles.selectionsContainer}>
+        <View
+          style={{
+            marginTop: 70,
+            backgroundColor: "#FFF394",
+            padding: 15,
+            width: "50%",
+            marginHorizontal: "auto",
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 22,
+              color: "#3D3B3B",
+              fontWeight: "bold",
+            }}
+          >
+            {" "}
+            {price ? `${price} LE` : "00.00 LE"}{" "}
+          </Text>
+        </View>
         <TouchableOpacity
           style={[
             styles.paymentContainer,
-            { backgroundColor: "mistyrose", elevation: 5, marginTop: 70 },
+            { backgroundColor: "mistyrose", elevation: 5, marginTop: 30 },
           ]}
           onPress={() => {
             setIsModalVisible(true);
@@ -259,8 +303,9 @@ const styles = StyleSheet.create({
   textHeader: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 18,
+    fontSize: 25,
     color: "white",
+    fontFamily: "Oswald",
   },
   imageHeaderContainer: {
     width: "100%",

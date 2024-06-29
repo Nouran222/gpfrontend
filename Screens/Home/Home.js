@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   text: {
     margin: 8,
     color: "white",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Oswald",
   },
   profilePicture: {
@@ -167,7 +167,8 @@ const styles = StyleSheet.create({
     margin: 5,
     color: "#3D3B3B",
     fontSize: 18,
-    fontFamily: "Oswald",
+    fontWeight: "bold",
+    // fontFamily: "Oswald",
   },
   image: {
     width: "90%",

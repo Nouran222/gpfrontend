@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     marginBottom: 24,
     // color: '#333',
-    fontSize: 25,
+    fontSize: 28,
+    // fontWeight:"300",
     fontFamily: "Oswald",
   },
   LoginImage: {

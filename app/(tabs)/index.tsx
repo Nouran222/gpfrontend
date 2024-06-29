@@ -18,7 +18,7 @@ const linking = {
 };
 
 const fonts = {
-  Oswald: require("../../assets/fonts/static/Oswald-Bold.ttf"),
+  Oswald: require("../../assets/fonts/PlaywriteAUSA-VariableFont_wght.ttf"),
 };
 
 export default function HomeScreen() {

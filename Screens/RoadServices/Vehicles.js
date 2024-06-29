@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   textHeader: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 18,
+    fontSize: 25,
     fontFamily: "Oswald",
     color: "white",
   },
