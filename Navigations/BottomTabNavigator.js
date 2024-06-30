@@ -8,7 +8,8 @@ import Home from "../Screens/Home/Home";
 import Vehicles from "../Screens/RoadServices/Vehicles";
 import Profile from "../Screens/Profile/profile";
 import Payment from "@/Screens/Payment/payment";
-import ComplaintScreen from "./../Screens/Complaints/ComplaintScreen";
+import History from "@/Screens/History/history"
+// import ComplaintScreen from "./../Screens/Complaints/ComplaintScreen";
 
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
@@ -71,10 +72,10 @@ const BottomTabNavigator = () => {
                   color={focused ? "white" : "lightgray"}
                 />
               </View>
+
             ),
           }}
         />
-
         <Tab.Screen
           name="Profile"
           component={Profile}
@@ -95,6 +96,28 @@ const BottomTabNavigator = () => {
             ),
           }}
         />
+        <Tab.Screen
+          name="History"
+          component={History}
+          options={{
+            unmountOnBlur: true,
+            tabBarIcon: ({ focused }) => (
+              <View
+                style={{
+                  top: Platform.OS === "ios" ? 10 : 0,
+                }}
+              >
+                <Icon
+                  name="clockcircleo"
+                  size={30}
+                  color={focused ? "white" : "lightgray"}
+                />
+              </View>
+              
+            ),
+          }}
+        />
+
       </Tab.Navigator>
     </>
   );
