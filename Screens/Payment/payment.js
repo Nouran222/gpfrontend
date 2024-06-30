@@ -24,31 +24,31 @@ const Payment = ({ navigation, route }) => {
   const { paymentMethod, setPaymentMethod, providerId, serviceType, price } =
     useContext(ConsumersContext);
   // const servicePrice = route.params ? route.params : {};
-  useEffect(() => {
-    const handleUrl = (event) => {
-      const { url } = event;
-      if (url) {
-        const { path } = Linking.parse(url);
-        if (path === "Home") {
-          navigation.navigate("Home");
-        } else if (path === "Payment") {
-          navigation.navigate("Payment");
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const handleUrl = (event) => {
+  //     const { url } = event;
+  //     if (url) {
+  //       const { path } = Linking.parse(url);
+  //       if (path === "Home") {
+  //         navigation.navigate("Home");
+  //       } else if (path === "Payment") {
+  //         navigation.navigate("Payment");
+  //       }
+  //     }
+  //   };
 
-    Linking.addEventListener("url", handleUrl);
+  //   Linking.addEventListener("url", handleUrl);
 
-    Linking.getInitialURL().then((url) => {
-      if (url) {
-        handleUrl({ url });
-      }
-    });
+  //   Linking.getInitialURL().then((url) => {
+  //     if (url) {
+  //       handleUrl({ url });
+  //     }
+  //   });
 
-    return () => {
-      Linking.removeEventListener("url", handleUrl);
-    };
-  }, []);
+  //   return () => {
+  //     Linking.removeEventListener("url", handleUrl);
+  //   };
+  // }, []);
   const handleRatingChange = (newRating) => {
     setRating(newRating);
   };

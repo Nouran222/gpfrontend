@@ -8,7 +8,6 @@ import Home from "../Screens/Home/Home";
 import Vehicles from "../Screens/RoadServices/Vehicles";
 import Profile from "../Screens/Profile/profile";
 import Payment from "@/Screens/Payment/payment";
-import ComplaintScreen from "./../Screens/Complaints/ComplaintScreen";
 
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
