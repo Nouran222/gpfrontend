@@ -12,6 +12,7 @@ import i18n from "../../app/(tabs)/i18n";
 import { useTranslation } from "react-i18next";
 import CustomButton from "@/components/CustomButton";
 import { Text } from "react-native";
+import { IconButton } from "react-native-paper";
 
 const ProviderHomeScreen2 = ({ navigation, route }) => {
   const { t } = useTranslation();
@@ -28,13 +29,6 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
-  const [consumers, setConsumers] = useState([
-    { id: "1", name: "Provider 1", distance: 2, carType: "Sedan" },
-    { id: "2", name: "Provider 2", distance: 5, carType: "SUV" },
-    { id: "3", name: "Provider 3", distance: 3, carType: "Sedan" },
-    { id: "4", name: "Provider 4", distance: 7, carType: "SUV" },
-  ]);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -83,6 +77,15 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.homeHeader}>
+        <Text style={styles.text}>Search Target Location</Text>
+
+        {/* <Image
+          style={styles.profilePicture}
+          source={require("../../assets/images/person.jpg")}
+        /> */}
+      </View>
+
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -132,7 +135,7 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
       </Text> */}
 
       <CustomButton
-        title={"Confirm target location"}
+        title={"Confirm"}
         onPressHandler={() => {
           console.log("clk confirm");
           setTargetLocation({
@@ -148,11 +151,27 @@ const ProviderHomeScreen2 = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  homeHeader: {
+    height: 100,
+    width: "100%",
+    flexDirection: "row",
+    backgroundColor: "#9AB3CA",
+    borderBottomRightRadius: 50,
+    justifyContent: "space-between",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  text: {
+    margin: 8,
+    color: "white",
+    fontSize: 20,
+    fontFamily: "Oswald",
+  },
   container: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
-    padding: 15,
+    // padding: 15,
   },
   map: {
     width: "100%",
@@ -163,6 +182,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     marginBottom: 10,
+    marginTop: 10,
   },
   searchInput: {
     flex: 1,

@@ -76,6 +76,7 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
         targetId: proId,
         location: conLoc,
         distance: 5.151,
+        serviceType: serviceType,
       });
     }
   };
@@ -208,6 +209,7 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
         .post(url + "/api/serviceProvider/providers", ids)
         .then((data) => {
           let dataFiltered;
+          console.log("resssssssssss", data.data);
           if (serviceType.length === 1 && serviceType[0] === "winch") {
             dataFiltered = data.data.providersArray.filter((provider) => {
               return provider["service_type"].includes("pickup");
@@ -217,7 +219,7 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
               return provider["service_type"].includes("repair");
             });
           }
-          // console.log("data filteredddddd", dataFiltered);
+          console.log("data filteredddddd", dataFiltered);
           setProvidersData(dataFiltered);
         })
         .catch((e) => {
@@ -254,7 +256,7 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
   return (
     <>
       <View style={styles.homeHeader}>
-        <Text style={styles.text}>Find Nearby</Text>
+        <Text style={styles.text}>Find Nearest Helper</Text>
 
         <View style={{ flexDirection: "row" }}>
           {!isRequestAccepted ? (
@@ -352,7 +354,32 @@ const RequestScreen = ({ navigation, servicePrice, route }) => {
               if (providers[0]) {
                 if (m["_id"] === providers[0]["providerId"]) {
                   return startPickup ? (
-                    <Text>Start Pickup</Text>
+                    <ImageBackground
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                        marginTop: -15,
+                        // justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      source={require("../../assets/images/pickup.jpg")}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "bold",
+
+                          fontSize: 25,
+                          margin: 8,
+                          fontStyle: "italic",
+                          color: "rgba(151,151,151,255)",
+                          position: "absolute",
+                          top: 50,
+                        }}
+                      >
+                        In Pickup Process
+                      </Text>
+                    </ImageBackground>
                   ) : !hasArrived && !startPickup ? (
                     <View style={{ marginTop: 5 }}>
                       <Text

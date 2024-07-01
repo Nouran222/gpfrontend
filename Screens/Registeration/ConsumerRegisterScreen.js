@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,10 +11,11 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "@/constants/urls";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { ConsumersContext } from "@/Context/Consumer";
 
 const ConsumerRegistrationScreen = ({ navigation }) => {
   const { t } = useTranslation();
-
+  const { setConsumerName } = useContext(ConsumersContext);
   const formSchema = z.object({
     email: z.string().email(t("emailValidation")),
     name: z.string().min(3, t("nameValidation")),
@@ -41,6 +42,7 @@ const ConsumerRegistrationScreen = ({ navigation }) => {
       .post(url + "/api/user", data)
       .then(async (res) => {
         if (res.status == 200) {
+          setConsumerName(res.data.newUser.name);
           navigation.navigate("Home");
           let newUserId = res.data.newUser._id;
 
@@ -133,16 +135,13 @@ const ConsumerRegistrationScreen = ({ navigation }) => {
           <Text style={styles.registerTxt}>
             {t("Already have an account")}?
             <TouchableOpacity
-            onPress={()=>{
-                    
-              navigation.navigate("LoginScreen")
-            }}
+              onPress={() => {
+                navigation.navigate("LoginScreen");
+              }}
             >
-
-            <Text style={{ color: 'blue', marginHorizontal: 3 }}>
-              {t("Login Now")}
-            </Text>
-
+              <Text style={{ color: "blue", marginHorizontal: 3 }}>
+                {t("Login Now")}
+              </Text>
             </TouchableOpacity>
           </Text>
         </View>

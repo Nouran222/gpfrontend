@@ -47,7 +47,7 @@ export const RatingBottomModal = ({
   const [provider, setProvider] = React.useState(null);
   const animatedWidth = React.useRef(0);
   const [inputValue, setInputValue] = useState("");
-  const { consumerName } = useContext(ConsumersContext);
+  const { consumerName, price } = useContext(ConsumersContext);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const onDismissSnackBar = () => {
     setInterval(() => {
@@ -167,16 +167,29 @@ export const RatingBottomModal = ({
     setOffset(v);
   }, []);
 
-  const handleRate = () => {
+  const handleRate = async () => {
     console.log("handle");
+    let consumerId = await AsyncStorage.getItem("userId");
+
+    // if(consumerId)
 
     if (serviceType.length === 1 && serviceType[0] === "winch") {
+      axios.post(`${url}/api/user/history/${consumerId}`, {
+        providerId: providerId,
+        serviceName: "pickup",
+        servicePrice: price,
+      });
       axios.post(`${url}/api/analysis`, {
         providerId,
         serviceName: "pick up",
         providerName: provider,
       });
     } else {
+      axios.post(`${url}/api/user/history/${consumerId}`, {
+        providerId: providerId,
+        serviceName: "repair",
+        servicePrice: price,
+      });
       axios.post(`${url}/api/analysis`, {
         providerId,
         serviceName: "repair",
